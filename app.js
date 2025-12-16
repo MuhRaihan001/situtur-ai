@@ -1,20 +1,17 @@
+const { loadApi } = require('./handler/api');
 const { 
     client, 
     loadEvents 
 } = require('./handler/client');
 const { loadCommands } = require('./handler/command');
-const express = require('express');
-const bodyParser = require('body-parser');
-const { helmet } = require('helmet');
-const { loadApi } = require('./handler/api');
-const app = express();
-
-app.use(bodyParser.json());
-app.use(helmet())
-app.use(express.json());
-
-loadApi(app);
+const app = require('./handler/server');
+require('dotenv').config();
 
 loadEvents();
 loadCommands();
+loadApi(app)
+
+const PORT = process.env.PORT || 3000
+
+app.listen(PORT, () => console.log('Server online'));
 client.initialize();

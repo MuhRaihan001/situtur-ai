@@ -35,6 +35,9 @@ check_or_create_file() {
 
 if [ ! -f "$ENV_FILE" ]; then
     loading "Creating $ENV_FILE..."
+    echo "# SERVER" > "$ENV_FILE"
+    echo "PORT=" > "$ENV_FILE"
+    echo            > "$ENV_FILE"
     echo "# Ai Key" > "$ENV_FILE"
     echo "KEY=" > "$ENV_FILE"
     echo "MODEL_NAME=" > "$ENV_FILE"
