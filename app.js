@@ -1,8 +1,8 @@
 const { 
     client, 
     loadEvents 
-} = require('./client');
-const { loadCommands } = require('./command');
+} = require('./handler/client');
+const { loadCommands } = require('./handler/command');
 
 loadEvents();
 loadCommands();

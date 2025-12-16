@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const commandsFolder = path.join(__dirname, 'commands');
+const commandsFolder = path.join(__dirname, '../commands');
 const commands = new Map();
 
 function loadCommands() {

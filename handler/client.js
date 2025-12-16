@@ -2,7 +2,7 @@ const { Client, LocalAuth } = require('whatsapp-web.js')
 const path = require('path');
 const fs = require('fs');
 
-const eventFolder = path.join(__dirname, 'event');
+const eventFolder = path.join(__dirname, '../event');
 
 const client = new Client({
     authStrategy: new LocalAuth({

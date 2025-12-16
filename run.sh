@@ -51,3 +51,5 @@ else
     echo -e "${GREEN}[✓]${RESET} $ENV_FILE exists."
     sleep 0.3
 fi
+
+npm start

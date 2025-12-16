@@ -1,4 +1,4 @@
-const { commands } = require('../command');
+const { commands } = require('../handler/command');
 const dotenv = require('dotenv');
 dotenv.config();
 
