@@ -34,6 +34,6 @@ module.exports = (client) => {
                 message.reply('Command error ❌');
             }
         }
-
+        console.log(`${message.from}: ${message.body}`)
     })
 }
