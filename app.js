@@ -6,10 +6,13 @@ const {
 const { loadCommands } = require('./handler/command');
 const app = require('./handler/server');
 require('dotenv').config();
+const database = require('./handler/database');
 
 loadEvents();
 loadCommands();
-loadApi(app)
+loadApi(app);
+app.locals.db = database;
+
 
 const PORT = process.env.PORT || 3000
 

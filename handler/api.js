@@ -43,7 +43,7 @@ async function loadApi(app) {
             .relative(routeDir, routePath)
             .replace(/\\/g, "/");
 
-        const routeBasePath = `/api/${relativePath.replace(/\.js$/, "")}`;
+        const routeBasePath = `/${relativePath.replace(/\.js$/, "").replace("index", "")}`;
 
         try {
             const routeModule = require(routePath);
