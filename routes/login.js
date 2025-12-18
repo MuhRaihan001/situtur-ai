@@ -26,7 +26,7 @@ router.post('/', function(req,res,next){
         const user = results[0];
 
     // cocokkan password (plaintext vs hash)
-        const match = await bcrypt.compare(password, user.password_hash);
+        const match = await argon2.verify(hashFromDB, inputPassword);
 
         if (!match) {
             return res.send("username atau password salah");
