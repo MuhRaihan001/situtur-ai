@@ -11,7 +11,8 @@ const database = require('./handler/database');
 loadEvents();
 loadCommands();
 loadApi(app);
-app.locals.db = database;
+const db = new database();
+app.locals.db = db;
 
 
 const PORT = process.env.PORT || 3000
