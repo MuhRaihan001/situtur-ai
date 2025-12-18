@@ -5,7 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
 </head>
-<body>
-    test
+<body>                                                                                                                                                                               
+    <form action="/register" method="post">
+        <div class="form-group">
+            <label for="namaDepan" name="namaDepan">Nama Depan</label><br>
+            <input type="text" name="namaDepan" id="namaDepan" required placeholder="Masukkan Nama Depan"><br><br>
+        </div>
+        <div class="form-group">
+            <label for="namaBelakang" name="namaBelakang">Nama Belakang</label><br>
+            <input type="text" name="namaBelakang" id="namaBelakang" required placeholder="Masukkan Nama Belakang"><br><br>
+        </div>
+        <div class="form-group">
+            <label for="username" name="username">Username</label><br>
+            <input required type="text" name="username" id="username" placeholder="Masukkan Username"><br><br>
+        </div>
+        <div class="form-group">
+            <label for="email" name="email">email</label><br>
+            <input required type="email" name="email" id="email" placeholder="Masukkan Email"><br><br>
+        </div>
+        <div class="form-group">
+            <label for="password" name="password">Password</label><br>
+            <input required type="password" name="password" id="password" placeholder="Masukkan Password"><br><br>
+        </div>
+        <div class="form-group">
+            <label for="acc" name="acc">Confirm Password</label><br>
+            <input required type="password" name="acc" id="acc" placeholder="Confirm Password"><br><br>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+    <p id="error" style="color:red;"></p>
+    <script src="../src/js/register.js"></script>
 </body>
 </html>
