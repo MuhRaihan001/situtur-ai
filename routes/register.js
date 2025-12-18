@@ -19,8 +19,6 @@ router.post('/', async function (req, res, next) {
         const nama_belakang = req.body.namaBelakang;
         const role = 'user';
 
-
-
         const password_hash = await argon2.hash(password, {
             type: argon2.argon2id,
             timeCost: 1,        // cepat
