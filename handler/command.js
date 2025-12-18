@@ -7,7 +7,7 @@ const commands = new Map();
 function loadCommands() {
     const files = fs.readdirSync(commandsFolder, { withFileTypes: true });
 
-    console.log('\nLoading command...')
+    console.log('Loading command...')
     for (const file of files) {
 
         const fullPath = path.join(commandsFolder, file.name);
@@ -25,7 +25,7 @@ function loadCommands() {
         }
     }
 
-    console.log('All Command loaded...')
+    console.log('All Command loaded...\n')
 }
 
 module.exports = {

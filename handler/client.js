@@ -22,7 +22,7 @@ async function loadEvents() {
         console.log(`\x1b[32m✔\x1b[0m Event loaded: \x1b[33m${file}\x1b[0m`);
         require(path.join(eventFolder, file))(client);
     });
-    console.log('\x1b[0m All events loaded\n');
+    console.log('All events loaded\n');
 }
 
 module.exports = {

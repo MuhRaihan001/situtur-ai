@@ -1,10 +1,7 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const dotenv = require('dotenv');
 const adjustedSettings = require('./setting');
 const configuration = require('./config/config.json');
-const conversation = require('./memory');
 
-dotenv.config();
 
 class Model {
 
@@ -22,7 +19,7 @@ class Model {
 
     }
 
-    async response(message, id) {
+    async response(message) {
         if (!message)
             throw new Error('Prompt Empty');
 
@@ -35,7 +32,6 @@ class Model {
             });
 
             const result = await chat.sendMessage(message);
-            await conversation.add(id, { from: 'Ai', time: new Date, message: result.response.text() });
             return result.response
 
         } catch (error) {

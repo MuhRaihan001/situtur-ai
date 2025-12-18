@@ -1,8 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const dotenv = require("dotenv");;
-
-dotenv.config();
 
 function getFilesRecursively(dir) {
     let results = [];
@@ -51,11 +48,12 @@ async function loadApi(app) {
             const routeModule = require(routePath);
             app.use(routeBasePath, routeModule.default || routeModule);
 
-            console.log(`✅ | API : ${routeBasePath} Loaded`);
+            console.log(`✅ | Route : ${routeBasePath} Loaded`);
         } catch (error) {
             console.error(`Failed to load route file: ${routePath}`, error);
         }
     }
+    console.log('All Routes Loaded...\n')
 }
 
 module.exports = { loadApi };

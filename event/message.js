@@ -1,8 +1,8 @@
 const { commands } = require('../handler/command');
-const dotenv = require('dotenv');
-dotenv.config();
+const Instructor = require('../model/instructions');
 
 const prefix = process.env.PREFIX || '!'
+const instructions = new Instructor();
 
 /**
  * @param {import('whatsapp-web.js').Client} client
@@ -34,6 +34,9 @@ module.exports = (client) => {
                 message.reply('Command error ❌');
             }
         }
-        // console.log(`${message.from}: ${message.body}`)
+
+        console.log(`${message.from}: ${message.body}`);
+        // const result = await instructions.updateDatabase(message.body);
+        // console.log(result)
     })
 }
