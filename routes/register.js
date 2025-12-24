@@ -1,17 +1,21 @@
 var express = require('express');
-const argon2 = require("argon2");
+const crypto = require('crypto');
 var router = express.Router();
 const sanitizeHtml = require('sanitize-html');
 
 router.get('/', function (req, res, next) {
-    res.render('register', { title: 'Register' })
-})
+    res.render('register', { title: 'Register' });
+});
 
 router.post('/', async function (req, res, next) {
     const db = req.app.locals.db;
 
     try {
-        if(req.body.password == req.body.acc){
+        // Validasi password match
+        if (req.body.password !== req.body.acc) {
+            return res.status(400).send("Password tidak cocok");
+        }
+
         const username = req.body.username;
         const password = req.body.acc;
         const email = req.body.email;
@@ -19,27 +23,30 @@ router.post('/', async function (req, res, next) {
         const nama_belakang = req.body.namaBelakang;
         const role = 'user';
 
-        const password_hash = await argon2.hash(password, {
-            type: argon2.argon2id,
-            timeCost: 1,        // cepat
-            memoryCost: 2 ** 16 
-        });
+        const password_hash = crypto
+            .createHash('sha256')
+            .update(password)
+            .digest('hex');
         
         const query = "INSERT INTO user (username, nama_depan, nama_belakang, password, email, role) VALUES (?, ?, ?, ?, ?, ?)";
-        const params = [username, nama_depan,nama_belakang, password_hash, email, role];
+        const params = [username, nama_depan, nama_belakang, password_hash, email, role];
         
-        db.query(query, params, function (err, result) {
-            if (err) {
-                console.error(err);
-                return res.status(500).json({ message: "Gagal menyimpan" });
-            }
-            res.redirect('/login');
-        });
-    }
-    }catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error server" });
-    }
+        // GUNAKAN AWAIT, BUKAN CALLBACK!
+        await db.query(query, params);
+        
+        console.log('[DEBUG] User berhasil didaftarkan');
+        return res.redirect('/login');
 
-})
+    } catch (error) {
+        console.error('[REGISTER ERROR]', error);
+        
+        // Handle duplicate entry error
+        if (error.code === 'ER_DUP_ENTRY') {
+            return res.status(400).send("Username atau email sudah terdaftar");
+        }
+        
+        return res.status(500).send("Error server");
+    }
+});
+
 module.exports = router;
