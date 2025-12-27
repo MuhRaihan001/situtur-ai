@@ -133,7 +133,7 @@
                 
                 <div id="qr-display">
                     <% if (hasQR) { %>
-                        <img src="/user/qr?data=true" alt="WhatsApp QR Code" />
+                        <img src="/user/qr?image=true" alt="WhatsApp QR Code" />
                     <% } else { %>
                         <div class="loading">Menunggu QR code di-generate...</div>
                     <% } %>
@@ -185,24 +185,26 @@
             }
         }
         
-        // Fungsi untuk load gambar QR
+        // Fungsi untuk load gambar QR (pakai endpoint image supaya <img> bisa langsung render)
         async function loadQRImage() {
-            try {
-                const qrDisplay = document.getElementById('qr-display');
-                qrDisplay.innerHTML = '<div class="loading">Loading QR code...</div>';
-                
-                const response = await fetch('/user/qr?data=true');
-                const data = await response.json();
-                
-                if (data.success) {
-                    qrDisplay.innerHTML = `<img src="${data.dataUrl}" alt="WhatsApp QR Code" />`;
-                } else {
-                    qrDisplay.innerHTML = '<div class="error">Failed to load QR code</div>';
-                }
-            } catch (error) {
-                console.error('Error loading QR image:', error);
-                document.getElementById('qr-display').innerHTML = '<div class="error">Error loading QR code</div>';
-            }
+            const qrDisplay = document.getElementById('qr-display');
+            qrDisplay.innerHTML = '<div class="loading">Loading QR code...</div>';
+
+            // gunakan cache buster supaya tidak pakai gambar lama
+            const imgSrc = `/user/qr?image=true&ts=${Date.now()}`;
+
+            const img = document.createElement('img');
+            img.alt = 'WhatsApp QR Code';
+            img.src = imgSrc;
+
+            img.onload = () => {
+                qrDisplay.innerHTML = '';
+                qrDisplay.appendChild(img);
+            };
+
+            img.onerror = () => {
+                qrDisplay.innerHTML = '<div class="error">Failed to load QR code</div>';
+            };
         }
         
         // Fungsi untuk reset QR

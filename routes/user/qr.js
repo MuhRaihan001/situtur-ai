@@ -82,7 +82,9 @@ exports.GET = {
 };
 
 exports.POST = {
-    middleware: [isLoggedIn, isUser],
+    // This endpoint is called internally by the WhatsApp client (no session),
+    // so we intentionally skip auth here.
+    middleware: [],
     handler: async function (req, res, next) {
         try {
             const { qr } = req.body;
