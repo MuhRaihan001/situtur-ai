@@ -5,7 +5,7 @@ const yaml = require('js-yaml');
 const swaggerUi = require('swagger-ui-express');
 
 const app = require('./handler/server');
-//const { client, loadEvents } = require('./handler/client');
+const { client, loadEvents } = require('./handler/client');
 const { loadCommands } = require('./handler/command');
 const { loadApi } = require('./handler/api');
 
@@ -25,7 +25,7 @@ const setupSwagger = (expressApp) => {
 
 async function bootstrap() {
     try {
-        //loadEvents();
+        loadEvents();
         loadCommands();
 
         await loadApi(app, {
@@ -46,7 +46,7 @@ async function bootstrap() {
             console.log(`📄 Documentation available at http://localhost:${PORT}/api-docs`);
         });
 
-        //await client.initialize();
+        await client.initialize();
         
     } catch (error) {
         console.error('❌ Error during server startup:', error);

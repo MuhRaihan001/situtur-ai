@@ -1,5 +1,5 @@
 const {isLoggedIn, isUser} = require('../../middleware/auth');
-const qrcode = require('qrcode');
+const QRCode = require('qrcode');
 
 // Store QR code in memory (in production, use Redis or database)
 let currentQR = null;
@@ -24,7 +24,7 @@ exports.GET = {
                     return res.status(404).json({ error: 'No QR code available' });
                 }
                 
-                const qrImage = await qrcode.toDataURL(currentQR, {
+                const qrImage = await QRCode.toDataURL(currentQR, {
                     width: 300,
                     margin: 2,
                     color: {
@@ -50,7 +50,7 @@ exports.GET = {
                     return res.status(404).json({ error: 'No QR code available' });
                 }
                 
-                const qrDataUrl = await qrcode.toDataURL(currentQR, {
+                const qrDataUrl = await QRCode.toDataURL(currentQR, {
                     width: 300,
                     margin: 2,
                     color: {
