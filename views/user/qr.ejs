@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .qr-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .qr-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        #qr-display {
+            margin: 20px 0;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        
+        #qr-display img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            background: #e9ecef;
+        }
+        
+        .nav-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .nav-links a {
+            color: #007bff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>WhatsApp QR Code</h1>
+            <p>Selamat datang, <%= username %></p>
+        </div>
+        
+        <div class="content">
+            <div class="qr-section">
+                <h2>Scan QR Code untuk Menghubungkan WhatsApp</h2>
+                <p>Gunakan aplikasi WhatsApp di ponsel Anda untuk memindai QR code ini</p>
+                
+                <div id="qr-display">
+                    <% if (hasQR) { %>
+                        <img src="/user/qr?data=true" alt="WhatsApp QR Code" />
+                    <% } else { %>
+                        <div class="loading">Menunggu QR code di-generate...</div>
+                    <% } %>
+                </div>
+                
+                <button class="btn" onclick="checkQRStatus()">Refresh QR</button>
+                <button class="btn btn-danger" onclick="resetQR()">Reset QR</button>
+                
+                <div id="status" class="status">
+                    <strong>Status:</strong> 
+                    <span id="status-text">
+                        <% if (hasQR) { %>
+                            <span class="success">QR Code tersedia</span>
+                        <% } else { %>
+                            <span class="loading">Menunggu QR code...</span>
+                        <% } %>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="nav-links">
+                <a href="/user/dashboard">← Kembali ke Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let qrCheckInterval;
+        
+        // Fungsi untuk mengecek status QR code
+        async function checkQRStatus() {
+            try {
+                const response = await fetch('/user/qr?format=json');
+                const data = await response.json();
+                
+                const statusText = document.getElementById('status-text');
+                const qrDisplay = document.getElementById('qr-display');
+                
+                if (data.hasQR) {
+                    statusText.innerHTML = '<span class="success">QR Code tersedia</span>';
+                    await loadQRImage();
+                } else {
+                    statusText.innerHTML = '<span class="loading">Menunggu QR code di-generate...</span>';
+                    qrDisplay.innerHTML = '<div class="loading">Menunggu QR code di-generate...</div>';
+                }
+            } catch (error) {
+                console.error('Error checking QR status:', error);
+                document.getElementById('status-text').innerHTML = '<span class="error">Error checking status</span>';
+            }
+        }
+        
+        // Fungsi untuk load gambar QR
+        async function loadQRImage() {
+            try {
+                const qrDisplay = document.getElementById('qr-display');
+                qrDisplay.innerHTML = '<div class="loading">Loading QR code...</div>';
+                
+                const response = await fetch('/user/qr?data=true');
+                const data = await response.json();
+                
+                if (data.success) {
+                    qrDisplay.innerHTML = `<img src="${data.dataUrl}" alt="WhatsApp QR Code" />`;
+                } else {
+                    qrDisplay.innerHTML = '<div class="error">Failed to load QR code</div>';
+                }
+            } catch (error) {
+                console.error('Error loading QR image:', error);
+                document.getElementById('qr-display').innerHTML = '<div class="error">Error loading QR code</div>';
+            }
+        }
+        
+        // Fungsi untuk reset QR
+        async function resetQR() {
+            try {
+                const response = await fetch('/user/qr', { method: 'DELETE' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('qr-display').innerHTML = '<div class="loading">QR Code di-reset. Menunggu QR baru...</div>';
+                    document.getElementById('status-text').innerHTML = '<span class="loading">QR Code di-reset</span>';
+                }
+            } catch (error) {
+                console.error('Error resetting QR:', error);
+            }
+        }
+        
+        // Auto-refresh QR setiap 5 detik
+        function startAutoRefresh() {
+            qrCheckInterval = setInterval(checkQRStatus, 5000);
+        }
+        
+        // Stop auto-refresh
+        function stopAutoRefresh() {
+            if (qrCheckInterval) {
+                clearInterval(qrCheckInterval);
+            }
+        }
+        
+        // Initialize saat page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkQRStatus();
+            startAutoRefresh();
+        });
+        
+        // Cleanup saat page unload
+        window.addEventListener('beforeunload', function() {
+            stopAutoRefresh();
+        });
+    </script>
+
+</body>
+</html>
