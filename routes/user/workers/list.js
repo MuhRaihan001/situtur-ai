@@ -1,11 +1,12 @@
-const { Meta } = require("../../handler/meta");
-const Workers = require("../../handler/worker");
+const { Meta } = require("../../../handler/meta");
+const Workers = require("../../../handler/worker");
 
 const workersHandler = new Workers();
 
 module.exports = {
     GET: {
         handler: async function (req, res) {
+            res.render('user/List_Worker', {title:"Data Pekerja"})
             try {
                 const workers = await workersHandler.list();
                 res.status(workers.status).json({ message: workers.message, workers: workers.workers });

@@ -1,5 +1,5 @@
-const { Meta } = require("../../../handler/meta");
-const Workers = require("../../../handler/worker");
+const { Meta } = require("../../../../handler/meta");
+const Workers = require("../../../../handler/worker");
 
 const workersHandler = new Workers();
 
