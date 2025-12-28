@@ -1,5 +1,12 @@
-const argon2 = require('argon2');
+const crypto = require('crypto');
 const sanitizeHtml = require('sanitize-html');
+
+function sha256(password) {
+    return crypto
+        .createHash('sha256')
+        .update(password)
+        .digest('hex');
+}
 
 exports.GET = function (req, res, next) {
     res.render('register', { title: 'Register' });
