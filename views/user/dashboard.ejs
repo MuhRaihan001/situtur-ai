@@ -1,13 +1,376 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <a href="/user/monitor">Absensi</a>
-    <a href="/user/workers/list">Data Pekerja</a>
-    <a href="/user/qr">qr</a>
+<body class="font-inter bg-[#F5F8F8] text-[#0F172A]">
+    
+    <!-- Main Container -->
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- ========== SIDEBAR ========== -->
+        <aside class="w-64 bg-white border-r border-[#E2E8F0] flex flex-col">
+            <!-- Sidebar Content -->
+            <div class="flex-1 overflow-y-auto">
+                <!-- Logo -->
+                <div class="p-4">
+                    <div class="px-2 mb-6">
+                        <img src="/images/logo.png" alt="Situtur" class="h-[50px] w-full object-contain">
+                    </div>
+
+                    <!-- Navigation Menu -->
+                    <nav class="space-y-1">
+                        <!-- Dashboard - Active -->
+                        <a href="/user/dashboard" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#0BBDC7]/10 text-[#0BBDC7] font-medium text-sm">
+                            <svg class="w-6 h-7 flex-shrink-0" viewBox="0 0 24 28" fill="currentColor">
+                                <path d="M12 3L4 9v12h16V9l-8-6z"/>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a>
+                        
+                        <!-- Other Menu Items -->
+                        <a href="/user/projects" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#475569] hover:bg-[#0BBDC7]/5 transition-colors text-sm">
+                            <svg class="w-6 h-7 flex-shrink-0" viewBox="0 0 24 28" fill="currentColor">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+                            </svg>
+                            <span>List Proyek</span>
+                        </a>
+
+                        <a href="/user/setup-projects" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#475569] hover:bg-[#0BBDC7]/5 transition-colors text-sm">
+                            <svg class="w-6 h-7 flex-shrink-0" viewBox="0 0 24 28" fill="currentColor">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                            </svg>
+                            <span>To Do List Setup Proyek</span>
+                        </a>
+
+                        <a href="/user/workers" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#475569] hover:bg-[#0BBDC7]/5 transition-colors text-sm">
+                            <svg class="w-6 h-7 flex-shrink-0" viewBox="0 0 24 28" fill="currentColor">
+                                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3z"/>
+                            </svg>
+                            <span>List Data Worker</span>
+                        </a>
+
+                        <a href="/user/materials" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#475569] hover:bg-[#0BBDC7]/5 transition-colors text-sm">
+                            <svg class="w-6 h-7 flex-shrink-0" viewBox="0 0 24 28" fill="currentColor">
+                                <path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/>
+                            </svg>
+                            <span>Material Notifikasi</span>
+                        </a>
+
+                        <a href="/user/monitoring" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#475569] hover:bg-[#0BBDC7]/5 transition-colors text-sm">
+                            <svg class="w-6 h-7 flex-shrink-0" viewBox="0 0 24 28" fill="currentColor">
+                                <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+                            </svg>
+                            <span>Monitoring Keluhan</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Sidebar Bottom -->
+            <div class="border-t border-[#E2E8F0] p-4">
+                <a href="/user/settings" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#475569] hover:bg-[#0BBDC7]/5 transition-colors text-sm mb-2">
+                    <svg class="w-6 h-7 flex-shrink-0" viewBox="0 0 24 28" fill="currentColor">
+                        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94L14.4 2.81c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                    </svg>
+                    <span>Pengaturan Akun</span>
+                </a>
+
+                <a href="/auth/logout" class="flex items-center justify-center gap-2 px-3 py-2 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-lg font-medium text-sm transition-colors">
+                    <svg class="w-5 h-6" viewBox="0 0 20 24" fill="currentColor">
+                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                    </svg>
+                    <span>Keluar dari Akun</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- ========== MAIN CONTENT ========== -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            
+            <!-- ========== HEADER ========== -->
+            <header class="h-16 bg-white border-b border-[#E2E8F0] flex items-center justify-between px-6 flex-shrink-0">
+                <!-- Search Bar -->
+                <div class="flex-1 max-w-md relative">
+                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-6 h-7 text-[#94A3B8]" viewBox="0 0 24 28" fill="currentColor">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                    <input type="text" placeholder="Cari Proyek, Tasks, atau Pekerja..." 
+                           class="w-full pl-10 pr-4 py-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-sm placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#0BBDC7] focus:border-transparent">
+                </div>
+
+                <!-- Right Section -->
+                <div class="flex items-center gap-4 ml-6">
+                    <!-- Notification Button -->
+                    <button class="relative p-2 rounded-full hover:bg-[#F8FAFC] transition-colors">
+                        <svg class="w-6 h-7 text-[#64748B]" viewBox="0 0 24 28" fill="currentColor">
+                            <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+                        </svg>
+                        <span class="absolute top-2 right-2 w-2.5 h-2.5 bg-[#0DE7F2] rounded-full"></span>
+                    </button>
+
+                    <!-- User Info -->
+                    <div class="flex items-center gap-3 pl-4 border-l border-[#E2E8F0]">
+                        <div class="text-right">
+                            <div class="text-sm font-semibold text-[#0F172A]"><%= username %></div>
+                            <div class="text-xs text-[#64748B]">Site Manager</div>
+                        </div>
+                        <img src="/images/avatar.png" alt="Avatar" class="w-10 h-10 rounded-full border-2 border-white shadow-sm">
+                    </div>
+                </div>
+            </header>
+
+            <!-- ========== DASHBOARD CONTENT ========== -->
+            <div class="flex-1 overflow-y-auto">
+                <div class="max-w-[1472px] mx-auto px-48 py-8">
+                    
+                    <!-- Welcome Section -->
+                    <div class="flex items-end justify-between mb-6">
+                        <div>
+                            <h1 class="text-[30px] font-bold leading-9 -tracking-[0.75px] text-[#0F172A] mb-1">
+                                Selamat Datang, <%= username %>
+                            </h1>
+                            <p class="text-base text-[#64748B]">Here's what's happening on your sites today.</p>
+                        </div>
+                        <div class="text-sm font-medium text-[#64748B]">
+                            <%= currentDate %>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards Grid -->
+                    <div class="grid grid-cols-4 gap-4 mb-8">
+                        <!-- Card 1: Tasks Pending -->
+                        <div class="bg-white border border-[#E2E8F0] rounded-xl p-[21px] shadow-sm">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="w-10 h-10 bg-[#F5F8F8] rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-7 text-[#2563EB]" viewBox="0 0 24 28" fill="currentColor">
+                                        <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+                                    </svg>
+                                </div>
+                                <span class="px-2 py-1 bg-[#F5F8F8] text-[#16A34A] text-xs font-medium rounded-full">
+                                    +<%= stats.newTasks %> new
+                                </span>
+                            </div>
+                            <div class="text-2xl font-bold text-[#0F172A] leading-8 mb-1"><%= stats.tasksPending %></div>
+                            <div class="text-sm text-[#64748B]">Tasks Pending</div>
+                        </div>
+
+                        <!-- Card 2: Ongoing Projects -->
+                        <div class="bg-white border border-[#E2E8F0] rounded-xl p-[21px] shadow-sm">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="w-10 h-10 bg-[#F1F5F9] rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-7 text-[#EA580C]" viewBox="0 0 24 28" fill="currentColor">
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+                                    </svg>
+                                </div>
+                                <span class="px-2 py-1 text-[#64748B] text-xs font-medium">Active</span>
+                            </div>
+                            <div class="text-2xl font-bold text-[#0F172A] leading-8 mb-1"><%= stats.ongoingProjects %></div>
+                            <div class="text-sm text-[#64748B]">Ongoing Projects</div>
+                        </div>
+
+                        <!-- Card 3: Hours Worked -->
+                        <div class="bg-white border border-[#E2E8F0] rounded-xl p-[21px] shadow-sm">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="w-10 h-10 bg-[#F8FAFC] rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-7 text-[#9333EA]" viewBox="0 0 24 28" fill="currentColor">
+                                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                                    </svg>
+                                </div>
+                                <span class="px-2 py-1 bg-[#F5F8F8] text-[#16A34A] text-xs font-medium rounded-full">
+                                    +<%= stats.hoursIncrease %> hrs
+                                </span>
+                            </div>
+                            <div class="text-2xl font-bold text-[#0F172A] leading-8 mb-1"><%= stats.hoursWorked %></div>
+                            <div class="text-sm text-[#64748B]">Hours Worked This Week</div>
+                        </div>
+
+                        <!-- Card 4: Safety Alerts -->
+                        <div class="bg-white border border-[#E2E8F0] rounded-xl p-[21px] shadow-sm">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="w-10 h-10 bg-[#F5F8F8] rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-7 text-[#DC2626]" viewBox="0 0 24 28" fill="currentColor">
+                                        <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                                    </svg>
+                                </div>
+                                <span class="px-2 py-1 text-[#64748B] text-xs font-medium">Clear</span>
+                            </div>
+                            <div class="text-2xl font-bold text-[#0F172A] leading-8 mb-1"><%= stats.safetyAlerts %></div>
+                            <div class="text-sm text-[#64748B]">Safety Alerts</div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row -->
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                        <!-- Bar Chart Card -->
+                        <div class="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm">
+                            <div class="mb-6">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <svg class="w-6 h-7 text-[#0DE7F2]" viewBox="0 0 24 28" fill="currentColor">
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                                    </svg>
+                                    <h3 class="text-lg font-bold text-[#0F172A]">Tahun Proyek</h3>
+                                </div>
+                                <p class="text-sm text-[#64748B]">Proyek per tahun (5 Tahun Terakhir)</p>
+                            </div>
+                            
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="text-2xl font-bold text-[#0F172A]"><%= chartData.totalProjects %></div>
+                                <div class="text-xs font-medium text-[#16A34A]">+<%= chartData.trend %>% trend</div>
+                            </div>
+                            
+                            <div class="h-[247px]">
+                                <canvas id="barChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Line Chart Card -->
+                        <div class="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm">
+                            <div class="mb-6">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <svg class="w-6 h-7 text-[#0DE7F2]" viewBox="0 0 24 28" fill="currentColor">
+                                        <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                                    </svg>
+                                    <h3 class="text-lg font-bold text-[#0F172A]">Proyek Selesai</h3>
+                                </div>
+                                <p class="text-sm text-[#64748B]">Completion rate over the period</p>
+                            </div>
+                            
+                            <div class="inline-flex items-center gap-2 px-2 py-1 bg-[#F5F8F8] rounded-lg mb-4">
+                                <svg class="w-3.5 h-4 text-[#16A34A]" viewBox="0 0 14 16" fill="currentColor">
+                                    <path d="M7 0L0 7h14L7 0z"/>
+                                </svg>
+                                <span class="text-xs font-bold text-[#16A34A]">+14% Growth</span>
+                            </div>
+                            
+                            <div class="h-[247px]">
+                                <canvas id="lineChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tasks & Updates Row -->
+                    <div class="grid grid-cols-[1fr_405px] gap-8">
+                        
+                        <!-- Priority Tasks -->
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-bold text-[#0F172A]">Priority Tasks</h3>
+                                <a href="/user/tasks" class="text-sm font-medium text-[#0BBDC7] hover:underline">View All</a>
+                            </div>
+
+                            <div class="bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden">
+                                <!-- Table Header -->
+                                <div class="flex items-center gap-4 px-4 py-4 bg-[#F8FAFC]/50">
+                                    <div class="w-[53px]"></div>
+                                    <div class="flex-1 text-xs font-semibold text-[#64748B] uppercase tracking-[0.6px]">Task Name</div>
+                                    <div class="w-[190px] text-xs font-semibold text-[#64748B] uppercase tracking-[0.6px]">Project</div>
+                                    <div class="w-[190px] text-xs font-semibold text-[#64748B] uppercase tracking-[0.6px] text-right">Due Date</div>
+                                </div>
+
+                                <!-- Table Rows -->
+                                <% tasks.forEach(function(task, index) { %>
+                                <div class="flex items-center gap-4 px-4 py-4 <%= index > 0 ? 'border-t border-[#F1F5F9]' : '' %>">
+                                    <!-- Checkbox -->
+                                    <div class="w-[53px] flex justify-center">
+                                        <input type="checkbox" class="w-5 h-5 rounded-md border border-[#CBD5E1] cursor-pointer">
+                                    </div>
+                                    
+                                    <!-- Task Info -->
+                                    <div class="flex-1 flex flex-col gap-1">
+                                        <div class="text-sm font-medium text-[#0F172A]"><%= task.name %></div>
+                                        <span class="inline-flex w-fit items-center px-2 py-0.5 rounded-md text-[10px] font-medium leading-[15px]
+                                            <%= task.priority === 'High Priority' ? 'bg-[#FEE2E2] text-[#B91C1C]' : '' %>
+                                            <%= task.priority === 'Logistics' ? 'bg-[#DCFCE7] text-[#1D4ED8]' : '' %>
+                                            <%= task.priority === 'Routine' ? 'bg-[#F1F5F9] text-[#334155]' : '' %>
+                                            <%= task.priority === 'Admin' ? 'bg-[#FFEDD5] text-[#C2410C]' : '' %>">
+                                            <%= task.priority %>
+                                        </span>
+                                    </div>
+                                    
+                                    <!-- Project -->
+                                    <div class="w-[190px] text-sm text-[#64748B]"><%= task.project %></div>
+                                    
+                                    <!-- Due Date -->
+                                    <div class="w-[190px] text-right">
+                                        <div class="text-sm font-medium text-[#0F172A]"><%= task.dueDate %></div>
+                                        <div class="text-xs text-[#64748B]"><%= task.dueTime %></div>
+                                    </div>
+                                </div>
+                                <% }); %>
+                            </div>
+                        </div>
+
+                        <!-- Recent Updates -->
+                        <div class="bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden">
+                            <!-- Header -->
+                            <div class="flex items-center justify-between px-4 py-4">
+                                <h3 class="text-lg font-bold text-[#0F172A]">Recent Updates</h3>
+                                <a href="/user/updates" class="text-xs font-semibold text-[#0BBDC7] hover:underline">View All</a>
+                            </div>
+
+                            <!-- Updates List -->
+                            <div class="max-h-[300px] overflow-y-auto">
+                                <% updates.forEach(function(update, index) { %>
+                                <div class="flex gap-3 px-4 py-4 <%= index > 0 ? 'border-t border-[#F1F5F9]' : '' %>">
+                                    <!-- Icon -->
+                                    <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0
+                                        <%= update.type === 'delivery' ? 'bg-[#DCFCE7]' : '' %>
+                                        <%= update.type === 'approved' ? 'bg-[#DCFCE7]' : '' %>
+                                        <%= update.type === 'alert' ? 'bg-[#FFEDD5]' : '' %>">
+                                        <svg class="w-3.5 h-4 
+                                            <%= update.type === 'delivery' ? 'text-[#2563EB]' : '' %>
+                                            <%= update.type === 'approved' ? 'text-[#16A34A]' : '' %>
+                                            <%= update.type === 'alert' ? 'text-[#EA580C]' : '' %>" 
+                                            viewBox="0 0 14 16" fill="currentColor">
+                                            <% if(update.type === 'delivery') { %>
+                                            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+                                            <% } else if(update.type === 'approved') { %>
+                                            <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                                            <% } else { %>
+                                            <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                                            <% } %>
+                                        </svg>
+                                    </div>
+                                    
+                                    <!-- Content -->
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-sm font-medium text-[#0F172A] mb-0.5"><%= update.title %></div>
+                                        <div class="text-xs text-[#64748B] mb-1.5 line-clamp-1"><%= update.description %></div>
+                                        <div class="text-[10px] text-[#94A3B8]"><%= update.timeAgo %></div>
+                                    </div>
+                                </div>
+                                <% }); %>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Embed Data -->
+    <script>
+        window.chartData = {
+            years: <%= JSON.stringify(chartData.years) %>,
+            values: <%= JSON.stringify(chartData.values) %>
+        };
+        window.monthlyData = <%= JSON.stringify(monthlyData) %>;
+    </script>
+    
+    <!-- Dashboard JS -->
+    <script src="/js/dashboard.js"></script>
 </body>
 </html>
