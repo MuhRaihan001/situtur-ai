@@ -8,6 +8,142 @@ info:
 servers:
   - url: http://localhost:3000
 paths:
+
+  /tes/{name}:
+    get:
+      data:
+        responses:
+          '200':
+            description: 200
+            content:
+              application/json:
+                schema: Successful Response
+        summary: Greet User by Name
+        description: Returns a greeting message that includes the user's name provided in the URL parameter.
+        tags:
+          - Tes
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: name parameter
+      tags:
+        - Tes
+      responses:
+        '200':
+          description: Success
+  /workers/add:
+  /user/works/list:
+    get:
+      responses:
+        '200':
+          description: Berhasil mengambil daftar karya
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    work_name:
+                      type: string
+                      example: Pembuatan API OpenAI
+                    progress:
+                      type: integer
+                      example: 80
+                    status:
+                      type: string
+                      example: on_progress
+                    starterd_at:
+                      type: string
+                      example: 25 Desember 2025 10.00.00
+                    finished_at:
+                      type: string
+                      example: 30 Desember 2025 18.00.00
+        '404':
+          description: Tidak ada data karya
+        '500':
+          description: Internal Server Error
+      summary: Mengambil daftar karya
+      description: Endpoint ini digunakan untuk mengambil seluruh data karya yang tersimpan dalam sistem.
+      tags:
+        - Works
+      operationId: getWorksList
+  /user/works/waitlist/accept:
+    post:
+      responses:
+        '200':
+          description: Work update accepted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Action updated.
+        '400':
+          description: Missing or invalid work_id
+        '500':
+          description: Internal Server Error
+      summary: Accept Work Update from Waitlist
+      description: Accepts a work update request from the waitlist based on the provided work_id.
+      tags:
+        - Works
+      operationId: acceptWorkUpdateWaitlist
+      requestBody:
+        description: Accept Work Update from Waitlist
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_id:
+                  type: integer
+                  example: 1
+  /user/works/waitlist/update:
+    post:
+      responses:
+        '200':
+          description: Work waitlist updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Updated successfully
+        '400':
+          description: Missing or invalid parameters
+        '500':
+          description: Internal Server Error
+      summary: Update Work Waitlist
+      description: Updates the specified column of a work item in the waitlist.
+      tags:
+        - Works
+      operationId: updateWorkWaitlist
+      requestBody:
+        description: Update Work Waitlist
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_id:
+                  type: integer
+                  example: 1
+                column:
+                  type: string
+                value:
+                  type: string
   /user/workers/add:
     post:
       responses:
@@ -151,6 +287,77 @@ paths:
                   type: integer
                   example: 1
   /user/works/list:
+
+  /works/add:
+    post:
+      responses:
+        '200':
+          description: New work created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: New work created successfully
+        '400':
+          description: Missing required fields
+        '500':
+          description: Internal Server Error
+      summary: Add New Work
+      description: This endpoint adds a new work item to the list with the provided details.
+      tags:
+        - Works
+      operationId: addWork
+      requestBody:
+        description: Details of the work to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_name:
+                  type: string
+                  example: Develop New Feature
+                deadline:
+                  type: integer
+                  example: 1704067200000
+  /works/delete:
+    delete:
+      responses:
+        '200':
+          description: deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Deleted successfully
+        '404':
+          description: Work not found
+        '500':
+          description: Internal Server Error
+      summary: Delete Work from list
+      description: This endpoint deletes a work item from the list based on the provided work_id.
+      tags:
+        - Works
+      operationId: deleteWork
+      requestBody:
+        description: Work ID to be deleted
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_id:
+                  type: integer
+                  example: 1
+  /works/list:
     get:
       responses:
         '200':
@@ -190,6 +397,7 @@ paths:
         - Works
       operationId: getWorksList
   /user/works/waitlist/accept:
+  /works/waitlist/accept:
     post:
       responses:
         '200':
@@ -223,6 +431,7 @@ paths:
                   type: integer
                   example: 1
   /user/works/waitlist/update:
+  /works/waitlist/update:
     post:
       responses:
         '200':
@@ -259,6 +468,7 @@ paths:
                   type: string
                 value:
                   type: string
+
 components:
   schemas: {}
   securitySchemes:

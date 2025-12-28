@@ -88,7 +88,15 @@ class Works {
     }
 
     async getWorkData(work_id) {
-        const query = "SELECT id, work_name, progress, status, started_at, finished_at FROM work WHERE id = ?";
+        const query = `
+        SELECT 
+            id, 
+            work_name, 
+            progress, 
+            status, 
+            starterd_at, 
+            finished_at 
+        FROM work WHERE id = ?`;
         const rows = await database.query(query, [work_id]);
         return rows[0];
     }
@@ -144,6 +152,37 @@ class Works {
 
             return { status: 200, message: "Action updated" };
 
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async addWork({ work_name, deadline }) {
+        try {
+            if (!work_name || !deadline) 
+                return { status: 400, message: "Missing required fields" };
+
+            const starterd_at = Date.now();
+            
+            const query = `INSERT INTO work (work_name, starterd_at, deadline) VALUE (?, ?, ?)`;
+            await database.query(query, [work_name, starterd_at, deadline]);
+
+            return { status: 201, message: "New work created" };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async deleteWork(work_id) {
+        try {
+            const workData = await this.getWorkData(work_id);
+            if (!workData || workData.length === 0) 
+                return { status: 404, message: "Work not found" };
+
+            const query = `DELETE FROM work WHERE id = ?`;
+            await database.query(query, [work_id]);
+
+            return { status: 200, message: "Deleted sucessfully" }
         } catch (error) {
             throw error;
         }
