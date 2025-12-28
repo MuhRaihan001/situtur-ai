@@ -1,4 +1,4 @@
-const {isLoggedIn, isAdmin, isUser} = require('../middleware/auth');
+const {isLoggedIn, isAdmin, isUser} = require('../../middleware/auth');
 
 exports.middleware = [ isLoggedIn, isUser ]
 
