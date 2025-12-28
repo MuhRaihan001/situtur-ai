@@ -1,11 +1,12 @@
-const { Meta } = require("../../handler/meta");
-const Works = require("../../handler/work");
+const { Meta } = require("../../../handler/meta");
+const Works = require("../../../handler/work");
 
 const work = new Works();
 
 module.exports = {
     GET: {
         handler: async function (req, res) {
+            
             try {
                 const works = await work.list();
                 res.status(works.status).send(works.works);
@@ -59,5 +60,7 @@ module.exports = {
             .addNotFoundResponse("Tidak ada data karya")
             .addServerErrorResponse()
             .build()
+            
     }
+    
 };
