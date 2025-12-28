@@ -6,7 +6,7 @@ const worksHandler = new Works();
 class Workers {
 
     async list() {
-        const query = "SELECT worker_name, phone_number, current_task, finished_task FROM workers";
+        const query = "SELECT worker_name, phone_number FROM workers";
         const result = await database.query(query);
         if (result.length === 0)
             return { status: 404, message: "No Workers", workers: [] };
@@ -20,13 +20,7 @@ class Workers {
         const query = "INSERT INTO workers (worker_name, phone_number) VALUES (?, ?)";
         await database.query(query, [name, waId(phone_number)]);
         return { status: 201, message: "Worker added successfully" };
-    }
-
-    async getWorkerData(worker_id) {
-        const query = "SELECT id, worker_name, phone_number, current_task FROM workers WHERE id = ?";
-        const rows = await database.query(query, [worker_id]);
-        return rows[0];
-    }
+    }   
 
     async updateWorkerData(worker_id, column, value) {
         try {

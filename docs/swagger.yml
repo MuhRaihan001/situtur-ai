@@ -35,7 +35,6 @@ paths:
         '200':
           description: Success
   /workers/add:
-=======
   /user/works/list:
     get:
       responses:
@@ -287,6 +286,7 @@ paths:
                 work_id:
                   type: integer
                   example: 1
+  /user/works/list:
 
   /works/add:
     post:
@@ -396,6 +396,7 @@ paths:
       tags:
         - Works
       operationId: getWorksList
+  /user/works/waitlist/accept:
   /works/waitlist/accept:
     post:
       responses:
@@ -429,6 +430,7 @@ paths:
                 work_id:
                   type: integer
                   example: 1
+  /user/works/waitlist/update:
   /works/waitlist/update:
     post:
       responses:

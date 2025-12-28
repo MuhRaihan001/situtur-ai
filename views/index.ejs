@@ -1,26 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= title %>
+  </title>
+  <link href="/css/output.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .hero-bg {
+      background-image: url('/images/bg.png');
+      width: 100%;
+      max-width: 1728px;
+      /* Batas maksimal dari Figma */
+      height: 1200px;
+      /* Jika ingin tingginya tetap */
+      background-size: cover;
+      background-position: center;
+      margin: 0 auto;
+      /* Agar konten tetap di tengah layar besar */
+    }
+  </style>
 </head>
-<body>
-    <nav>
-        <h1>Situtur</h1>
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About Us</a></li>
-            <li><a href="contact">Contact AS</a></li>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/register">register</a></li>
-        </ul>
-    </nav>
 
-    <section id="home">
-        <h1>Selamat Datang di Situtur</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam rerum, consectetur mollitia nostrum nesciunt officia fuga, reiciendis, assumenda voluptatum sit architecto sapiente voluptates deserunt cumque dolores? Unde quidem asperiores incidunt.</p>
-    </section>
+<body class="font-sans">
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 w-full z-50 bg-black/40 backdrop-blur-md">
+    <div class="mx-auto max-w-[1728px] h-[98px] px-12 py-6
+             flex items-center justify-between">
+      <!-- Logo -->
+      <img src="/images/logo.png" alt="Situtur Logo" class="w-[209px] h-[50px] object-cover" />
 
+      <!-- Right Menu -->
+      <div class="flex items-center gap-3">
+        <a href="/login" class="text-white hover:text-[#0BBDC7] text-[16px] leading-[24px] font-medium">Login</a>
+        <a href="/register" class="text-white hover:text-[#0BBDC7] text-[16px] leading-[24px] font-medium">Register</a>
+      </div>
+    </div>
+  </nav>
+
+
+<div class="relative hero-bg min-h-[1200px] flex items-center justify-center pt-[98px]">
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-[#0F172A]/40 mix-blend-multiply z-0"></div>
+
+  <!-- Gradient bottom -->
+  <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white to-transparent z-10"></div>
+
+  <!-- Content -->
+  <div
+    class="relative z-20 max-w-[1024px] px-4 flex flex-col items-center gap-6 text-center"
+  >
+    <!-- Heading -->
+    <h1
+      class="text-[72px] leading-[72px] tracking-[-1.8px] font-bold text-white"
+    >
+      Constructing
+      <span class="text-[#0BBDC7] italic">Precision</span>
+    </h1>
+
+    <!-- Subtitle -->
+    <p
+      class="max-w-[672px] text-[24px] leading-[32px] font-light text-[#E2E8F0]"
+    >
+      The AI-powered command center for modern infrastructure projects.
+    </p>
+
+    <!-- Button -->
+    <div class="pt-4">
+      <a
+        href="/register"
+        class="inline-flex items-center justify-center w-[155px] h-[48px] rounded-full
+               bg-[#00CED1] text-[#0F172A] font-bold text-[16px] leading-[24px]
+               shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1),0px_4px_6px_-4px_rgba(0,0,0,0.1)]
+               hover:bg-[#0DE7F2] transition"
+      >
+        Get Started
+      </a>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- About Us Section -->
+  <section id="about" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold text-center mb-12 relative pb-4">
+        ABOUT US
+        <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-blue-600"></span>
+      </h2>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <div class="group flex flex-col w-[394.67px] h-[432px]">
+          <!-- Image Card -->
+          <div class="pb-6">
+            <div class="relative overflow-hidden w-full h-[296px] bg-[#F1F5F9] border border-[#F1F5F9] rounded-xl shadow-[0_1px_2px_rgba(0,0,0,0.05)] transition-shadow duration-300 group-hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)]">
+              <img src="/images/plan.png" alt="Real-time Tracking" class="w-full h-full object-cover opacity-80 grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:scale-[1.03]" />
+            </div>
+          </div>
+
+          <!-- Text -->
+          <div class="flex flex-col gap-3 px-2">
+            <h3 class="font-inter font-bold text-[20px] leading-[28px] text-[#0F172A] transition-colors duration-300 group-hover:text-[#0BBDC7]">
+              Real-time Tracking
+            </h3>
+
+            <p class="text-[#4B5563] text-[16px] leading-[24px]">
+              Monitor every aspect of your construction site in real-time. From worker
+              safety to material inventory.
+            </p>
+          </div>
+        </div>
+
+
+        <!-- Card 2 -->
+        <div class="group flex flex-col w-[394.67px]">
+          <!-- IMAGE CARD -->
+          <div class="pb-6">
+            <div class="relative overflow-hidden w-full h-[296px] bg-[#F1F5F9] border border-[#F1F5F9] rounded-xl shadow-[0_1px_2px_rgba(0,0,0,0.05)] transition-all duration-300 group-hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)]">
+              <img src="/images/org.png" alt="Real-time Tracking" class="absolute inset-0 w-full h-full object-cover opacity-80 grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:scale-[1.05]" />
+            </div>
+          </div>
+
+          <!-- TEXT -->
+          <div class="flex flex-col gap-3 px-2">
+            <h3 class="font-inter font-bold text-[20px] leading-[28px] text-[#0F172A] transition-colors duration-300 group-hover:text-[#0BBDC7]">
+              Real-time Tracking
+            </h3>
+
+            <p class="font-inter text-[16px] leading-[24px] text-[#4B5563]">
+              Monitor every aspect of your construction site in real-time. From worker
+              safety to material inventory.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="group flex flex-col w-[394.66px]">
+          <!-- IMAGE CARD -->
+          <div class="pb-6">
+            <div class="relative overflow-hidden w-full h-[295.98px] bg-[#F1F5F9] border border-[#F1F5F9] rounded-xl shadow-[0_1px_2px_rgba(0,0,0,0.05)] transition-all duration-300 group-hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)]">
+              <img src="/images/st.png" alt="Automated Reporting" class="absolute inset-0 w-full h-full object-cover opacity-80 grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:scale-[1.05]" />
+            </div>
+          </div>
+
+          <!-- TEXT -->
+          <div class="flex flex-col gap-3 px-2">
+            <h3 class="font-inter font-bold text-[20px] leading-[28px] text-[#0F172A] transition-colors duration-300 group-hover:text-[#0BBDC7]">
+              Automated Reporting
+            </h3>
+
+            <p class="font-inter text-[16px] leading-[24px] text-[#4B5563]">
+              Generate comprehensive progress reports instantly, keep stakeholders
+              informed with data-driven insights.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#F8FAFC] border-t border-[#E2E8F0] py-12 px-[320px]">
+    <div class="flex flex-col md:flex-row justify-between items-center max-w-[1728px] mx-auto">
+      <div class="text-2xl font-bold text-slate-900 mb-4 md:mb-0">
+        SITUTUR <span class="text-emerald-500">[AI]</span>
+      </div>
+
+      <div class="text-slate-500 text-sm">
+        ©2026 SITUTUR AI. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Mobile menu script -->
+  <script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuButton?.addEventListener('click', () => {
+      mobileMenu?.classList.toggle('hidden');
+    });
+  </script>
 </body>
+
 </html>
