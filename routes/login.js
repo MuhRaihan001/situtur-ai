@@ -33,7 +33,10 @@ exports.POST = async function (req, res, next) {
         // user tidak ditemukan
         if (results.length === 0) {
             console.log('[DEBUG] user tidak ditemukan');
-            return res.status(401).send("username atau password salah");
+            return res.status(401).json({ 
+                success: false, 
+                message: "Username atau password salah" 
+            });
         }
 
         const user = results[0];
@@ -46,15 +49,21 @@ exports.POST = async function (req, res, next) {
         console.log('[DEBUG] hasil verify:', match);
 
         if (!match) {
-            return res.status(401).send("username atau password salah");
+            console.log('[DEBUG] password tidak cocok');
+            return res.status(401).json({ 
+                success: false, 
+                message: "Username atau password salah" 
+            });
         }
 
         // simpan session
         req.session.user = {
-            id: user.id,
+            id_user: user.id_user,
             username: user.username,
             email: user.email,
-            role: user.role
+            role: user.role,
+            nama_depan: user.nama_depan,
+            nama_belakang: user.nama_belakang
         };
 
         console.log('[DEBUG] session dibuat:', req.session.user);
@@ -62,22 +71,29 @@ exports.POST = async function (req, res, next) {
         // Simpan session dengan Promise
         await new Promise((resolve, reject) => {
             req.session.save((err) => {
-                if (err) reject(err);
-                else resolve();
+                if (err) {
+                    console.error('[DEBUG] Gagal simpan session:', err);
+                    reject(err);
+                } else {
+                    resolve();
+                }
             });
         });
 
-        console.log('[DEBUG] session tersimpan');
+        console.log('[DEBUG] session tersimpan, mengirim respon sukses');
 
-        // redirect sesuai role
-        if (user.role === 'admin') {
-            return res.redirect('/admin/dashboard');
-        } else {
-            return res.redirect('/user/dashboard');
-        }
+        return res.json({
+            success: true,
+            message: 'Login berhasil',
+            redirect: user.role === 'admin' ? '/admin/dashboard' : '/user/dashboard',
+            user: req.session.user
+        });
 
     } catch (error) {
         console.error('[LOGIN ERROR]', error);
-        return res.status(500).send("Terjadi kesalahan server");
+        return res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan server: ' + error.message
+        });
     }
 };

@@ -1,12 +1,18 @@
 // Dashboard Charts Initialization
 document.addEventListener('DOMContentLoaded', function() {
+    const chartDataEl = document.getElementById('chart-data-json');
+    const monthlyDataEl = document.getElementById('monthly-data-json');
+    let chartData = window.chartData;
+    let monthlyData = window.monthlyData;
+    if (!chartData && chartDataEl) chartData = JSON.parse(chartDataEl.textContent || '{}');
+    if (!monthlyData && monthlyDataEl) monthlyData = JSON.parse(monthlyDataEl.textContent || '[]');
     
     // Bar Chart - Tahun Proyek
     const barChartCanvas = document.getElementById('barChart');
     if (barChartCanvas) {
         // Data akan diambil dari backend melalui EJS
-        const years = window.chartData.years;
-        const values = window.chartData.values;
+        const years = chartData.years;
+        const values = chartData.values;
         
         const barCtx = barChartCanvas.getContext('2d');
         const barChart = new Chart(barCtx, {
@@ -108,8 +114,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Line Chart - Proyek Selesai
     const lineChartCanvas = document.getElementById('lineChart');
     if (lineChartCanvas) {
-        // Data monthly dari backend
-        const monthlyData = window.monthlyData;
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         
         // Filter hanya bulan dengan data

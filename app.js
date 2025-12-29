@@ -41,6 +41,16 @@ async function bootstrap() {
 
         setupSwagger(app);
 
+        // Catch-all route for React SPA
+        app.get('*any', (req, res, next) => {
+            // Jika rute sudah dihandle oleh EJS atau API (next dipanggil), 
+            // atau jika request adalah file statis (punya ekstensi), abaikan.
+            if (req.path.includes('.')) {
+                return next();
+            }
+            res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+        });
+
         app.listen(PORT, () => {
             console.log(`🚀 Server is running on http://localhost:${PORT}`);
             console.log(`📄 Documentation available at http://localhost:${PORT}/api-docs`);
