@@ -1,12 +1,12 @@
-const { Meta } = require("../../../handler/meta");
-const Works = require("../../../handler/work");
+const { Meta } = require("../../handler/meta");
+const Works = require("../../handler/work");
 
 const work = new Works();
 
 module.exports = {
     GET: {
         handler: async function (req, res) {
-            res.render('user/ToDoList', {title: 'Situtur | Daftar', username: req.session.user.username});
+            
             try {
                 const works = await work.list();
                 res.status(works.status).send(works.works);
