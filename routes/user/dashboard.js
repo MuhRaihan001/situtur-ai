@@ -81,6 +81,20 @@ exports.GET = async function (req, res, next) {
             completed: task.progress === 100
         }));
 
+        // 5. Recent Updates (from query_actions)
+        const recentUpdatesRows = await db.query(
+            'SELECT reason as title, table_name as category, created_at as time ' +
+            'FROM query_actions ORDER BY created_at DESC LIMIT 5'
+        );
+
+        const recentUpdates = recentUpdatesRows.map(update => ({
+            title: update.title,
+            description: update.category.charAt(0).toUpperCase() + update.category.slice(1),
+            time: new Date(update.time).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' today',
+            icon: update.category === 'work' ? 'ClipboardList' : 'LayoutDashboard',
+            color: update.category === 'work' ? 'text-blue-600' : 'text-orange-600'
+        }));
+
         const stats = {
             tasksPending,
             ongoingProjects,
@@ -130,7 +144,7 @@ exports.GET = async function (req, res, next) {
                 chartData,
                 monthlyData,
                 priorityTasks,
-                recentUpdates: []
+                recentUpdates
             }
         });
     } catch (error) {

@@ -1,0 +1,11 @@
+[2025-12-31T04:08:52.765Z] Starting Situtur Data Sync Service...
+[2025-12-31T04:08:52.877Z] Automatic backup completed.
+[2025-12-31T04:08:53.543Z] Sync Error: Unknown column 'w.id_Proyek' in 'on clause'
+[2025-12-31T04:08:55.789Z] Sync Error: Unknown column 'w.id_Proyek' in 'on clause'
+[2025-12-31T04:08:58.789Z] Sync Error: Unknown column 'w.id_Proyek' in 'on clause'
+[2025-12-31T04:09:01.799Z] Sync Error: Unknown column 'w.id_Proyek' in 'on clause'
+[2025-12-31T04:09:04.805Z] Sync Error: Unknown column 'w.id_Proyek' in 'on clause'
+[2025-12-31T04:09:07.813Z] Sync Error: Unknown column 'w.id_Proyek' in 'on clause'
+[2025-12-31T04:09:10.818Z] Sync Error: Unknown column 'w.id_Proyek' in 'on clause'
+[2025-12-31T04:09:13.820Z] Sync Error: Unknown column 'w.id_Proyek' in 'on clause'
+[2025-12-31T04:09:21.350Z] Starting Situtur Data Sync Service...

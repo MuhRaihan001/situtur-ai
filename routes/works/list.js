@@ -6,13 +6,15 @@ const work = new Works();
 module.exports = {
     GET: {
         handler: async function (req, res) {
-            
             try {
                 const works = await work.list();
-                res.status(works.status).send(works.works);
+                res.status(works.status).json({
+                    success: true,
+                    works: works.works
+                });
             } catch (error) {
                 console.error("Error in GET /works/list:", error);
-                res.status(500).send({ error: "Internal Server Error" });
+                res.status(500).json({ success: false, error: "Internal Server Error" });
             }
         },
 

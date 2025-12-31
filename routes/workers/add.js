@@ -12,7 +12,7 @@ module.exports = {
                     return res.status(400).json({ error: "worker_name and phone_number are required." });
 
                 const result = await workersHandler.addWorker(phone_number, worker_name);
-                res.status(result.status).json({ message: result.message });
+                res.status(result.status).json({ success: result.status === 201, message: result.message });
             } catch (error) {
                 console.error("Error in POST /workers/add:", error);
                 res.status(500).json({ error: "Internal Server Error" });

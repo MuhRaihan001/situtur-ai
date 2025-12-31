@@ -6,7 +6,7 @@ const worksHandler = new Works();
 class Workers {
 
     async list() {
-        const query = "SELECT worker_name, phone_number FROM workers";
+        const query = "SELECT * FROM workers";
         const result = await database.query(query);
         if (result.length === 0)
             return { status: 404, message: "No Workers", workers: [] };
@@ -26,9 +26,27 @@ class Workers {
         try {
             const query = `UPDATE workers SET ${column} = ? WHERE id = ?`;
             await database.query(query, [value, worker_id]);
+            return { status: 200, message: "Worker updated successfully" };
         } catch (error) {
-            throw error;
+            console.error("Error updating worker:", error);
+            return { status: 500, message: "Error updating worker" };
         }
+    }
+
+    async deleteWorker(worker_id) {
+        try {
+            const query = "DELETE FROM workers WHERE id = ?";
+            await database.query(query, [worker_id]);
+            return { status: 200, message: "Worker deleted successfully" };
+        } catch (error) {
+            console.error("Error deleting worker:", error);
+            return { status: 500, message: "Error deleting worker" };
+        }
+    }
+
+    async getWorkerData(worker_id) {
+        const query = "SELECT * FROM workers WHERE id = ?";
+        return await database.query(query, [worker_id]);
     }
 
     async setWorkerTask(worker_id, task_id) {

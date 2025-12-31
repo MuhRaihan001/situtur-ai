@@ -5,8 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --watch app.js",
-    "build:frontend": "npm run build --prefix frontend",
-    "build": "npm run build:frontend"
+    "build": "npm run build --watch --prefix frontend"
   },
   "author": "TsumuX",
   "license": "ISC",

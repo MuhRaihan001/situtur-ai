@@ -6,13 +6,16 @@ const workersHandler = new Workers();
 module.exports = {
     GET: {
         handler: async function (req, res) {
-            res.render('user/List_Worker', {title:"Data Pekerja"})
             try {
                 const workers = await workersHandler.list();
-                res.status(workers.status).json({ message: workers.message, workers: workers.workers });
+                res.status(workers.status).json({ 
+                    success: true,
+                    message: workers.message, 
+                    workers: workers.workers 
+                });
             } catch (error) {
                 console.error("Error in GET /workers/list:", error);
-                res.status(500).json({ error: "Internal Server Error" });
+                res.status(500).json({ success: false, error: "Internal Server Error" });
             }
         },
         meta: new Meta()
