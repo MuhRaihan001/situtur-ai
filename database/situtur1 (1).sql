@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 31, 2025 at 07:42 AM
+-- Generation Time: Dec 31, 2025 at 09:19 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `situtur1`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `audit_logs`
+--
+
+CREATE TABLE `audit_logs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `action` varchar(50) NOT NULL,
+  `table_name` varchar(50) NOT NULL,
+  `record_id` varchar(50) DEFAULT NULL,
+  `old_values` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`old_values`)),
+  `new_values` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`new_values`)),
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -45,6 +64,13 @@ CREATE TABLE `proyek` (
   `Id_User` int(11) NOT NULL,
   `Nama_Proyek` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `proyek`
+--
+
+INSERT INTO `proyek` (`ID`, `Id_User`, `Nama_Proyek`) VALUES
+(1, 2, 'Default Project');
 
 -- --------------------------------------------------------
 
@@ -118,13 +144,34 @@ CREATE TABLE `workers` (
   `worker_name` varchar(165) NOT NULL,
   `phone_number` varchar(100) NOT NULL,
   `current_task` int(11) UNSIGNED DEFAULT NULL,
-  `finished_task` int(11) UNSIGNED NOT NULL,
-  `status` enum('Active','Not active','','') NOT NULL
+  `finished_task` int(11) UNSIGNED DEFAULT NULL,
+  `status` enum('Active','Not active','','') NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `audit_logs`
+--
+ALTER TABLE `audit_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_user_action` (`user_id`,`action`),
+  ADD KEY `idx_created_at` (`created_at`);
+
+--
+-- Indexes for table `mandor`
+--
+ALTER TABLE `mandor`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `proyek`
+--
+ALTER TABLE `proyek`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `idx_user_id` (`Id_User`);
 
 --
 -- Indexes for table `query_actions`
@@ -142,7 +189,8 @@ ALTER TABLE `user`
 -- Indexes for table `work`
 --
 ALTER TABLE `work`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_proyek_id` (`id_Proyek`);
 
 --
 -- Indexes for table `workers`
@@ -150,11 +198,30 @@ ALTER TABLE `work`
 ALTER TABLE `workers`
   ADD PRIMARY KEY (`id`),
   ADD KEY `current_task` (`current_task`,`finished_task`),
-  ADD KEY `fhinished_task to work` (`finished_task`);
+  ADD KEY `fhinished_task to work` (`finished_task`),
+  ADD KEY `idx_status` (`status`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `audit_logs`
+--
+ALTER TABLE `audit_logs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `mandor`
+--
+ALTER TABLE `mandor`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `proyek`
+--
+ALTER TABLE `proyek`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `query_actions`
@@ -172,13 +239,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `work`
 --
 ALTER TABLE `work`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `workers`
 --
 ALTER TABLE `workers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

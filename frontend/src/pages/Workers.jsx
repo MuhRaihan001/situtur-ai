@@ -194,11 +194,11 @@ const Workers = () => {
           }
         });
       } else {
-        setError('Gagal mengambil data pekerja');
+        setError(response.data.message || 'Gagal mengambil data pekerja');
       }
     } catch (err) {
       console.error('Fetch error:', err);
-      setError('Terjadi kesalahan koneksi ke server');
+      setError(err.response?.data?.message || 'Terjadi kesalahan koneksi ke server');
     } finally {
       setLoading(false);
     }
@@ -302,15 +302,27 @@ const Workers = () => {
     );
   }
 
-  if (error) {
+  if (error && !data) {
     return (
       <Layout>
-        <div className="p-8 text-center text-red-600 bg-red-50 rounded-xl border border-red-200">
-          {error}
+        <div className="flex flex-col items-center justify-center h-[calc(100vh-200px)] gap-4 text-center">
+          <div className="bg-red-50 p-4 rounded-full text-red-500">
+            <Users className="w-12 h-12" />
+          </div>
+          <h2 className="text-xl font-bold text-gray-900">Gagal Memuat Data Pekerja</h2>
+          <p className="text-gray-500 max-w-md">{error}</p>
+          <button 
+            onClick={fetchWorkers}
+            className="px-6 py-2 bg-[#0DEDF2] text-[#134E4A] font-bold rounded-xl hover:bg-[#0BBDC7] transition-all"
+          >
+            Coba Lagi
+          </button>
         </div>
       </Layout>
     );
   }
+
+  if (!data) return null;
 
   const { stats, workers } = data;
 

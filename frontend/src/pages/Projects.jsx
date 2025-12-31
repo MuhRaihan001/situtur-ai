@@ -9,44 +9,164 @@ import {
   MoreVertical,
   Loader2,
   Settings2,
-  CheckCircle2
+  CheckCircle2,
+  Edit2,
+  Trash2,
+  AlertCircle
 } from 'lucide-react';
+import PropTypes from 'prop-types';
+
+// --- Modal Component ---
+const Modal = ({ isOpen, onClose, title, children }) => {
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200">
+        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+          <h3 className="text-xl font-bold text-gray-900">{title}</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
+            <Plus className="w-6 h-6 rotate-45" />
+          </button>
+        </div>
+        <div className="p-6">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+Modal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
 
 const Projects = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // CRUD States
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [formLoading, setFormLoading] = useState(false);
+  const [deleteConfirmName, setDeleteConfirmName] = useState('');
+  const [deleteError, setDeleteError] = useState('');
+  
+  const [formData, setFormData] = useState({
+    name: ''
+  });
+
+  const fetchProjects = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get('/user/List_Projek');
+      if (response.data.success) {
+        setData({
+          projects: response.data.projects,
+          stats: {
+            total: response.data.projects.length,
+            inProgress: response.data.projects.filter(p => p.status === 'On Track').length,
+            completed: response.data.projects.filter(p => p.status === 'Completed').length,
+            growth: '+0%'
+          }
+        });
+      } else {
+        setError('Gagal mengambil data proyek');
+      }
+    } catch (err) {
+      console.error('Fetch error:', err);
+      setError('Terjadi kesalahan koneksi ke server');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await axios.get('/user/List_Projek');
-        if (response.data.success) {
-          setData({
-            projects: response.data.projects,
-            stats: {
-              total: response.data.projects.length,
-              inProgress: response.data.projects.filter(p => p.status === 'On Track').length,
-              completed: response.data.projects.filter(p => p.status === 'Completed').length,
-              growth: '+0%'
-            }
-          });
-        } else {
-          setError('Gagal mengambil data proyek');
-        }
-      } catch (err) {
-        console.error('Fetch error:', err);
-        setError('Terjadi kesalahan koneksi ke server');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchProjects();
   }, []);
 
-  if (loading) {
+  const handleOpenAddModal = () => {
+    setSelectedProject(null);
+    setFormData({ name: '' });
+    setIsFormModalOpen(true);
+  };
+
+  const handleOpenEditModal = (project) => {
+    setSelectedProject(project);
+    setFormData({ name: project.name });
+    setIsFormModalOpen(true);
+  };
+
+  const handleOpenDeleteModal = (project) => {
+    setSelectedProject(project);
+    setDeleteConfirmName('');
+    setDeleteError('');
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setFormLoading(true);
+    try {
+      let response;
+      if (selectedProject) {
+        response = await axios.put('/user/List_Projek', {
+          id: selectedProject.id,
+          name: formData.name
+        });
+      } else {
+        response = await axios.post('/user/List_Projek', {
+          name: formData.name
+        });
+      }
+
+      if (response.data.success) {
+        setIsFormModalOpen(false);
+        fetchProjects();
+      } else {
+        alert(response.data.message || 'Terjadi kesalahan');
+      }
+    } catch (err) {
+      console.error('Form submit error:', err);
+      alert('Terjadi kesalahan saat menyimpan data');
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
+  const handleDeleteSubmit = async (e) => {
+    e.preventDefault();
+    if (deleteConfirmName !== selectedProject.name) {
+      setDeleteError(`Nama tidak sesuai. Silakan ketik nama proyek dengan benar: ${selectedProject.name}`);
+      return;
+    }
+
+    setFormLoading(true);
+    try {
+      const response = await axios.delete('/user/List_Projek', {
+        data: { id: selectedProject.id }
+      });
+
+      if (response.data.success) {
+        setIsDeleteModalOpen(false);
+        fetchProjects();
+      } else {
+        setDeleteError(response.data.message || 'Gagal menghapus proyek');
+      }
+    } catch (err) {
+      console.error('Delete error:', err);
+      setDeleteError('Terjadi kesalahan saat menghapus data');
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
+  if (loading && !data) {
     return (
       <Layout>
         <div className="flex items-center justify-center h-[calc(100vh-200px)]">
@@ -56,7 +176,12 @@ const Projects = () => {
     );
   }
 
-  const { stats, projects } = data;
+  const { stats, projects } = data || { stats: { total: 0, inProgress: 0, completed: 0, growth: '+0%' }, projects: [] };
+
+  const filteredProjects = projects.filter(p => 
+    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    p.id.toString().includes(searchTerm)
+  );
 
   return (
     <Layout>
@@ -69,7 +194,10 @@ const Projects = () => {
               <Filter className="w-4 h-4 text-gray-500" />
               <span className="text-sm font-medium text-gray-600">Filter</span>
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-[#0DEDF2] text-[#134E4A] font-bold rounded-xl hover:bg-[#0BBDC7] transition-all shadow-sm active:scale-95">
+            <button 
+              onClick={handleOpenAddModal}
+              className="flex items-center gap-2 px-4 py-2 bg-[#0DEDF2] text-[#134E4A] font-bold rounded-xl hover:bg-[#0BBDC7] transition-all shadow-sm active:scale-95"
+            >
               <Plus className="w-4 h-4" />
               <span>New Project</span>
             </button>
@@ -125,6 +253,8 @@ const Projects = () => {
                 type="text" 
                 placeholder="Search projects by name or ID..."
                 className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0DEDF2]/20 focus:border-[#0DEDF2]"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
           </div>
@@ -138,10 +268,11 @@ const Projects = () => {
                   <th className="px-6 py-4">Status</th>
                   <th className="px-6 py-4">Team</th>
                   <th className="px-6 py-4 text-right">Due Date</th>
+                  <th className="px-6 py-4 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {projects.map((project) => (
+                {filteredProjects.map((project) => (
                   <tr key={project.id} className="hover:bg-gray-50 transition-colors group">
                     <td className="px-6 py-4">
                       <div>
@@ -189,25 +320,107 @@ const Projects = () => {
                     <td className="px-6 py-4 text-right">
                       <span className="text-sm text-gray-600">{project.dueDate}</span>
                     </td>
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button 
+                          onClick={() => handleOpenEditModal(project)}
+                          className="p-2 hover:bg-white rounded-lg text-gray-400 hover:text-emerald-600 transition-colors shadow-sm border border-transparent hover:border-gray-100"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button 
+                          onClick={() => handleOpenDeleteModal(project)}
+                          className="p-2 hover:bg-white rounded-lg text-gray-400 hover:text-red-600 transition-colors shadow-sm border border-transparent hover:border-gray-100"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <button className="p-2 text-gray-400 group-hover:hidden">
+                        <MoreVertical className="w-4 h-4" />
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          {/* Pagination */}
-          <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between bg-gray-50/50">
-             <p className="text-sm text-gray-500">Showing <span className="font-semibold text-gray-900">1</span> to <span className="font-semibold text-gray-900">5</span> of <span className="font-semibold text-gray-900">24</span> results</p>
-             <div className="flex gap-2">
-                <button className="px-3 py-1 border border-gray-200 rounded-md bg-white text-xs disabled:opacity-50" disabled>&lt;</button>
-                <button className="px-3 py-1 bg-[#0DEDF2] text-[#134E4A] rounded-md text-xs font-bold">1</button>
-                <button className="px-3 py-1 border border-gray-200 rounded-md bg-white text-xs">2</button>
-                <button className="px-3 py-1 border border-gray-200 rounded-md bg-white text-xs">3</button>
-                <button className="px-3 py-1 border border-gray-200 rounded-md bg-white text-xs">...</button>
-                <button className="px-3 py-1 border border-gray-200 rounded-md bg-white text-xs">&gt;</button>
-             </div>
-          </div>
         </div>
       </div>
+
+      {/* Form Modal (Add/Edit) */}
+      <Modal 
+        isOpen={isFormModalOpen} 
+        onClose={() => setIsFormModalOpen(false)} 
+        title={selectedProject ? 'Edit Proyek' : 'Tambah Proyek Baru'}
+      >
+        <form onSubmit={handleFormSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-1">Nama Proyek</label>
+            <input 
+              type="text" 
+              required
+              className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#0DEDF2]/20 focus:border-[#0DEDF2]"
+              value={formData.name}
+              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              placeholder="Contoh: Pembangunan MRT Fase 2"
+            />
+          </div>
+          <button 
+            type="submit" 
+            disabled={formLoading}
+            className="w-full py-3 bg-[#0DEDF2] text-[#134E4A] font-bold rounded-xl hover:bg-[#0BBDC7] transition-all disabled:opacity-50 flex items-center justify-center"
+          >
+            {formLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : (selectedProject ? 'Simpan Perubahan' : 'Tambah Proyek')}
+          </button>
+        </form>
+      </Modal>
+
+      {/* Delete Modal */}
+      <Modal 
+        isOpen={isDeleteModalOpen} 
+        onClose={() => setIsDeleteModalOpen(false)} 
+        title="Hapus Proyek"
+      >
+        <div className="space-y-4">
+          <div className="p-4 bg-red-50 rounded-xl flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-red-500 mt-0.5" />
+            <div>
+              <p className="text-sm font-bold text-red-800">Tindakan ini tidak bisa dibatalkan</p>
+              <p className="text-xs text-red-600 mt-1">Seluruh data tugas dan progres yang terkait dengan proyek ini akan dihapus secara permanen.</p>
+            </div>
+          </div>
+          
+          <div className="space-y-2">
+            <p className="text-sm text-gray-600">
+              Ketik nama proyek <span className="font-bold text-gray-900">"{selectedProject?.name}"</span> untuk mengonfirmasi penghapusan.
+            </p>
+            <input 
+              type="text" 
+              className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+              value={deleteConfirmName}
+              onChange={(e) => setDeleteConfirmName(e.target.value)}
+              placeholder="Ketik nama proyek di sini"
+            />
+            {deleteError && <p className="text-xs text-red-500 font-medium">{deleteError}</p>}
+          </div>
+
+          <div className="flex gap-3">
+            <button 
+              onClick={() => setIsDeleteModalOpen(false)}
+              className="flex-1 py-3 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition-all"
+            >
+              Batal
+            </button>
+            <button 
+              onClick={handleDeleteSubmit}
+              disabled={formLoading || deleteConfirmName !== selectedProject?.name}
+              className="flex-1 py-3 bg-red-500 text-white font-bold rounded-xl hover:bg-red-600 transition-all disabled:opacity-50 flex items-center justify-center"
+            >
+              {formLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Ya, Hapus'}
+            </button>
+          </div>
+        </div>
+      </Modal>
     </Layout>
   );
 };

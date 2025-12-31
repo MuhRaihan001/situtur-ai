@@ -7,11 +7,16 @@ module.exports = {
         handler:  async (req, res) => {
             try {
                 const { work_name, deadline } = req.body;
+                if (!work_name || !deadline) return res.status(400).json({ success: false, error: "Missing required fields" });
+
                 const result = await workHandler.addWork({ work_name, deadline });
-                return res.status(result.status).json({ message: result.message });
+                return res.status(result.status).json({ 
+                    success: result.status === 201 || result.status === 200,
+                    message: result.message 
+                });
             } catch (error) {
                 console.error("Error in POST /works/add:", error);
-                return res.status(500).json({ error: "Internal Server Error" });
+                return res.status(500).json({ success: false, error: "Internal Server Error" });
             }
         },
         meta: new Meta()

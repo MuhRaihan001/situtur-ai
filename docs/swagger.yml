@@ -37,14 +37,52 @@ paths:
     get:
       responses:
         '200':
-          description: Berhasil mengambil daftar proyek
-        '500':
-          description: Internal Server Error
-      summary: Mengambil daftar proyek
-      description: Endpoint ini digunakan untuk mengambil seluruh data proyek yang tersimpan dalam sistem.
+          description: Success
+      summary: Mengambil daftar proyek dengan paginasi
+      description: Endpoint ini digunakan untuk mengambil data proyek milik user dengan dukungan paginasi dan pencarian.
       tags:
         - Projects
-      operationId: getProjectsList
+      parameters:
+        - name: page
+          in: query
+          required: number
+          schema: Halaman ke-n
+          description: page parameter
+        - name: limit
+          in: query
+          required: number
+          schema: Jumlah data per halaman
+          description: limit parameter
+        - name: search
+          in: query
+          required: string
+          schema: Kata kunci pencarian nama proyek
+          description: search parameter
+  /workers/delete:
+    delete:
+      responses:
+        '200':
+          description: Worker deleted successfully
+        '400':
+          description: Missing ID
+        '500':
+          description: Internal Server Error
+      summary: Delete Worker
+      description: Deletes a worker from the system by ID.
+      tags:
+        - Workers
+      operationId: deleteWorker
+      requestBody:
+        description: Worker ID to delete
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
   /workers/add:
     post:
       responses:
@@ -81,31 +119,6 @@ paths:
                 phone_number:
                   type: string
                   example: '+6281234567890'
-  /workers/delete:
-    delete:
-      responses:
-        '200':
-          description: Worker deleted successfully
-        '400':
-          description: Missing ID
-        '500':
-          description: Internal Server Error
-      summary: Delete Worker
-      description: Deletes a worker from the system by ID.
-      tags:
-        - Workers
-      operationId: deleteWorker
-      requestBody:
-        description: Worker ID to delete
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  example: 1
   /workers/list:
     get:
       responses:
@@ -142,37 +155,6 @@ paths:
       tags:
         - Workers
       operationId: listAllWorkers
-  /workers/update:
-    put:
-      responses:
-        '200':
-          description: Worker updated successfully
-        '400':
-          description: Missing ID
-        '500':
-          description: Internal Server Error
-      summary: Update Worker
-      description: Updates worker information including name and phone number.
-      tags:
-        - Workers
-      operationId: updateWorker
-      requestBody:
-        description: Worker data to update
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  example: 1
-                worker_name:
-                  type: string
-                  example: Jane Doe
-                phone_number:
-                  type: string
-                  example: '+6281234567890'
   /workers/top:
     get:
       responses:
@@ -207,6 +189,37 @@ paths:
       tags:
         - Workers
       operationId: getTopWorker
+  /workers/update:
+    put:
+      responses:
+        '200':
+          description: Worker updated successfully
+        '400':
+          description: Missing ID
+        '500':
+          description: Internal Server Error
+      summary: Update Worker
+      description: Updates worker information including name and phone number.
+      tags:
+        - Workers
+      operationId: updateWorker
+      requestBody:
+        description: Worker data to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                worker_name:
+                  type: string
+                  example: Jane Doe
+                phone_number:
+                  type: string
+                  example: '+6281234567890'
   /workers/task/set:
     post:
       responses:
@@ -351,6 +364,39 @@ paths:
       tags:
         - Works
       operationId: getWorksList
+  /works/update:
+    put:
+      responses:
+        '200':
+          description: Task updated successfully
+        '400':
+          description: Missing ID
+        '500':
+          description: Internal Server Error
+      summary: Update Task
+      description: Updates an existing task's details.
+      tags:
+        - Works
+      operationId: updateWork
+      requestBody:
+        description: Task details to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                work_name:
+                  type: string
+                deadline:
+                  type: integer
+                progress:
+                  type: integer
+                status:
+                  type: string
   /works/waitlist/accept:
     post:
       responses:

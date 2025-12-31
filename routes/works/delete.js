@@ -7,11 +7,16 @@ module.exports = {
         handler: async (req, res) => {
             try {
                 const { work_id } = req.body;
+                if (!work_id) return res.status(400).json({ success: false, error: "Task ID is required." });
+
                 const result = await workHandler.deleteWork(work_id);
-                return res.status(result.status).json({ message: result.message });
+                return res.status(result.status).json({ 
+                    success: result.status === 200, 
+                    message: result.message 
+                });
             } catch (error) {
                 console.error("Error in DELETE /works/delete:", error);
-                return res.status(500).json({ error: "Internal Server Error" });
+                return res.status(500).json({ success: false, error: "Internal Server Error" });
             }
         },
         meta: new Meta()

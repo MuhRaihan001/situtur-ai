@@ -18,24 +18,30 @@ class Works {
     async list() {
         const query = `
             SELECT 
-                id, 
-                work_name, 
-                progress, 
-                status, 
-                starterd_at, 
-                finished_at 
-            FROM work`
+                w.id, 
+                w.work_name, 
+                w.progress, 
+                w.status, 
+                w.starterd_at, 
+                w.finished_at,
+                w.deadline,
+                wk.worker_name as assignee_name
+            FROM work w
+            LEFT JOIN workers wk ON w.id = wk.current_task`
         const result = await database.query(query);
         if (result.length === 0)
-            return { status: 404, message: "No Items", works: [] };
+            return { status: 200, message: "No Items", works: [] };
 
         const response = result.map((work) => {
 
             return {
                 ...work,
-
+                raw_deadline: work.deadline,
+                raw_started_at: work.starterd_at,
+                raw_finished_at: work.finished_at,
                 starterd_at: formatID(work.starterd_at),
-                finished_at: formatID(work.finished_at)
+                finished_at: work.finished_at ? formatID(work.finished_at) : null,
+                deadline: work.deadline ? formatID(work.deadline) : 'TBD'
             }
         });
         return { status: 200, message: "Success", works: response }
@@ -157,17 +163,64 @@ class Works {
         }
     }
 
-    async addWork({ work_name, deadline }) {
+    async addWork({ work_name, deadline, id_Proyek }) {
         try {
             if (!work_name || !deadline) 
                 return { status: 400, message: "Missing required fields" };
 
+            // Ensure we have an id_Proyek
+            let projectId = id_Proyek;
+            if (!projectId) {
+                const projects = await database.query("SELECT ID FROM proyek LIMIT 1");
+                if (projects.length > 0) {
+                    projectId = projects[0].ID;
+                } else {
+                    // Create a default project if none exists
+                    const result = await database.query("INSERT INTO proyek (Id_User, Nama_Proyek) VALUES (2, 'Default Project')");
+                    projectId = result.insertId;
+                }
+            }
+
             const starterd_at = Date.now();
             
-            const query = `INSERT INTO work (work_name, starterd_at, deadline) VALUE (?, ?, ?)`;
-            await database.query(query, [work_name, starterd_at, deadline]);
+            const query = `INSERT INTO work (work_name, starterd_at, deadline, id_Proyek) VALUES (?, ?, ?, ?)`;
+            await database.query(query, [work_name, starterd_at, deadline, projectId]);
 
             return { status: 201, message: "New work created" };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async updateWork(work_id, { work_name, deadline, progress, status }) {
+        try {
+            const updates = [];
+            const params = [];
+
+            if (work_name !== undefined) {
+                updates.push("work_name = ?");
+                params.push(work_name);
+            }
+            if (deadline !== undefined) {
+                updates.push("deadline = ?");
+                params.push(deadline);
+            }
+            if (progress !== undefined) {
+                updates.push("progress = ?");
+                params.push(progress);
+            }
+            if (status !== undefined) {
+                updates.push("status = ?");
+                params.push(status);
+            }
+
+            if (updates.length === 0) return { status: 400, message: "No fields to update" };
+
+            params.push(work_id);
+            const query = `UPDATE work SET ${updates.join(", ")} WHERE id = ?`;
+            await database.query(query, params);
+
+            return { status: 200, message: "Work updated successfully" };
         } catch (error) {
             throw error;
         }

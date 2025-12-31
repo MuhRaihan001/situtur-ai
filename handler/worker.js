@@ -9,7 +9,7 @@ class Workers {
         const query = "SELECT * FROM workers";
         const result = await database.query(query);
         if (result.length === 0)
-            return { status: 404, message: "No Workers", workers: [] };
+            return { status: 200, message: "No Workers", workers: [] };
         return { status: 200, message: "Success", workers: result };
     }
 
@@ -25,8 +25,12 @@ class Workers {
     async updateWorkerData(worker_id, column, value) {
         try {
             const query = `UPDATE workers SET ${column} = ? WHERE id = ?`;
-            await database.query(query, [value, worker_id]);
-            return { status: 200, message: "Worker updated successfully" };
+            const result = await database.query(query, [value, worker_id]);
+            return { 
+                status: 200, 
+                message: "Worker updated successfully",
+                affectedRows: result.affectedRows 
+            };
         } catch (error) {
             console.error("Error updating worker:", error);
             return { status: 500, message: "Error updating worker" };
@@ -36,8 +40,12 @@ class Workers {
     async deleteWorker(worker_id) {
         try {
             const query = "DELETE FROM workers WHERE id = ?";
-            await database.query(query, [worker_id]);
-            return { status: 200, message: "Worker deleted successfully" };
+            const result = await database.query(query, [worker_id]);
+            return { 
+                status: 200, 
+                message: "Worker deleted successfully",
+                affectedRows: result.affectedRows
+            };
         } catch (error) {
             console.error("Error deleting worker:", error);
             return { status: 500, message: "Error deleting worker" };

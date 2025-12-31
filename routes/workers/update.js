@@ -10,12 +10,19 @@ module.exports = {
                 const { id, worker_name, phone_number } = req.body;
                 if (!id) return res.status(400).json({ success: false, error: "Worker ID is required." });
 
+                let affectedRows = 0;
                 if (worker_name) {
-                    await workersHandler.updateWorkerData(id, 'worker_name', worker_name);
+                    const result = await workersHandler.updateWorkerData(id, 'worker_name', worker_name);
+                    affectedRows += (result.affectedRows || 0);
                 }
                 if (phone_number) {
                     const waId = phone => `62${phone.replace(/[^0-9]/g, "").replace(/^(\+?62|0)/, "")}@c.us`;
-                    await workersHandler.updateWorkerData(id, 'phone_number', waId(phone_number));
+                    const result = await workersHandler.updateWorkerData(id, 'phone_number', waId(phone_number));
+                    affectedRows += (result.affectedRows || 0);
+                }
+
+                if (affectedRows === 0) {
+                    return res.status(404).json({ success: false, message: "Worker not found or no changes made" });
                 }
 
                 res.status(200).json({ success: true, message: "Worker updated successfully" });

@@ -11,6 +11,9 @@ module.exports = {
                 if (!id) return res.status(400).json({ success: false, error: "Worker ID is required." });
 
                 const result = await workersHandler.deleteWorker(id);
+                if (result.affectedRows === 0) {
+                    return res.status(404).json({ success: false, message: "Worker not found" });
+                }
                 res.status(result.status).json({ success: result.status === 200, message: result.message });
             } catch (error) {
                 console.error("Error in DELETE /workers/delete:", error);
