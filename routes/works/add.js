@@ -28,7 +28,7 @@ module.exports = {
                 description: "Details of the work to be added",
                 body: {
                     work_name: { type: "string", example: "Develop New Feature" },
-                    deadline: { type: "integer", example: 1704067200000 }
+                    deadline: { type: "TIMESTAMP", example: "2026-01-01 12:00:00" }
                 }
             })
             .addSuccessResponse("New work created successfully", {

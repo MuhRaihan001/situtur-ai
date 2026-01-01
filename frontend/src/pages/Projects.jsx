@@ -277,7 +277,6 @@ const Projects = () => {
                     <td className="px-6 py-4">
                       <div>
                         <p className="text-sm font-semibold text-[#111827]">{project.name}</p>
-                        <p className="text-xs text-gray-400 mt-0.5">ID: {project.id}</p>
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -298,8 +297,9 @@ const Projects = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                        project.status === 'Completed' ? 'bg-emerald-50 text-emerald-600' :
-                        project.status === 'Delayed' ? 'bg-red-50 text-red-600' :
+                        project.status === 'In Progres' ? 'bg-[#DBEAFE] text[#166534]' :
+                        project.status === 'Completed' ? 'bg-[#DBEAFE] text-[#1E40AF]' :
+                        project.status === 'Fieled' ? 'bg-[#FEE2E2] text-[#991B1B]' :
                         'bg-blue-50 text-blue-600'
                       }`}>
                         {project.status}
@@ -324,20 +324,17 @@ const Projects = () => {
                       <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={() => handleOpenEditModal(project)}
-                          className="p-2 hover:bg-white rounded-lg text-gray-400 hover:text-emerald-600 transition-colors shadow-sm border border-transparent hover:border-gray-100"
+                          className="p-2 rounded-lg text-gray-400 hover:text-emerald-600 transition-colors shadow-sm border border-transparent hover:border-gray-100"
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button 
                           onClick={() => handleOpenDeleteModal(project)}
-                          className="p-2 hover:bg-white rounded-lg text-gray-400 hover:text-red-600 transition-colors shadow-sm border border-transparent hover:border-gray-100"
+                          className="p-2 rounded-lg text-gray-400 hover:text-red-600 transition-colors shadow-sm border border-transparent hover:border-gray-100"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
-                      <button className="p-2 text-gray-400 group-hover:hidden">
-                        <MoreVertical className="w-4 h-4" />
-                      </button>
                     </td>
                   </tr>
                 ))}

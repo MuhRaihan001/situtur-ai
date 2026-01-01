@@ -1,2 +1,0 @@
-Task ID | Deskripsi | Deadline (DD-MM-YYYY HH:mm) | Prioritas (1-5) | Status
-2 | Develop New Feature | 01-01-2024 08:00 | 1 | Pending

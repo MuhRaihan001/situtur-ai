@@ -15,10 +15,21 @@ module.exports = {
                 const search = req.query.search || '';
 
                 let baseQuery = `
-                    SELECT p.ID, p.Id_User, p.Nama_Proyek, u.nama_depan, u.nama_belakang 
-                    FROM proyek p 
-                    JOIN user u ON p.Id_User = u.id_user 
-                    WHERE p.Id_User = ?`;
+                    SELECT 
+    p.Nama_Proyek,
+    p.status,
+    p.due_date,
+    ROUND(
+        IFNULL(
+            (SUM(CASE WHEN w.status = 'completed' THEN 1 ELSE 0 END) / NULLIF(COUNT(w.id), 0)) * 100, 
+            0
+        )
+    ) AS progress
+FROM proyek p
+LEFT JOIN work w ON p.ID = w.id_Proyek
+LEFT JOIN user u ON u.id_user = p.id_user
+WHERE p.Id_User = ?
+GROUP BY p.id, p.Nama_Proyek, p.status, p.due_date`;
                 
                 const params = [id_user];
                 if (search) {
@@ -34,12 +45,11 @@ module.exports = {
                     projects: result.data.map(p => ({
                         id: p.ID,
                         name: p.Nama_Proyek,
-                        pic: `${p.nama_depan || ''} ${p.nama_belakang || ''}`.trim(),
                         id_user: p.Id_User,
                         location: "Jakarta", 
-                        progress: 0,
-                        status: "On Track",
-                        dueDate: "2025-12-31"
+                        progress: p.progress,
+                        status: p.status,
+                        dueDate: p.due_date
                     })),
                     pagination: result.pagination
                 });

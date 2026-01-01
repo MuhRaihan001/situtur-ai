@@ -29,7 +29,7 @@ module.exports = {
                 body: {
                     id: { type: "integer", example: 1 },
                     work_name: { type: "string" },
-                    deadline: { type: "integer" },
+                    deadline: { type: "TIMESTAMP" },
                     progress: { type: "integer" },
                     status: { type: "string" }
                 }

@@ -1,3 +1,0 @@
-ID Worker	Nama	Departemen	Status (Aktif/Non-Aktif)
-2	Muh Raihan	Lapangan	Aktif
-3	Jane Doe	Lapangan	Aktif

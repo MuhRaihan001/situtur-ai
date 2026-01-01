@@ -43,21 +43,21 @@ exports.GET = async function (req, res, next) {
 
         // 1. Ongoing Projects
         const ongoingProjectsRows = await db.query(
-            'SELECT COUNT(*) as count FROM Proyek WHERE Id_User = ?',
+            'SELECT COUNT(*) as count FROM proyek WHERE Id_User = ?',
             [id_user]
         );
         const ongoingProjects = ongoingProjectsRows[0] ? ongoingProjectsRows[0].count : 0;
 
         // 2. Tasks Pending
         const tasksPendingRows = await db.query(
-            'SELECT COUNT(*) as count FROM work w JOIN Proyek p ON w.id_Proyek = p.ID WHERE p.Id_User = ? AND w.progress < 100',
+            'SELECT COUNT(*) as count FROM work w JOIN proyek p ON w.id_Proyek = p.ID WHERE p.Id_User = ? AND w.progress < 100',
             [id_user]
         );
         const tasksPending = tasksPendingRows[0] ? tasksPendingRows[0].count : 0;
 
         // 3. Completed Tasks
         const completedTasksRows = await db.query(
-            'SELECT COUNT(*) as count FROM work w JOIN Proyek p ON w.id_Proyek = p.ID WHERE p.Id_User = ? AND w.progress = 100',
+            'SELECT COUNT(*) as count FROM work w JOIN proyek p ON w.id_Proyek = p.ID WHERE p.Id_User = ? AND w.progress = 100',
             [id_user]
         );
         const completedTasks = completedTasksRows[0] ? completedTasksRows[0].count : 0;
@@ -65,7 +65,7 @@ exports.GET = async function (req, res, next) {
         // 4. Priority Tasks
         const priorityTasksRows = await db.query(
             'SELECT w.id, w.work_name as name, w.status as priority, p.Nama_Proyek as project, w.progress ' +
-            'FROM work w JOIN Proyek p ON w.id_Proyek = p.ID ' +
+            'FROM work w JOIN proyek p ON w.id_Proyek = p.ID ' +
             'WHERE p.Id_User = ? ORDER BY w.id DESC LIMIT 5',
             [id_user]
         );
