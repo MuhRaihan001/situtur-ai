@@ -17,34 +17,58 @@ class Works {
 
     async list() {
         const query = `
-            SELECT 
-                w.id, 
-                w.work_name, 
-                w.progress, 
-                w.status, 
-                w.starterd_at, 
-                w.finished_at,
-                w.deadline,
-                wk.worker_name as assignee_name
-            FROM work w
-            LEFT JOIN workers wk ON w.id = wk.current_task`
+        SELECT 
+            w.id, 
+            w.work_name, 
+            w.progress, 
+            w.status, 
+            w.starterd_at, 
+            w.finished_at,
+            w.deadline,
+            w.id_Proyek,
+
+            wk.worker_name AS assignee_name,
+
+            p.Nama_Proyek,
+            p.status AS project_status,
+            p.due_date AS project_due_date
+        FROM work w
+        LEFT JOIN workers wk 
+            ON w.id = wk.current_task
+        LEFT JOIN proyek p
+            ON w.id_Proyek = p.ID
+        WHERE w.id_Proyek = w.id_Proyek
+    `;
+
         const result = await database.query(query);
+
         if (result.length === 0)
             return { status: 200, message: "No Items", works: [] };
 
-        const response = result.map((work) => {
+        const response = result.map((work) => ({
+            id: work.id,
+            work_name: work.work_name,
+            progress: work.progress,
+            status: work.status,
+            assignee_name: work.assignee_name,
 
-            return {
-                ...work,
-                raw_deadline: work.deadline,
-                raw_started_at: work.starterd_at,
-                raw_finished_at: work.finished_at,
-                starterd_at: formatID(work.starterd_at),
-                finished_at: work.finished_at ? formatID(work.finished_at) : null,
-                deadline: work.deadline ? formatID(work.deadline) : 'TBD'
+            raw_deadline: work.deadline,
+            raw_started_at: work.starterd_at,
+            raw_finished_at: work.finished_at,
+
+            starterd_at: formatID(work.starterd_at),
+            finished_at: work.finished_at ? formatID(work.finished_at) : null,
+            deadline: work.deadline ? formatID(work.deadline) : 'TBD',
+
+            project: {
+                id: work.id_Proyek,
+                name: work.Nama_Proyek,
+                status: work.project_status,
+                due_date: work.project_due_date
             }
-        });
-        return { status: 200, message: "Success", works: response }
+        }));
+
+        return { status: 200, message: "Success", works: response };
     }
 
     async waitList(work) {
@@ -165,7 +189,7 @@ class Works {
 
     async addWork({ work_name, deadline, id_Proyek }) {
         try {
-            if (!work_name || !deadline) 
+            if (!work_name || !deadline)
                 return { status: 400, message: "Missing required fields" };
 
             // Ensure we have an id_Proyek
@@ -182,7 +206,7 @@ class Works {
             }
 
             const starterd_at = Date.now();
-            
+
             const query = `INSERT INTO work (work_name, starterd_at, deadline, id_Proyek) VALUES (?, ?, ?, ?)`;
             await database.query(query, [work_name, starterd_at, deadline, projectId]);
 
@@ -229,7 +253,7 @@ class Works {
     async deleteWork(work_id) {
         try {
             const workData = await this.getWorkData(work_id);
-            if (!workData || workData.length === 0) 
+            if (!workData || workData.length === 0)
                 return { status: 404, message: "Work not found" };
 
             const query = `DELETE FROM work WHERE id = ?`;
