@@ -3,5 +3,8 @@
   "scss.lint.unknownAtRules": "ignore",
   "tailwindCSS.experimental.classRegex": [
     ["(?:tw|clsx|cn)\\(([^)]*)\\)", "(?:'|\"|`)([^'\"`]*)(?:'|\"|`)"]
-  ]
+  ],
+  "vscode-pets.theme": "beach",
+  "vscode-pets.petSize": "medium",
+  "vscode-pets.throwBallWithMouse": true
 }

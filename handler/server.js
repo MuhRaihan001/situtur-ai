@@ -5,6 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const secretKey = process.env.SECRET_KEY || '63f4945d921d599f27ae4fdf5bada3f1'
 
 const Database = require('./database');
 const db = new Database();
@@ -23,7 +24,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser(secretKey));
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
