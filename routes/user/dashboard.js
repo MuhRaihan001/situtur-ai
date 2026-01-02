@@ -1,6 +1,7 @@
+const Tokenizer = require('../../handler/token');
 const {isLoggedIn, isUser} = require('../../middleware/auth');
+const tokenHandler = new Tokenizer();
 
-exports.middleware = [isLoggedIn, isUser];
 
 exports.GET = async function (req, res, next) {
     // Jika request mengharapkan HTML (dari browser langsung/refresh), 
@@ -15,9 +16,10 @@ exports.GET = async function (req, res, next) {
     }
 
     try {
-        console.log('[API DASHBOARD] Fetching JSON data for user:', req.session.user);
+        const rawData = req.signedCookies.userData;
         const db = req.app.locals.db;
-        const user = req.session.user;
+        const user = await tokenHandler.verify(rawData);
+        console.log('[API DASHBOARD] Fetching JSON data for user:', user);
         
         if (!user || !user.id_user) {
             console.error('[API DASHBOARD] No user session or id_user found');
