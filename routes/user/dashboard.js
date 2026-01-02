@@ -1,5 +1,5 @@
 const Tokenizer = require('../../handler/token');
-const {isLoggedIn, isUser} = require('../../middleware/auth');
+const { isLoggedIn, isUser } = require('../../middleware/auth');
 const tokenHandler = new Tokenizer();
 
 
@@ -20,7 +20,7 @@ exports.GET = async function (req, res, next) {
         const db = req.app.locals.db;
         const user = await tokenHandler.verify(rawData);
         console.log('[API DASHBOARD] Fetching JSON data for user:', user);
-        
+
         if (!user || !user.id_user) {
             console.error('[API DASHBOARD] No user session or id_user found');
             return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -28,7 +28,7 @@ exports.GET = async function (req, res, next) {
 
         const id_user = user.id_user;
         const username = user.nama_depan || user.username || 'User';
-        
+
         // Data profil untuk Header
         const profile = {
             id_user: user.id_user,
@@ -38,7 +38,7 @@ exports.GET = async function (req, res, next) {
             nama_lengkap: `${user.nama_depan || ''} ${user.nama_belakang || ''}`.trim() || user.username,
             role_display: user.role === 'user' ? 'Site Manager' : user.role.charAt(0).toUpperCase() + user.role.slice(1)
         };
-        
+
         const now = new Date();
         const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
         const currentDate = now.toLocaleDateString('id-ID', options);
@@ -66,22 +66,72 @@ exports.GET = async function (req, res, next) {
 
         // 4. Priority Tasks
         const priorityTasksRows = await db.query(
-            'SELECT w.id, w.work_name as name, w.status as priority, p.Nama_Proyek as project, w.progress ' +
-            'FROM work w JOIN proyek p ON w.id_Proyek = p.ID ' +
-            'WHERE p.Id_User = ? ORDER BY w.id DESC LIMIT 5',
+            'SELECT w.id, w.work_name as name, w.status, w.progress, w.deadline, ' +
+            'p.Nama_Proyek as project, p.due_date as project_due_date ' +
+            'FROM work w ' +
+            'JOIN proyek p ON w.id_Proyek = p.ID ' +
+            'WHERE p.Id_User = ? AND w.status != "completed" AND w.status != "failed" ' +
+            'ORDER BY ' +
+            'CASE ' +
+            '  WHEN w.deadline < NOW() THEN 1 ' + // Overdue (highest priority)
+            '  WHEN w.deadline < DATE_ADD(NOW(), INTERVAL 3 DAY) THEN 2 ' + // Due soon
+            '  WHEN w.progress < 30 THEN 3 ' + // Low progress
+            '  ELSE 4 ' +
+            'END, ' +
+            'w.deadline ASC ' +
+            'LIMIT 5',
             [id_user]
         );
 
-        const priorityTasks = priorityTasksRows.map(task => ({
-            id: task.id,
-            name: task.name,
-            priority: task.progress < 50 ? 'High Priority' : 'Routine',
-            priorityClass: task.progress < 50 ? 'high' : 'routine',
-            project: task.project,
-            dueDate: 'Today', 
-            dueTime: '5:00 PM',
-            completed: task.progress === 100
-        }));
+        const priorityTasks = priorityTasksRows.map(task => {
+            const now = new Date();
+            const deadline = new Date(task.deadline);
+            const daysDiff = Math.ceil((deadline - now) / (1000 * 60 * 60 * 24));
+
+            // Determine priority level
+            let priority, priorityClass;
+            if (daysDiff < 0) {
+                priority = 'Overdue';
+                priorityClass = 'overdue';
+            } else if (daysDiff <= 1) {
+                priority = 'Urgent';
+                priorityClass = 'urgent';
+            } else if (daysDiff <= 3 || task.progress < 30) {
+                priority = 'High Priority';
+                priorityClass = 'high';
+            } else {
+                priority = 'Routine';
+                priorityClass = 'routine';
+            }
+
+            // Format due date
+            let dueDate, dueTime;
+            if (daysDiff < 0) {
+                dueDate = `${Math.abs(daysDiff)} day(s) overdue`;
+                dueTime = '';
+            } else if (daysDiff === 0) {
+                dueDate = 'Today';
+                dueTime = deadline.toLocaleTimeString('id-ID', { hour: 'numeric', minute: '2-digit', hour12: true });
+            } else if (daysDiff === 1) {
+                dueDate = 'Tomorrow';
+                dueTime = deadline.toLocaleTimeString('id-ID', { hour: 'numeric', minute: '2-digit', hour12: true });
+            } else {
+                dueDate = deadline.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' });
+                dueTime = deadline.toLocaleTimeString('id-ID', { hour: 'numeric', minute: '2-digit', hour12: true });
+            }
+
+            return {
+                id: task.id,
+                name: task.name,
+                priority: priority,
+                priorityClass: priorityClass,
+                project: task.project,
+                dueDate: dueDate,
+                dueTime: dueTime,
+                completed: task.status === 'completed',
+                progress: task.progress
+            };
+        });
 
         // 5. Recent Updates (from query_actions)
         const recentUpdatesRows = await db.query(
@@ -107,10 +157,10 @@ exports.GET = async function (req, res, next) {
         const currentYear = now.getFullYear();
         const years = Array.from({ length: 5 }, (_, i) => currentYear - 4 + i);
         const values = [
-            Math.floor(ongoingProjects * 0.2), 
-            Math.floor(ongoingProjects * 0.4), 
-            Math.floor(ongoingProjects * 0.6), 
-            Math.floor(ongoingProjects * 0.8), 
+            Math.floor(ongoingProjects * 0.2),
+            Math.floor(ongoingProjects * 0.4),
+            Math.floor(ongoingProjects * 0.6),
+            Math.floor(ongoingProjects * 0.8),
             ongoingProjects
         ];
 
