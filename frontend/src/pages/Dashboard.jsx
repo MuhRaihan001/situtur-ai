@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Layout from '../components/Layout';
+<<<<<<< HEAD
 import {
   ClipboardList,
   LayoutDashboard,
   Clock,
   TriangleAlert,
+=======
+import { 
+  ClipboardList, 
+  LayoutDashboard, 
+  Clock, 
+  TriangleAlert, 
+>>>>>>> fc76a56877dfb8252485a842a5987ee3a00bb3aa
   CheckCircle2,
   Loader2
 } from 'lucide-react';
@@ -152,6 +160,7 @@ const Dashboard = () => {
           <div className="bg-white border border-[#E5E7EB] rounded-xl p-6 shadow-sm">
             <h3 className="text-lg font-bold text-[#111827] mb-6">Tahun Proyek</h3>
             <div className="h-[300px]">
+<<<<<<< HEAD
               <Bar
                 data={barData}
                 options={{
@@ -159,12 +168,22 @@ const Dashboard = () => {
                   maintainAspectRatio: false,
                   plugins: { legend: { display: false } }
                 }}
+=======
+              <Bar 
+                data={barData} 
+                options={{ 
+                  responsive: true, 
+                  maintainAspectRatio: false,
+                  plugins: { legend: { display: false } } 
+                }} 
+>>>>>>> fc76a56877dfb8252485a842a5987ee3a00bb3aa
               />
             </div>
           </div>
           <div className="bg-white border border-[#E5E7EB] rounded-xl p-6 shadow-sm">
             <h3 className="text-lg font-bold text-[#111827] mb-6">Proyek Selesai</h3>
             <div className="h-[300px]">
+<<<<<<< HEAD
               <Line
                 data={lineData}
                 options={{
@@ -172,11 +191,21 @@ const Dashboard = () => {
                   maintainAspectRatio: false,
                   plugins: { legend: { display: false } }
                 }}
+=======
+              <Line 
+                data={lineData} 
+                options={{ 
+                  responsive: true, 
+                  maintainAspectRatio: false,
+                  plugins: { legend: { display: false } } 
+                }} 
+>>>>>>> fc76a56877dfb8252485a842a5987ee3a00bb3aa
               />
             </div>
           </div>
         </div>
 
+<<<<<<< HEAD
         <div className="grid grid-cols-1 xl:grid-cols-[1.6fr_1fr] gap-8">
           <div className="bg-white border border-[#E5E7EB] rounded-xl shadow-sm overflow-hidden">
             <div className="px-6 py-4 border-b border-[#F1F5F9] flex justify-between items-center">
@@ -184,6 +213,15 @@ const Dashboard = () => {
               <a href='/user/projects'>
                 <button className="text-sm font-medium text-[#0BBDC7] hover:underline">View All</button>
               </a>
+=======
+        {/* Bottom Section */}
+        <div className="grid grid-cols-1 xl:grid-cols-[1.6fr_1fr] gap-8">
+          {/* Priority Tasks */}
+          <div className="bg-white border border-[#E5E7EB] rounded-xl shadow-sm overflow-hidden">
+            <div className="px-6 py-4 border-b border-[#F1F5F9] flex justify-between items-center">
+              <h3 className="text-xl font-bold text-[#111827]">Priority Tasks</h3>
+              <button className="text-sm font-medium text-[#0BBDC7] hover:underline">View All</button>
+>>>>>>> fc76a56877dfb8252485a842a5987ee3a00bb3aa
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -200,10 +238,18 @@ const Dashboard = () => {
                       <tr key={idx} className="hover:bg-gray-50">
                         <td className="px-6 py-4">
                           <div className="text-sm font-medium text-[#111827]">{task.name}</div>
+<<<<<<< HEAD
                           <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-medium mt-1 ${task.priorityClass === 'high' ? 'bg-red-100 text-red-700' :
                               task.priorityClass === 'logistics' ? 'bg-blue-100 text-blue-700' :
                                 task.priorityClass === 'admin' ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-700'
                             }`}>
+=======
+                          <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-medium mt-1 ${
+                            task.priorityClass === 'high' ? 'bg-red-100 text-red-700' : 
+                            task.priorityClass === 'logistics' ? 'bg-blue-100 text-blue-700' :
+                            task.priorityClass === 'admin' ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-700'
+                          }`}>
+>>>>>>> fc76a56877dfb8252485a842a5987ee3a00bb3aa
                             {task.priority}
                           </span>
                         </td>

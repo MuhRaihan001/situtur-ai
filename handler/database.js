@@ -27,7 +27,12 @@ class Database {
         const start = Date.now();
         try {
             const [rows] = await pool.query(sql, params);
+            const duration = Date.now() - start;
             
+            // Log performance if it's slow (e.g., > 100ms)
+            if (duration > 100) {
+                console.warn(`[PERF] Slow Query (${duration}ms): ${sql.substring(0, 100)}...`);
+            }
             return rows;
         } catch (err) {
             console.error(`[DB ERROR] Query: ${sql}`);

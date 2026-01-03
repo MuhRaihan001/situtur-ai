@@ -1,0 +1,489 @@
+openapi: 3.0.3
+info:
+  title: Situtur API Documentation
+  version: BETA
+  description: Auto-generated API documentation from route files
+  contact: {}
+  license: {}
+servers:
+  - url: http://localhost:3000
+paths:
+  /tes/{name}:
+    get:
+      data:
+        responses:
+          '200':
+            description: 200
+            content:
+              application/json:
+                schema: Successful Response
+        summary: Greet User by Name
+        description: Returns a greeting message that includes the user's name provided in the URL parameter.
+        tags:
+          - Tes
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: name parameter
+      tags:
+        - Tes
+      responses:
+        '200':
+          description: Success
+  /user/List_Projek:
+    get:
+      responses:
+        '200':
+          description: Success
+      summary: Mengambil daftar proyek atau detail proyek
+      description: Endpoint ini digunakan untuk mengambil data proyek. Gunakan query param 'id' untuk single project, atau page/limit untuk list.
+      tags:
+        - Projects
+      parameters:
+        - name: id
+          in: query
+          required: number
+          schema: ID proyek untuk fetch single project
+          description: id parameter
+        - name: page
+          in: query
+          required: number
+          schema: Halaman ke-n
+          description: page parameter
+        - name: limit
+          in: query
+          required: number
+          schema: Jumlah data per halaman
+          description: limit parameter
+        - name: search
+          in: query
+          required: string
+          schema: Kata kunci pencarian nama proyek
+          description: search parameter
+  /workers/add:
+    post:
+      responses:
+        '200':
+          description: Worker added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Worker added successfully
+        '400':
+          description: Missing or invalid parameters
+        '500':
+          description: Internal Server Error
+      summary: Add New Worker
+      description: Adds a new worker to the system with the provided name and phone number.
+      tags:
+        - Workers
+      operationId: addNewWorker
+      requestBody:
+        description: Add New Worker
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                worker_name:
+                  type: string
+                  example: Jane Doe
+                phone_number:
+                  type: string
+                  example: '+6281234567890'
+  /workers/delete:
+    delete:
+      responses:
+        '200':
+          description: Worker deleted successfully
+        '400':
+          description: Missing ID
+        '500':
+          description: Internal Server Error
+      summary: Delete Worker
+      description: Deletes a worker from the system by ID.
+      tags:
+        - Workers
+      operationId: deleteWorker
+      requestBody:
+        description: Worker ID to delete
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+  /workers/list:
+    get:
+      responses:
+        '200':
+          description: List of workers retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  workers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        worker_name:
+                          type: string
+                          example: John Doe
+                        phone_number:
+                          type: string
+                          example: '+6281234567890'
+                        current_task:
+                          type: integer
+                          example: 1
+        '404':
+          description: No workers found
+        '500':
+          description: Internal Server Error
+      summary: List All Workers
+      description: Retrieves a list of all workers with their names, phone numbers, and current tasks.
+      tags:
+        - Workers
+      operationId: listAllWorkers
+  /workers/top:
+    get:
+      responses:
+        '200':
+          description: Top worker retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  data:
+                    type: object
+                    properties:
+                      worker_name:
+                        type: string
+                        example: John Doe
+                      phone_number:
+                        type: string
+                        example: '+6281234567890'
+                      finished_task:
+                        type: number
+                        example: 42
+        '404':
+          description: No workers found
+        '500':
+          description: Internal Server Error
+      summary: Get Top Worker
+      description: Retrieves the worker with the highest performance metrics.
+      tags:
+        - Workers
+      operationId: getTopWorker
+  /workers/update:
+    put:
+      responses:
+        '200':
+          description: Worker updated successfully
+        '400':
+          description: Missing ID
+        '500':
+          description: Internal Server Error
+      summary: Update Worker
+      description: Updates worker information including name and phone number.
+      tags:
+        - Workers
+      operationId: updateWorker
+      requestBody:
+        description: Worker data to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                worker_name:
+                  type: string
+                  example: Jane Doe
+                phone_number:
+                  type: string
+                  example: '+6281234567890'
+  /workers/task/set:
+    post:
+      responses:
+        '200':
+          description: Worker task set successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Worker task updated successfully
+        '400':
+          description: Missing or invalid parameters
+        '500':
+          description: Internal Server Error
+      summary: Set Worker Task
+      description: Assigns a specific task to a worker based on the provided worker_id and work_id.
+      tags:
+        - Workers
+      operationId: setWorkerTask
+      requestBody:
+        description: Set Worker Task
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                worker_id:
+                  type: integer
+                  example: 1
+                work_id:
+                  type: integer
+                  example: 1
+  /works/add:
+    post:
+      responses:
+        '200':
+          description: New work created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: New work created successfully
+        '400':
+          description: Missing required fields
+        '500':
+          description: Internal Server Error
+      summary: Add New Work
+      description: This endpoint adds a new work item to the list with the provided details.
+      tags:
+        - Works
+      operationId: addWork
+      requestBody:
+        description: Details of the work to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_name:
+                  type: string
+                  example: Develop New Feature
+                deadline:
+                  type: TIMESTAMP
+                  example: '2026-01-01 12:00:00'
+  /works/delete:
+    delete:
+      responses:
+        '200':
+          description: deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Deleted successfully
+        '404':
+          description: Work not found
+        '500':
+          description: Internal Server Error
+      summary: Delete Work from list
+      description: This endpoint deletes a work item from the list based on the provided work_id.
+      tags:
+        - Works
+      operationId: deleteWork
+      requestBody:
+        description: Work ID to be deleted
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_id:
+                  type: integer
+                  example: 1
+  /works/list:
+    get:
+      responses:
+        '200':
+          description: Berhasil mengambil daftar karya
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    work_name:
+                      type: string
+                      example: Pembuatan API OpenAI
+                    progress:
+                      type: integer
+                      example: 80
+                    status:
+                      type: string
+                      example: on_progress
+                    starterd_at:
+                      type: string
+                      example: 25 Desember 2025 10.00.00
+                    finished_at:
+                      type: string
+                      example: 30 Desember 2025 18.00.00
+        '404':
+          description: Tidak ada data karya
+        '500':
+          description: Internal Server Error
+      summary: Mengambil daftar karya
+      description: Endpoint ini digunakan untuk mengambil seluruh data karya yang tersimpan dalam sistem.
+      tags:
+        - Works
+      operationId: getWorksList
+      parameters:
+        - name: project_id
+          in: query
+          required: integer
+          schema: Filter berdasarkan ID proyek
+          description: project_id parameter
+  /works/update:
+    put:
+      responses:
+        '200':
+          description: Task updated successfully
+        '400':
+          description: Missing ID
+        '500':
+          description: Internal Server Error
+      summary: Update Task
+      description: Updates an existing task's details.
+      tags:
+        - Works
+      operationId: updateWork
+      requestBody:
+        description: Task details to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                work_name:
+                  type: string
+                deadline:
+                  type: TIMESTAMP
+                progress:
+                  type: integer
+                status:
+                  type: string
+  /works/waitlist/accept:
+    post:
+      responses:
+        '200':
+          description: Work update accepted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Action updated.
+        '400':
+          description: Missing or invalid work_id
+        '500':
+          description: Internal Server Error
+      summary: Accept Work Update from Waitlist
+      description: Accepts a work update request from the waitlist based on the provided work_id.
+      tags:
+        - Works
+      operationId: acceptWorkUpdateWaitlist
+      requestBody:
+        description: Accept Work Update from Waitlist
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_id:
+                  type: integer
+                  example: 1
+  /works/waitlist/update:
+    post:
+      responses:
+        '200':
+          description: Work waitlist updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Updated successfully
+        '400':
+          description: Missing or invalid parameters
+        '500':
+          description: Internal Server Error
+      summary: Update Work Waitlist
+      description: Updates the specified column of a work item in the waitlist.
+      tags:
+        - Works
+      operationId: updateWorkWaitlist
+      requestBody:
+        description: Update Work Waitlist
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_id:
+                  type: integer
+                  example: 1
+                column:
+                  type: string
+                value:
+                  type: string
+components:
+  schemas: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Enter your JWT token
+tags: []
