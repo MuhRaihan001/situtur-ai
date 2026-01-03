@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { encodeId } from '../utils/masking';
+import { formatDate } from '../utils/dateFormatter';
 
 // --- Modal Component ---
 const Modal = ({ isOpen, onClose, title, children }) => {
@@ -69,7 +70,8 @@ const Projects = () => {
   const itemsPerPage = 5;
   
   const [formData, setFormData] = useState({
-    name: ''
+    name: '',
+    due_date: ''
   });
 
   useEffect(() => {
@@ -120,13 +122,22 @@ const Projects = () => {
 
   const handleOpenAddModal = () => {
     setSelectedProject(null);
-    setFormData({ name: '' });
+    setFormData({ name: '', due_date: '' });
     setIsFormModalOpen(true);
   };
 
   const handleOpenEditModal = (project) => {
     setSelectedProject(project);
-    setFormData({ name: project.name });
+    // Format date for input type="date" (YYYY-MM-DD)
+    let formattedDate = '';
+    if (project.dueDate) {
+      const d = new Date(project.dueDate);
+      formattedDate = d.toISOString().split('T')[0];
+    }
+    setFormData({ 
+      name: project.name,
+      due_date: formattedDate
+    });
     setIsFormModalOpen(true);
   };
 
@@ -142,15 +153,18 @@ const Projects = () => {
     setFormLoading(true);
     try {
       let response;
+      const payload = {
+        name: formData.name,
+        due_date: formData.due_date || null
+      };
+
       if (selectedProject) {
         response = await axios.put('/user/List_Projek', {
-          id: selectedProject.id,
-          name: formData.name
+          ...payload,
+          id: selectedProject.id
         });
       } else {
-        response = await axios.post('/user/List_Projek', {
-          name: formData.name
-        });
+        response = await axios.post('/user/List_Projek', payload);
       }
 
       if (response.data.success) {
@@ -347,9 +361,9 @@ const Projects = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                        project.status === 'in_progress' ? 'bg-blue-50 text-blue-600' :
-                        project.status === 'completed' ? 'bg-emerald-50 text-emerald-600' :
-                        project.status === 'failed' ? 'bg-red-50 text-red-600' :
+                        (project.status?.toLowerCase() === 'in_progress' || project.status?.toLowerCase() === 'pending') ? 'bg-blue-50 text-blue-600' :
+                        (project.status?.toLowerCase() === 'completed' || project.status?.toLowerCase() === 'compleated') ? 'bg-emerald-50 text-emerald-600' :
+                        project.status?.toLowerCase() === 'failed' ? 'bg-red-50 text-red-600' :
                         'bg-gray-50 text-gray-600'
                       }`}>
                         {project.status?.replace('_', ' ')}
@@ -368,7 +382,7 @@ const Projects = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <span className="text-sm text-gray-600">{project.dueDate}</span>
+                      <span className="text-sm text-gray-600 font-medium">{formatDate(project.dueDate)}</span>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="relative flex items-center justify-end gap-2">
@@ -497,6 +511,16 @@ const Projects = () => {
               value={formData.name}
               onChange={(e) => setFormData({...formData, name: e.target.value})}
               placeholder="Contoh: Pembangunan MRT Fase 2"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-1">Deadline Proyek</label>
+            <input 
+              type="date" 
+              required
+              className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#0DEDF2]/20 focus:border-[#0DEDF2]"
+              value={formData.due_date}
+              onChange={(e) => setFormData({...formData, due_date: e.target.value})}
             />
           </div>
           <button 

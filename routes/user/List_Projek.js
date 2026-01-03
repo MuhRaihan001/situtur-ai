@@ -126,7 +126,7 @@ module.exports = {
                     stats: {
                         total: totalProjects,
                         inProgress: result.data.filter(p => p.status === 'In Progress' || p.status === 'Pending').length,
-                        completed: result.data.filter(p => p.status === 'Compleated').length,
+                        completed: result.data.filter(p => p.status === 'COMPLETED' || p.status === 'completed' || p.status === 'Compleated').length,
                         growth: (growth >= 0 ? '+' : '') + growth + '%'
                     },
                     pagination: result.pagination
@@ -149,7 +149,7 @@ module.exports = {
     POST: {
         handler: async function (req, res) {
             try {
-                const { name } = req.body;
+                const { name, due_date } = req.body;
                 const rawData = req.signedCookies.userData;
                 const user = await token.verify(rawData)
                 const id_user = user.id_user;
@@ -164,8 +164,8 @@ module.exports = {
 
                 // 2. Atomic Transaction for Create + Audit
                 const projectId = await db.transaction(async (tx) => {
-                    const insertQuery = "INSERT INTO proyek (Nama_Proyek, Id_User) VALUES (?, ?)";
-                    const result = await tx.safeQuery(insertQuery, [name.trim(), id_user]);
+                    const insertQuery = "INSERT INTO proyek (Nama_Proyek, Id_User, due_date) VALUES (?, ?, ?)";
+                    const result = await tx.safeQuery(insertQuery, [name.trim(), id_user, due_date || null]);
                     return result.insertId;
                 });
 
@@ -174,7 +174,7 @@ module.exports = {
                     action: 'CREATE',
                     tableName: 'proyek',
                     recordId: projectId,
-                    newValues: { name: name.trim(), id_user }
+                    newValues: { name: name.trim(), id_user, due_date }
                 }, req);
 
                 res.status(201).json({
@@ -191,7 +191,7 @@ module.exports = {
     PUT: {
         handler: async function (req, res) {
             try {
-                const { id, name } = req.body;
+                const { id, name, due_date } = req.body;
                 const rawData = req.signedCookies.userData;
                 const user = await token.verify(rawData);
                 const id_user = user.id_user;
@@ -204,14 +204,14 @@ module.exports = {
                 // 2. Atomic Transaction: Check ownership -> Update -> Audit
                 const result = await db.transaction(async (tx) => {
                     // Fetch old values for audit
-                    const oldValues = await tx.safeQuery("SELECT Nama_Proyek FROM proyek WHERE ID = ? AND Id_User = ?", [id, id_user]);
+                    const oldValues = await tx.safeQuery("SELECT Nama_Proyek, due_date FROM proyek WHERE ID = ? AND Id_User = ?", [id, id_user]);
 
                     if (oldValues.length === 0) {
                         throw new Error("NOT_FOUND_OR_UNAUTHORIZED");
                     }
 
-                    const updateQuery = "UPDATE proyek SET Nama_Proyek = ? WHERE ID = ? AND Id_User = ?";
-                    const updateResult = await tx.safeQuery(updateQuery, [name.trim(), id, id_user]);
+                    const updateQuery = "UPDATE proyek SET Nama_Proyek = ?, due_date = ? WHERE ID = ? AND Id_User = ?";
+                    const updateResult = await tx.safeQuery(updateQuery, [name.trim(), due_date || null, id, id_user]);
 
                     return { updateResult, oldValues: oldValues[0] };
                 });
@@ -222,7 +222,7 @@ module.exports = {
                     tableName: 'proyek',
                     recordId: id,
                     oldValues: result.oldValues,
-                    newValues: { name: name.trim() }
+                    newValues: { name: name.trim(), due_date }
                 }, req);
 
                 res.status(200).json({ success: true, message: "Proyek berhasil diperbarui" });

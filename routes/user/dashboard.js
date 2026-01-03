@@ -94,22 +94,32 @@ exports.GET = async function (req, res, next) {
 
         // 4. Priority Tasks
         const priorityTasksRows = await db.query(
-            'SELECT w.id, w.work_name as name, w.priority, p.Nama_Proyek as project, w.progress, w.deadline ' +
-            'FROM work w JOIN proyek p ON w.id_Proyek = p.ID ' +
-            'WHERE p.Id_User = ? ORDER BY w.id DESC LIMIT 5',
+            'SELECT w.id, w.work_name as name, w.priority, p.Nama_Proyek as project, w.progress, w.deadline FROM work w JOIN proyek p ON w.id_Proyek = p.ID WHERE p.Id_User = ? ORDER BY w.id DESC LIMIT 5',
             [id_user]
         );
 
-        const priorityTasks = priorityTasksRows.map(task => ({
-            id: task.id,
-            name: task.name,
-            priority: task.progress < 50 ? 'High Priority' : 'Routine',
-            priorityClass: task.progress < 50 ? 'high' : 'routine',
-            project: task.project,
-            dueDate: 'Today', 
-            dueTime: '5:00 PM',
-            completed: task.progress === 100
-        }));
+        const priorityTasks = priorityTasksRows.map(task => {
+            // Gunakan priority dari database jika ada, jika tidak gunakan fallback
+            const dbPriority = task.priority || (task.progress < 50 ? 'high' : 'low');
+            
+            // Map priority ke format display
+            const priorityMap = {
+                'high': 'High',
+                'medium': 'Medium',
+                'low': 'Low'
+            };
+
+            return {
+                id: task.id,
+                name: task.name,
+                priority: priorityMap[dbPriority] || 'Low',
+                priorityClass: dbPriority || 'low',
+                project: task.project,
+                dueDate: task.deadline ? new Date(task.deadline).toLocaleDateString('id-ID', options) : 'No deadline', 
+                dueTime: task.deadline ? new Date(task.deadline).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : 'No deadline',
+                completed: task.progress === 100
+            };
+        });
 
         // 5. Recent Updates (from query_actions)
         const recentUpdatesRows = await db.query(
@@ -138,22 +148,38 @@ exports.GET = async function (req, res, next) {
 
         const currentYear = now.getFullYear();
         const years = Array.from({ length: 5 }, (_, i) => currentYear - 4 + i);
-        const values = [
-            Math.floor(ongoingProjects * 0.2),
-            Math.floor(ongoingProjects * 0.4),
-            Math.floor(ongoingProjects * 0.6),
-            Math.floor(ongoingProjects * 0.8),
-            ongoingProjects
-        ];
+        
+        // 6. Chart Data (Projects per year for last 5 years)
+        const yearlyDataRows = await db.query(
+            'SELECT YEAR(created_at) as year, COUNT(*) as count ' +
+            'FROM proyek WHERE Id_User = ? AND YEAR(created_at) >= ? ' +
+            'GROUP BY YEAR(created_at)',
+            [id_user, currentYear - 4]
+        );
+
+        const values = years.map(year => {
+            const found = yearlyDataRows.find(row => row.year === year);
+            return found ? found.count : 0;
+        });
+
+        // Calculate trend (percentage growth from last year to this year)
+        const lastYearCount = values[3] || 0;
+        const thisYearCount = values[4] || 0;
+        let trend = 0;
+        if (lastYearCount > 0) {
+            trend = parseFloat(((thisYearCount - lastYearCount) / lastYearCount * 100).toFixed(1));
+        } else if (thisYearCount > 0) {
+            trend = 100; // 100% growth if previous was 0
+        }
 
         const chartData = {
             years,
             values,
             totalProjects: ongoingProjects,
-            trend: 12.5
+            trend
         };
         
-        // 6. Monthly Data (Completed Projects per month for current year)
+        // 7. Monthly Data (Completed Projects per month for current year)
         const monthlyDataRows = await db.query(
             'SELECT MONTH(finished_at) as month, COUNT(*) as count ' +
             'FROM proyek WHERE Id_User = ? AND status = "Compleated" AND YEAR(finished_at) = ? ' +
@@ -183,5 +209,6 @@ exports.GET = async function (req, res, next) {
         });
     } catch (error) {
         console.error('Dashboard API error:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
     }
 }

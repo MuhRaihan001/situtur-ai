@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { decodeId } from '../utils/masking';
+import { formatDate } from '../utils/dateFormatter';
 import axios from 'axios';
 import Layout from '../components/Layout';
 import {
@@ -65,7 +66,7 @@ const Tasks = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const [formLoading, setFormLoading] = useState(false);
-  const [deleteConfirmWorkerName, setDeleteConfirmWorkerName] = useState('');
+  const [deleteConfirmTaskName, setDeleteConfirmTaskName] = useState('');
   const [deleteError, setDeleteError] = useState('');
 
   const [formData, setFormData] = useState({
@@ -75,13 +76,29 @@ const Tasks = () => {
   });
 
   const fetchTasks = async () => {
-    const activeId = decodeId(id) || idProyek;
+    // 1. Prioritaskan ID dari URL (id)
+    // 2. Jika tidak ada, baru gunakan idProyek dari sessionStorage
+    let activeId = null;
     
+    if (id) {
+      activeId = decodeId(id);
+      // Jika ada ID di URL tapi gagal decode dan bukan angka murni, anggap error
+      if (!activeId) {
+        setError('ID Proyek tidak valid.');
+        setLoading(false);
+        return;
+      }
+    } else if (idProyek) {
+      activeId = idProyek;
+    }
+
     if (!activeId) {
       setError('Tidak ada proyek yang dipilih. Silakan pilih proyek terlebih dahulu.');
       setLoading(false);
       return;
     }
+
+    const currentId = activeId;
 
     try {
       setLoading(true);
@@ -89,7 +106,7 @@ const Tasks = () => {
       // Fetch project details jika ada id
       let projectData = null;
       try {
-        const projectResponse = await axios.get(`/user/List_Projek?id=${activeId}`);
+        const projectResponse = await axios.get(`/user/List_Projek?id=${currentId}`);
         if (projectResponse.data.success) {
           projectData = projectResponse.data.project || projectResponse.data.projects?.[0];
         }
@@ -98,7 +115,7 @@ const Tasks = () => {
       }
 
       // Fetch works/tasks - Gunakan id_proyek sesuai backend
-      const response = await axios.get(`/works/list?id_proyek=${activeId}`);
+      const response = await axios.get(`/works/list?id_proyek=${currentId}`);
       console.log('Full Works Response:', response.data);
 
       if (response.data.success) {
@@ -123,9 +140,7 @@ const Tasks = () => {
         const projectDeadline = project.project_deadline || (works.length > 0 ? works[0].project_deadline : null);
         let daysLeft = 0;
         if (projectDeadline) {
-          // Robust date parsing for YYYY-MM-DD
-          const parts = projectDeadline.split('-');
-          const deadlineDate = new Date(parts[0], parts[1] - 1, parts[2]);
+          const deadlineDate = new Date(projectDeadline);
           const today = new Date();
           
           // Reset hours for date comparison
@@ -137,20 +152,14 @@ const Tasks = () => {
           if (daysLeft < 0) daysLeft = 0;
         }
 
-        const finalProjectId = id
-          ? parseInt(id)
-          : (works[0]?.project?.id ?? null);
+        const finalProjectId = currentId;
 
-        const finalProjectName = id
-          ? (projectData?.name || `Project #${id}`)
-          : (works[0]?.project?.name || 'Tidak ada proyek');
+        const finalProjectName = projectData?.name || project.Nama_Proyek || (works.length > 0 && works[0].Nama_Proyek) || `Project #${currentId}`;
+        
         setData({
-          projectName: project.Nama_Proyek || (works.length > 0 && works[0].Nama_Proyek ? works[0].Nama_Proyek : 'Daftar Tugas Proyek'),
+          projectName: finalProjectName,
           projectProgress: works.length > 0 ? Math.round(works.reduce((acc, curr) => acc + curr.progress, 0) / works.length) : 0,
-          projectDeadline: projectDeadline ? (() => {
-            const p = projectDeadline.split('-');
-            return new Date(p[0], p[1]-1, p[2]).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-          })() : 'TBD',
+          projectDeadline: formatDate(projectDeadline),
           daysLeft: daysLeft,
           teamSize: backendTeamSize || new Set(works.filter(w => w.assignee_name).map(w => w.assignee_name)).size,
           taskStats, // Add taskStats here
@@ -161,7 +170,7 @@ const Tasks = () => {
             priority: w.status === 'completed' ? 'Done' : (w.priority === 'high' ? 'High' : (w.priority === 'medium' ? 'Med' : 'Low')),
             status: w.status === 'completed' ? 'Completed' : (w.status === 'in_progress' ? 'In Progress' : (w.status === 'pending' ? 'Pending' : 'Failed')),
             assignee_name: w.assignee_name || 'Unassigned',
-            deadline: w.deadline || 'TBD',
+            deadline: formatDate(w.deadline),
             raw_deadline: w.raw_deadline,
             progress: w.progress,
             rawStatus: w.status
@@ -216,7 +225,7 @@ const Tasks = () => {
 
   const handleOpenDeleteModal = (task) => {
     setSelectedTask(task);
-    setDeleteConfirmWorkerName('');
+    setDeleteConfirmTaskName('');
     setDeleteError('');
     setIsDeleteModalOpen(true);
   };
@@ -224,20 +233,23 @@ const Tasks = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setFormLoading(true);
-    const activeId = decodeId(id) || idProyek;
     try {
+      let response;
+      const activeProjectId = id ? decodeId(id) : idProyek;
+      
       const payload = {
         work_name: formData.name,
-        deadline: new Date(formData.deadline).getTime(),
-        progress: parseInt(formData.progress),
-        id_proyek: parseInt(activeId)
+        deadline: formData.deadline,
+        id_proyek: activeProjectId,
+        progress: formData.progress || 0
       };
 
-      let response;
       if (selectedTask) {
         response = await axios.put('/works/update', {
           id: selectedTask.id,
-          ...payload
+          work_name: formData.name,
+          deadline: formData.deadline,
+          progress: formData.progress || 0
         });
       } else {
         response = await axios.post('/works/add', payload);
@@ -260,8 +272,8 @@ const Tasks = () => {
 
   const handleDeleteSubmit = async (e) => {
     e.preventDefault();
-    if (deleteConfirmWorkerName !== selectedTask.assignee_name) {
-      setDeleteError(`Nama tidak sesuai. Silakan ketik nama pekerja yang mengerjakan tugas ini: ${selectedTask.assignee_name}`);
+    if (deleteConfirmTaskName !== selectedTask.name) {
+      setDeleteError(`Nama tidak sesuai. Silakan ketik nama tugas ini: ${selectedTask.name}`);
       return;
     }
 
@@ -720,16 +732,16 @@ const Tasks = () => {
       >
         <div className="space-y-4">
           <div className="p-4 bg-red-50 rounded-xl border border-red-100 text-red-600 text-sm">
-            Tindakan ini tidak dapat dibatalkan. Silakan ketik nama pekerja yang mengerjakan tugas ini: <strong>{selectedTask?.assignee_name}</strong> untuk mengonfirmasi penghapusan tugas <strong>{selectedTask?.name}</strong>.
+            Tindakan ini tidak dapat dibatalkan. Silakan ketik nama tugas ini: <strong>{selectedTask?.name}</strong> untuk mengonfirmasi penghapusan.
           </div>
           <form onSubmit={handleDeleteSubmit} className="space-y-4">
             <input
               type="text"
               required
               className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-red-100 focus:border-red-500 outline-none transition-all"
-              placeholder="Ketik nama pekerja di sini"
-              value={deleteConfirmWorkerName}
-              onChange={(e) => setDeleteConfirmWorkerName(e.target.value)}
+              placeholder="Ketik nama tugas di sini"
+              value={deleteConfirmTaskName}
+              onChange={(e) => setDeleteConfirmTaskName(e.target.value)}
             />
             {deleteError && <p className="text-xs text-red-600 font-medium">{deleteError}</p>}
             <button
