@@ -57,6 +57,12 @@ class Workers {
         return await database.query(query, [worker_id]);
     }
 
+    async workerDataByPhone(phone_number) {
+        const query = "SELECT id, worker_name, phone_number, current_task FROM workers WHERE phone_number = ?";
+        const rows = await database.query(query, [phone_number]);
+        return rows[0];
+    }
+
     async setWorkerTask(worker_id, task_id) {
         const workerData = await this.getWorkerData(worker_id);
         if (!workerData || workerData.length === 0)

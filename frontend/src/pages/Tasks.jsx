@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import {
   Plus,
@@ -44,6 +45,8 @@ Modal.propTypes = {
 };
 
 const Tasks = () => {
+  const { id } = useParams(); // Ambil parameter id dari URL
+  const navigate = useNavigate(); // Untuk navigasi kembali
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -66,9 +69,31 @@ const Tasks = () => {
   const fetchTasks = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/works/list');
+
+      // Fetch project details jika ada id
+      let projectData = null;
+      if (id) {
+        try {
+          const projectResponse = await axios.get(`/user/List_Projek?id=${id}`);
+          if (projectResponse.data.success) {
+            projectData = projectResponse.data.project || projectResponse.data.projects?.[0];
+          }
+        } catch (err) {
+          console.error('Error fetching project:', err);
+        }
+      }
+
+      // Fetch works/tasks
+      const url = id ? `/works/list?project_id=${id}` : '/works/list';
+      const response = await axios.get(url);
+      console.log('Full Works Response:', response.data);
+
       if (response.data.success) {
         const works = response.data.works || [];
+        console.log('Works:', works);
+        console.log('URL ID:', id);
+        console.log('Project Data:', projectData);
+
         const deadlines = works
           .map(w => w.raw_deadline)
           .filter(Boolean);
@@ -83,9 +108,19 @@ const Tasks = () => {
           daysLeft = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
         }
 
+        const finalProjectId = id
+          ? parseInt(id)
+          : (works[0]?.project?.id ?? null);
+
+        const finalProjectName = id
+          ? (projectData?.name || `Project #${id}`)
+          : (works[0]?.project?.name || 'Tidak ada proyek');
         setData({
-          projectName: works[0]?.project?.name ?? '',
-          projectProgress: works.length > 0 ? Math.round(works.reduce((acc, curr) => acc + curr.progress, 0) / works.length) : 0,
+          projectId: finalProjectId,
+          projectName: finalProjectName,
+          projectProgress: works.length > 0
+            ? Math.round(works.reduce((acc, curr) => acc + curr.progress, 0) / works.length)
+            : 0,
           daysLeft: daysLeft,
           teamSize: new Set(works.filter(w => w.assignee_name).map(w => w.assignee_name)).size,
           tasks: works.map(w => ({
@@ -102,10 +137,23 @@ const Tasks = () => {
           })),
           attachments: [],
           overview: [
-            { name: 'Completion Rate', progress: works.length > 0 ? Math.round((works.filter(w => w.status === 'completed').length / works.length) * 100) : 0, color: 'bg-emerald-500' },
-            { name: 'In Progress Rate', progress: works.length > 0 ? Math.round((works.filter(w => w.status === 'in_progress' || w.status === 'pending').length / works.length) * 100) : 0, color: 'bg-[#0DEDF2]' },
+            {
+              name: 'Completion Rate',
+              progress: works.length > 0
+                ? Math.round((works.filter(w => w.status === 'completed').length / works.length) * 100)
+                : 0,
+              color: 'bg-emerald-500'
+            },
+            {
+              name: 'In Progress Rate',
+              progress: works.length > 0
+                ? Math.round((works.filter(w => w.status === 'in_progress' || w.status === 'pending').length / works.length) * 100)
+                : 0,
+              color: 'bg-[#0DEDF2]'
+            },
           ]
         });
+        setError(null);
       } else {
         setError(response.data.message || 'Gagal mengambil daftar tugas');
       }
@@ -119,7 +167,7 @@ const Tasks = () => {
 
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [id]); // Re-fetch ketika id berubah
 
   const handleOpenAddModal = () => {
     setSelectedTask(null);
@@ -155,6 +203,10 @@ const Tasks = () => {
         status: formData.status,
         progress: parseInt(formData.progress)
       };
+
+      if (id) {
+        payload.id_Proyek = parseInt(id);
+      }
 
       let response;
       if (selectedTask) {
@@ -234,6 +286,19 @@ const Tasks = () => {
   return (
     <Layout>
       <div className="space-y-6 animate-in fade-in duration-500">
+        {/* Back Button */}
+        {id && (
+          <button
+            onClick={() => navigate('/projects')}
+            className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 font-medium transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Kembali ke Projects
+          </button>
+        )}
+
         {/* Project Header Card */}
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
           <div className="flex flex-col md:flex-row justify-between items-start gap-6">
@@ -241,10 +306,11 @@ const Tasks = () => {
               <div className="flex items-center gap-2">
                 <span className="px-2 py-0.5 bg-emerald-50 text-emerald-600 text-[10px] font-bold rounded uppercase">Active</span>
                 <span className="text-xs text-gray-400 font-medium flex items-center gap-1"><Clock className="w-3 h-3" /> Due Dec 2024</span>
+                {id && <span className="text-xs text-gray-400 font-medium">ID: {id}</span>}
               </div>
               <h1 className="text-2xl font-bold text-gray-900">{data.projectName}</h1>
               <p className="text-sm text-gray-500 max-w-2xl leading-relaxed">
-                {/*Nanti di isi disini*/}
+                {data.tasks.length} tugas dalam proyek ini
               </p>
             </div>
             <div className="flex items-center gap-6">
@@ -299,45 +365,52 @@ const Tasks = () => {
                 </select>
               </div>
               <div className="divide-y divide-gray-50">
-                {data.tasks.map((task) => (
-                  <div key={task.id} className="p-6 hover:bg-gray-50 transition-colors flex items-center gap-4 group">
-                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${task.status === 'Completed' ? 'bg-emerald-500 border-emerald-500' : 'border-gray-200'}`}>
-                      {task.status === 'Completed' && <CheckCircle className="w-4 h-4 text-white" />}
-                    </div>
-                    <div className="flex-1">
-                      <h3 className={`text-sm font-semibold ${task.status === 'Completed' ? 'text-gray-400 line-through' : 'text-gray-900'}`}>{task.name}</h3>
-                      <p className="text-[11px] text-gray-400 mt-1 font-medium">{task.section}</p>
-                    </div>
-                    <div className="flex items-center gap-6">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${task.priority === 'High' ? 'bg-red-50 text-red-500' :
-                        task.priority === 'Done' ? 'bg-gray-100 text-gray-500' :
-                          task.priority === 'Med' ? 'bg-orange-50 text-orange-500' :
-                            'bg-blue-50 text-blue-500'
-                        }`}>{task.priority}</span>
-                      <div className="flex flex-col items-center">
-                        <div className="w-6 h-6 rounded-full bg-[#0DEDF2]/10 flex items-center justify-center text-[10px] font-bold text-[#134E4A]" title={task.assignee_name}>
-                          {task.assignee_name.charAt(0)}
-                        </div>
-                        <span className="text-[9px] text-gray-400 mt-0.5 truncate max-w-[60px]">{task.assignee_name}</span>
-                      </div>
-                      <span className="text-[11px] text-gray-400 font-medium w-24 text-right">{task.deadline}</span>
-                      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button
-                          onClick={() => handleOpenEditModal(task)}
-                          className="p-1.5 hover:bg-emerald-50 text-gray-400 hover:text-emerald-600 rounded-lg transition-colors"
-                        >
-                          <Edit className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => handleOpenDeleteModal(task)}
-                          className="p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-600 rounded-lg transition-colors"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
+                {data.tasks.length === 0 ? (
+                  <div className="p-12 text-center">
+                    <AlertCircle className="w-12 h-12 text-gray-200 mx-auto mb-4" />
+                    <p className="text-sm text-gray-400 font-medium">Belum ada tugas dalam proyek ini</p>
                   </div>
-                ))}
+                ) : (
+                  data.tasks.map((task) => (
+                    <div key={task.id} className="p-6 hover:bg-gray-50 transition-colors flex items-center gap-4 group">
+                      <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${task.status === 'Completed' ? 'bg-emerald-500 border-emerald-500' : 'border-gray-200'}`}>
+                        {task.status === 'Completed' && <CheckCircle className="w-4 h-4 text-white" />}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className={`text-sm font-semibold ${task.status === 'Completed' ? 'text-gray-400 line-through' : 'text-gray-900'}`}>{task.name}</h3>
+                        <p className="text-[11px] text-gray-400 mt-1 font-medium">{task.section}</p>
+                      </div>
+                      <div className="flex items-center gap-6">
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${task.priority === 'High' ? 'bg-red-50 text-red-500' :
+                          task.priority === 'Done' ? 'bg-gray-100 text-gray-500' :
+                            task.priority === 'Med' ? 'bg-orange-50 text-orange-500' :
+                              'bg-blue-50 text-blue-500'
+                          }`}>{task.priority}</span>
+                        <div className="flex flex-col items-center">
+                          <div className="w-6 h-6 rounded-full bg-[#0DEDF2]/10 flex items-center justify-center text-[10px] font-bold text-[#134E4A]" title={task.assignee_name}>
+                            {task.assignee_name.charAt(0)}
+                          </div>
+                          <span className="text-[9px] text-gray-400 mt-0.5 truncate max-w-[60px]">{task.assignee_name}</span>
+                        </div>
+                        <span className="text-[11px] text-gray-400 font-medium w-24 text-right">{task.deadline}</span>
+                        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button
+                            onClick={() => handleOpenEditModal(task)}
+                            className="p-1.5 hover:bg-emerald-50 text-gray-400 hover:text-emerald-600 rounded-lg transition-colors"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleOpenDeleteModal(task)}
+                            className="p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-600 rounded-lg transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
               <button
                 onClick={handleOpenAddModal}

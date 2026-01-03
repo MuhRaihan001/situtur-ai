@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { 
   FolderOpen, 
@@ -12,7 +13,8 @@ import {
   CheckCircle2,
   Edit2,
   Trash2,
-  AlertCircle
+  AlertCircle,
+  ArrowRight
 } from 'lucide-react';
 import PropTypes from 'prop-types';
 
@@ -44,6 +46,7 @@ Modal.propTypes = {
 };
 
 const Projects = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -90,19 +93,25 @@ const Projects = () => {
     fetchProjects();
   }, []);
 
+  const handleProjectClick = (projectId) => {
+    navigate(`/user/tasks/${projectId}`);
+  };
+
   const handleOpenAddModal = () => {
     setSelectedProject(null);
     setFormData({ name: '' });
     setIsFormModalOpen(true);
   };
 
-  const handleOpenEditModal = (project) => {
+  const handleOpenEditModal = (e, project) => {
+    e.stopPropagation(); // Prevent row click
     setSelectedProject(project);
     setFormData({ name: project.name });
     setIsFormModalOpen(true);
   };
 
-  const handleOpenDeleteModal = (project) => {
+  const handleOpenDeleteModal = (e, project) => {
+    e.stopPropagation(); // Prevent row click
     setSelectedProject(project);
     setDeleteConfirmName('');
     setDeleteError('');
@@ -273,10 +282,15 @@ const Projects = () => {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {filteredProjects.map((project) => (
-                  <tr key={project.id} className="hover:bg-gray-50 transition-colors group">
+                  <tr 
+                    key={project.id} 
+                    onClick={() => handleProjectClick(project.id)}
+                    className="hover:bg-gray-50 transition-colors group cursor-pointer"
+                  >
                     <td className="px-6 py-4">
-                      <div>
+                      <div className="flex items-center gap-3">
                         <p className="text-sm font-semibold text-[#111827]">{project.name}</p>
+                        <ArrowRight className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -323,14 +337,14 @@ const Projects = () => {
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button 
-                          onClick={() => handleOpenEditModal(project)}
-                          className="p-2 rounded-lg text-gray-400 hover:text-emerald-600 transition-colors shadow-sm border border-transparent hover:border-gray-100"
+                          onClick={(e) => handleOpenEditModal(e, project)}
+                          className="p-2 rounded-lg text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors shadow-sm border border-transparent hover:border-gray-100"
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button 
-                          onClick={() => handleOpenDeleteModal(project)}
-                          className="p-2 rounded-lg text-gray-400 hover:text-red-600 transition-colors shadow-sm border border-transparent hover:border-gray-100"
+                          onClick={(e) => handleOpenDeleteModal(e, project)}
+                          className="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors shadow-sm border border-transparent hover:border-gray-100"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -341,6 +355,15 @@ const Projects = () => {
               </tbody>
             </table>
           </div>
+          
+          {filteredProjects.length === 0 && (
+            <div className="p-12 text-center">
+              <FolderOpen className="w-12 h-12 text-gray-200 mx-auto mb-4" />
+              <p className="text-sm text-gray-400 font-medium">
+                {searchTerm ? 'Tidak ada proyek yang sesuai dengan pencarian' : 'Belum ada proyek'}
+              </p>
+            </div>
+          )}
         </div>
       </div>
 

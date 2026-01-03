@@ -7,7 +7,8 @@ module.exports = {
     GET: {
         handler: async function (req, res) {
             try {
-                const works = await work.list();
+                const project_id = req.query.project_id || null; // Ambil project_id dari query param
+                const works = await work.list(project_id);
                 res.status(works.status).json({
                     success: true,
                     works: works.works
@@ -25,7 +26,7 @@ module.exports = {
             )
             .setTags("Works")
             .setOperationId("getWorksList")
-
+            .addQueryParam("project_id", "Filter berdasarkan ID proyek", false, "integer") // Tambah param ini
             .addSuccessResponse("Berhasil mengambil daftar karya", {
                 type: "array",
                 items: {
@@ -58,11 +59,9 @@ module.exports = {
                     }
                 }
             })
-
             .addNotFoundResponse("Tidak ada data karya")
             .addServerErrorResponse()
             .build()
-            
     }
-    
+
 };

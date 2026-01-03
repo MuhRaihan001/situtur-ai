@@ -15,8 +15,8 @@ const formatID = date =>
 
 class Works {
 
-    async list() {
-        const query = `
+    async list(project_id = null) {
+        let query = `
         SELECT 
             w.id, 
             w.work_name, 
@@ -37,10 +37,17 @@ class Works {
             ON w.id = wk.current_task
         LEFT JOIN proyek p
             ON w.id_Proyek = p.ID
-        WHERE w.id_Proyek = w.id_Proyek
     `;
 
-        const result = await database.query(query);
+        const params = [];
+
+        // Tambahkan filter berdasarkan project_id jika ada
+        if (project_id) {
+            query += ` WHERE w.id_Proyek = ?`;
+            params.push(project_id);
+        }
+
+        const result = await database.query(query, params);
 
         if (result.length === 0)
             return { status: 200, message: "No Items", works: [] };

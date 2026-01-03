@@ -6,10 +6,10 @@ module.exports = {
     POST: {
         handler:  async (req, res) => {
             try {
-                const { work_name, deadline } = req.body;
+                const { work_name, deadline, id_Proyek } = req.body;
                 if (!work_name || !deadline) return res.status(400).json({ success: false, error: "Missing required fields" });
 
-                const result = await workHandler.addWork({ work_name, deadline });
+                const result = await workHandler.addWork({ work_name, deadline, id_Proyek });
                 return res.status(result.status).json({ 
                     success: result.status === 201 || result.status === 200,
                     message: result.message 
