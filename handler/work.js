@@ -115,7 +115,6 @@ class Works {
             project: projectInfo
         }
     }
-    }
 
     async waitList(work) {
         if (!work || typeof work !== "object") {
@@ -435,8 +434,6 @@ class Works {
             throw error;
         }
     }
-
-
 }
 
 module.exports = Works;
