@@ -9,6 +9,7 @@ const Layout = ({ children }) => {
     nama_lengkap: 'Loading...',
     role_display: '...'
   });
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -25,7 +26,29 @@ const Layout = ({ children }) => {
         console.error('Failed to fetch user profile from dashboard:', err);
       }
     };
+
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get('/user/notifikation', {
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        if (response.data.success) {
+          const unread = response.data.notifications.filter(n => !n.isRead).length;
+          setUnreadCount(unread);
+        }
+      } catch (err) {
+        console.error('Failed to fetch notifications for unread count:', err);
+      }
+    };
+
     fetchUser();
+    fetchNotifications();
+    
+    // Refresh notifications every 1 minute
+    const interval = setInterval(fetchNotifications, 60000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -40,6 +63,7 @@ const Layout = ({ children }) => {
           onMenuClick={() => setIsSidebarOpen(true)} 
           username={userData.nama_lengkap}
           role={userData.role_display}
+          unreadCount={unreadCount}
         />
         
         <div className="p-4 lg:p-8">

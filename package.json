@@ -4,8 +4,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --watch app.js",
-    "build": "npm run build --watch --prefix frontend"
+    "start": "npm run build --watch --prefix frontend && node --watch app.js "
   },
   "author": "TsumuX",
   "license": "ISC",
@@ -39,6 +38,8 @@
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.18",
     "autoprefixer": "^10.4.23",
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.11",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18"
   }

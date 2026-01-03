@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   FolderOpen, 
@@ -9,11 +9,27 @@ import {
   ClipboardCheck, 
   Settings, 
   User, 
-  QrCode 
+  QrCode,
+  LogOut
 } from 'lucide-react';
+import axios from 'axios';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post('/logout');
+      if (response.data.success) {
+        navigate('/login');
+      }
+    } catch (err) {
+      console.error('Logout error:', err);
+      // Tetap arahkan ke login jika terjadi kesalahan
+      navigate('/login');
+    }
+  };
 
   const menuItems = [
     { name: 'Dashboard', path: '/user/dashboard', icon: LayoutDashboard },
@@ -85,6 +101,16 @@ const Sidebar = ({ isOpen, onClose }) => {
               </span>
             </Link>
           ))}
+
+          <button
+            onClick={handleLogout}
+            className="flex flex-row items-center w-full h-[44px] px-[12px] py-[8px] gap-[12px] rounded-[8px] transition-colors text-red-600 hover:bg-red-50"
+          >
+            <LogOut className="w-5 h-5 text-red-500" />
+            <span className="font-['Inter'] font-medium text-[14px] leading-[20px]">
+              Logout
+            </span>
+          </button>
 
           <div className="pt-2">
             <Link to="/user/qr" className="block">

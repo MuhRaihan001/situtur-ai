@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../components/Layout';
 import { 
@@ -12,7 +13,9 @@ import {
   CheckCircle2,
   Edit2,
   Trash2,
-  AlertCircle
+  AlertCircle,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import PropTypes from 'prop-types';
 
@@ -44,6 +47,7 @@ Modal.propTypes = {
 };
 
 const Projects = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -53,13 +57,36 @@ const Projects = () => {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedProjectActions, setSelectedProjectActions] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
   const [deleteConfirmName, setDeleteConfirmName] = useState('');
   const [deleteError, setDeleteError] = useState('');
   
+  // Pagination States
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  
   const [formData, setFormData] = useState({
     name: ''
   });
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
+
+  const projects = data?.projects || [];
+  const stats = data?.stats || { total: 0, inProgress: 0, completed: 0, growth: '+0%' };
+
+  const filteredProjects = projects.filter(p => 
+    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    p.id.toString().includes(searchTerm)
+  );
+
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+  const paginatedProjects = filteredProjects.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const fetchProjects = async () => {
     try {
@@ -68,15 +95,10 @@ const Projects = () => {
       if (response.data.success) {
         setData({
           projects: response.data.projects,
-          stats: {
-            total: response.data.projects.length,
-            inProgress: response.data.projects.filter(p => p.status === 'On Track').length,
-            completed: response.data.projects.filter(p => p.status === 'Completed').length,
-            growth: '+0%'
-          }
+          stats: response.data.stats
         });
       } else {
-        setError('Gagal mengambil data proyek');
+        setError('Gagal mengambil daftar proyek');
       }
     } catch (err) {
       console.error('Fetch error:', err);
@@ -166,22 +188,7 @@ const Projects = () => {
     }
   };
 
-  if (loading && !data) {
-    return (
-      <Layout>
-        <div className="flex items-center justify-center h-[calc(100vh-200px)]">
-          <Loader2 className="w-10 h-10 text-[#0BBDC7] animate-spin" />
-        </div>
-      </Layout>
-    );
-  }
-
-  const { stats, projects } = data || { stats: { total: 0, inProgress: 0, completed: 0, growth: '+0%' }, projects: [] };
-
-  const filteredProjects = projects.filter(p => 
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.id.toString().includes(searchTerm)
-  );
+  if (!data) return null;
 
   return (
     <Layout>
@@ -211,7 +218,9 @@ const Projects = () => {
               <div>
                 <p className="text-sm text-gray-500">Total Projects</p>
                 <p className="text-3xl font-bold text-[#111827] mt-1">{stats.total}</p>
-                <p className="text-xs text-emerald-600 font-medium mt-2">↑ {stats.growth} from last month</p>
+                <p className={`text-xs ${stats.growth?.startsWith('-') ? 'text-red-600' : 'text-emerald-600'} font-medium mt-2`}>
+                  {stats.growth?.startsWith('-') ? '↓' : '↑'} {stats.growth} from last month
+                </p>
               </div>
               <div className="bg-blue-50 p-3 rounded-xl text-blue-600">
                 <FolderOpen className="w-6 h-6" />
@@ -272,8 +281,15 @@ const Projects = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {filteredProjects.map((project) => (
-                  <tr key={project.id} className="hover:bg-gray-50 transition-colors group">
+                {paginatedProjects.map((project) => (
+                  <tr 
+                    key={project.id} 
+                    onClick={() => {
+                      sessionStorage.setItem('selected_project_id', project.id);
+                      navigate('/user/tasks');
+                    }}
+                    className="hover:bg-gray-50 transition-colors group cursor-pointer"
+                  >
                     <td className="px-6 py-4">
                       <div>
                         <p className="text-sm font-semibold text-[#111827]">{project.name}</p>
@@ -321,19 +337,66 @@ const Projects = () => {
                       <span className="text-sm text-gray-600">{project.dueDate}</span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button 
-                          onClick={() => handleOpenEditModal(project)}
-                          className="p-2 rounded-lg text-gray-400 hover:text-emerald-600 transition-colors shadow-sm border border-transparent hover:border-gray-100"
-                        >
-                          <Edit2 className="w-4 h-4" />
-                        </button>
-                        <button 
-                          onClick={() => handleOpenDeleteModal(project)}
-                          className="p-2 rounded-lg text-gray-400 hover:text-red-600 transition-colors shadow-sm border border-transparent hover:border-gray-100"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                      <div className="relative flex items-center justify-end gap-2">
+                        {/* Desktop Actions */}
+                        <div className="hidden md:flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleOpenEditModal(project);
+                            }}
+                            className="p-2 rounded-lg text-gray-400 hover:text-emerald-600 transition-colors shadow-sm border border-gray-100 hover:border-emerald-100"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleOpenDeleteModal(project);
+                            }}
+                            className="p-2 rounded-lg text-gray-400 hover:text-red-600 transition-colors shadow-sm border border-gray-100 hover:border-red-100"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        {/* Mobile Actions */}
+                        <div className="md:hidden">
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedProjectActions(selectedProjectActions === project.id ? null : project.id);
+                            }}
+                            className="p-2 text-gray-400 hover:text-gray-600 rounded-lg transition-colors border border-gray-100"
+                          >
+                            <MoreVertical className="w-4 h-4" />
+                          </button>
+
+                          {selectedProjectActions === project.id && (
+                            <div className="absolute right-0 top-full mt-1 bg-white rounded-xl shadow-xl border border-gray-100 py-1 min-w-[120px] z-20 animate-in fade-in zoom-in-95 duration-200">
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleOpenEditModal(project);
+                                  setSelectedProjectActions(null);
+                                }}
+                                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 flex items-center gap-2 transition-colors"
+                              >
+                                <Edit2 className="w-3.5 h-3.5" /> Edit
+                              </button>
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleOpenDeleteModal(project);
+                                  setSelectedProjectActions(null);
+                                }}
+                                className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" /> Delete
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </td>
                   </tr>
@@ -341,6 +404,46 @@ const Projects = () => {
               </tbody>
             </table>
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+              <p className="text-sm text-[#64748B]">
+                Showing <span className="font-semibold text-[#111827]">{((currentPage - 1) * itemsPerPage) + 1}</span> to <span className="font-semibold text-[#111827]">{Math.min(currentPage * itemsPerPage, filteredProjects.length)}</span> of <span className="font-semibold text-[#111827]">{filteredProjects.length}</span> entries
+              </p>
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="p-2 rounded-lg border border-gray-200 text-gray-400 hover:bg-gray-50 disabled:opacity-50 transition-all shadow-sm"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <div className="flex items-center gap-1">
+                  {[...Array(totalPages)].map((_, i) => (
+                    <button
+                      key={i + 1}
+                      onClick={() => setCurrentPage(i + 1)}
+                      className={`w-8 h-8 rounded-lg text-sm font-bold transition-all ${
+                        currentPage === i + 1 
+                          ? 'bg-[#0DEDF2] text-[#134E4A] shadow-sm' 
+                          : 'text-gray-400 hover:bg-gray-50'
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+                </div>
+                <button 
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="p-2 rounded-lg border border-gray-200 text-gray-400 hover:bg-gray-50 disabled:opacity-50 transition-all shadow-sm"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

@@ -11,7 +11,9 @@ import {
   CheckCircle2,
   AlertCircle,
   Clock,
-  Settings
+  Settings,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 const Notifications = () => {
@@ -19,22 +21,75 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all'); // all, unread, system
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const response = await axios.get('/user/notifikation');
-        if (response.data.success) {
-          setNotifications(response.data.notifications);
-        }
-      } catch (err) {
-        setError('Gagal mengambil data notifikasi');
-      } finally {
-        setLoading(false);
+    setCurrentPage(1);
+  }, [filter]);
+
+  const filteredNotifications = notifications.filter(n => {
+    if (filter === 'unread') return !n.isRead;
+    if (filter === 'system') return n.type === 'system';
+    return true;
+  });
+
+  const totalPages = Math.ceil(filteredNotifications.length / itemsPerPage);
+  const paginatedNotifications = filteredNotifications.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const fetchNotifications = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get('/user/notifikation');
+      if (response.data.success) {
+        setNotifications(response.data.notifications);
       }
-    };
+    } catch (err) {
+      setError('Gagal mengambil data notifikasi');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchNotifications();
   }, []);
+
+  const handleMarkAsRead = async (id) => {
+    try {
+      const response = await axios.put('/user/notifikation', { id });
+      if (response.data.success) {
+        setNotifications(notifications.map(n => n.id === id ? { ...n, isRead: true } : n));
+      }
+    } catch (err) {
+      console.error('Failed to mark notification as read:', err);
+    }
+  };
+
+  const handleMarkAllAsRead = async () => {
+    try {
+      const response = await axios.put('/user/notifikation', { all: true });
+      if (response.data.success) {
+        setNotifications(notifications.map(n => ({ ...n, isRead: true })));
+      }
+    } catch (err) {
+      console.error('Failed to mark all notifications as read:', err);
+    }
+  };
+
+  const handleDeleteNotification = async (id) => {
+    try {
+      const response = await axios.delete('/user/notifikation', { data: { id } });
+      if (response.data.success) {
+        setNotifications(notifications.filter(n => n.id !== id));
+      }
+    } catch (err) {
+      console.error('Failed to delete notification:', err);
+    }
+  };
 
   const getTypeStyles = (type) => {
     switch (type) {
@@ -78,7 +133,10 @@ const Notifications = () => {
               <Settings className="w-4 h-4 text-gray-500" />
               <span className="text-sm font-bold text-gray-600">Pengaturan</span>
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-[#0DEDF2] text-[#134E4A] font-bold rounded-xl hover:bg-[#0BBDC7] transition-all shadow-sm active:scale-95">
+            <button 
+              onClick={handleMarkAllAsRead}
+              className="flex items-center gap-2 px-4 py-2 bg-[#0DEDF2] text-[#134E4A] font-bold rounded-xl hover:bg-[#0BBDC7] transition-all shadow-sm active:scale-95"
+            >
               <CheckCircle2 className="w-4 h-4" />
               <span>Tandai Semua Dibaca</span>
             </button>
@@ -114,7 +172,7 @@ const Notifications = () => {
 
         {/* Notifications List */}
         <div className="space-y-3">
-          {notifications.map((notification) => (
+          {paginatedNotifications.map((notification) => (
             <div 
               key={notification.id} 
               className={`group flex items-start gap-4 p-4 rounded-2xl border transition-all hover:shadow-md cursor-pointer ${
@@ -139,8 +197,24 @@ const Notifications = () => {
                 </p>
                 {!notification.isRead && (
                   <div className="flex gap-4 mt-3">
-                    <button className="text-[11px] font-bold text-[#0BBDC7] hover:underline">Tandai sudah dibaca</button>
-                    <button className="text-[11px] font-bold text-gray-400 hover:text-red-500">Hapus</button>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleMarkAsRead(notification.id);
+                      }}
+                      className="text-[11px] font-bold text-[#0BBDC7] hover:underline"
+                    >
+                      Tandai sudah dibaca
+                    </button>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteNotification(notification.id);
+                      }}
+                      className="text-[11px] font-bold text-gray-400 hover:text-red-500"
+                    >
+                      Hapus
+                    </button>
                   </div>
                 )}
               </div>
@@ -155,7 +229,7 @@ const Notifications = () => {
         </div>
 
         {/* Empty State (Optional) */}
-        {notifications.length === 0 && (
+        {filteredNotifications.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
             <div className="p-6 bg-gray-50 rounded-full">
               <Bell className="w-12 h-12 text-gray-300" />
@@ -167,12 +241,47 @@ const Notifications = () => {
           </div>
         )}
 
-        {/* Pagination/Load More */}
-        <div className="flex justify-center pt-4">
-          <button className="px-6 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-50 transition-all shadow-sm">
-            Muat Lebih Banyak
-          </button>
-        </div>
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-4 border-t border-gray-100">
+            <p className="text-xs font-medium text-gray-500">
+              Menampilkan <span className="text-gray-900">{((currentPage - 1) * itemsPerPage) + 1}</span> sampai <span className="text-gray-900">{Math.min(currentPage * itemsPerPage, filteredNotifications.length)}</span> dari <span className="text-gray-900">{filteredNotifications.length}</span> notifikasi
+            </p>
+            <div className="flex items-center gap-2">
+              <button 
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="p-2 rounded-xl border border-gray-200 text-gray-400 hover:bg-gray-50 disabled:opacity-50 transition-all shadow-sm"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              
+              <div className="flex items-center gap-1">
+                {[...Array(totalPages)].map((_, i) => (
+                  <button
+                    key={i + 1}
+                    onClick={() => setCurrentPage(i + 1)}
+                    className={`w-9 h-9 rounded-xl text-xs font-bold transition-all ${
+                      currentPage === i + 1 
+                        ? 'bg-[#0DEDF2] text-[#134E4A] shadow-sm' 
+                        : 'text-gray-500 hover:bg-gray-50'
+                    }`}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              </div>
+
+              <button 
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="p-2 rounded-xl border border-gray-200 text-gray-400 hover:bg-gray-50 disabled:opacity-50 transition-all shadow-sm"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );

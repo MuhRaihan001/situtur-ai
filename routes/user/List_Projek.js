@@ -16,6 +16,7 @@ module.exports = {
 
                 let baseQuery = `
                     SELECT 
+    p.ID,
     p.Nama_Proyek,
     p.status,
     p.due_date,
@@ -39,6 +40,23 @@ GROUP BY p.id, p.Nama_Proyek, p.status, p.due_date`;
 
                 const result = await db.queryWithPagination(baseQuery, params, page, limit);
                 
+                // Calculate growth for projects
+                const now = new Date();
+                const firstDayThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+                
+                const totalProjectsRows = await db.query(
+                    'SELECT COUNT(*) as count FROM proyek WHERE Id_User = ?',
+                    [id_user]
+                );
+                const totalProjects = totalProjectsRows[0] ? totalProjectsRows[0].count : 0;
+
+                const lastMonthProjectsRows = await db.query(
+                    'SELECT COUNT(*) as count FROM proyek WHERE Id_User = ? AND created_at < ?',
+                    [id_user, firstDayThisMonth]
+                );
+                const lastMonthProjects = lastMonthProjectsRows[0] ? lastMonthProjectsRows[0].count : 0;
+                const growth = lastMonthProjects === 0 ? 0 : ((totalProjects - lastMonthProjects) / lastMonthProjects * 100).toFixed(1);
+
                 res.status(200).json({
                     success: true,
                     message: "Berhasil mengambil daftar proyek",
@@ -51,6 +69,12 @@ GROUP BY p.id, p.Nama_Proyek, p.status, p.due_date`;
                         status: p.status,
                         dueDate: p.due_date
                     })),
+                    stats: {
+                        total: totalProjects,
+                        inProgress: result.data.filter(p => p.status === 'In Progress' || p.status === 'Pending').length,
+                        completed: result.data.filter(p => p.status === 'Compleated').length,
+                        growth: (growth >= 0 ? '+' : '') + growth + '%'
+                    },
                     pagination: result.pagination
                 });
             } catch (error) {

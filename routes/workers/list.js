@@ -11,7 +11,8 @@ module.exports = {
                 res.status(workers.status).json({ 
                     success: true,
                     message: workers.message, 
-                    workers: workers.workers 
+                    workers: workers.workers,
+                    stats: workers.stats
                 });
             } catch (error) {
                 console.error("Error in GET /workers/list:", error);

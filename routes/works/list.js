@@ -7,10 +7,31 @@ module.exports = {
     GET: {
         handler: async function (req, res) {
             try {
-                const works = await work.list();
+                const db = req.app.locals.db;
+                const id_proyek = req.query.id_proyek;
+                const id_user = req.session.user.id_user;
+
+                // Jika ada id_proyek, validasi kepemilikan
+                if (id_proyek) {
+                    const checkProject = await db.query(
+                        "SELECT ID FROM proyek WHERE ID = ? AND Id_User = ?",
+                        [id_proyek, id_user]
+                    );
+
+                    if (checkProject.length === 0) {
+                        return res.status(403).json({
+                            success: false,
+                            message: "Anda tidak memiliki akses ke proyek ini atau proyek tidak ditemukan."
+                        });
+                    }
+                }
+
+                const works = await work.list(id_proyek);
                 res.status(works.status).json({
                     success: true,
-                    works: works.works
+                    works: works.works,
+                    team_size: works.team_size,
+                    project: works.project
                 });
             } catch (error) {
                 console.error("Error in GET /works/list:", error);
@@ -47,9 +68,9 @@ module.exports = {
                             type: "string",
                             example: "on_progress"
                         },
-                        starterd_at: {
+                        started_at: {
                             type: "string",
-                            example: "25 Desember 2025 10.00.00"
+                            example: "2025-12-25"
                         },
                         finished_at: {
                             type: "string",

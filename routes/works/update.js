@@ -6,10 +6,10 @@ module.exports = {
     PUT: {
         handler: async (req, res) => {
             try {
-                const { id, work_name, deadline, progress, status } = req.body;
+                const { id, work_name, deadline, progress } = req.body;
                 if (!id) return res.status(400).json({ success: false, error: "Task ID is required." });
 
-                const result = await workHandler.updateWork(id, { work_name, deadline, progress, status });
+                const result = await workHandler.updateWork(id, { work_name, deadline, progress });
                 return res.status(result.status).json({ 
                     success: result.status === 200, 
                     message: result.message 

@@ -48,6 +48,17 @@ exports.GET = async function (req, res, next) {
         );
         const ongoingProjects = ongoingProjectsRows[0] ? ongoingProjectsRows[0].count : 0;
 
+        // 1b. Growth for Ongoing Projects
+        const firstDayThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const firstDayLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        
+        const lastMonthProjectsRows = await db.query(
+            'SELECT COUNT(*) as count FROM proyek WHERE Id_User = ? AND created_at < ?',
+            [id_user, firstDayThisMonth]
+        );
+        const lastMonthProjects = lastMonthProjectsRows[0] ? lastMonthProjectsRows[0].count : 0;
+        const projectGrowth = lastMonthProjects === 0 ? 0 : ((ongoingProjects - lastMonthProjects) / lastMonthProjects * 100).toFixed(1);
+
         // 2. Tasks Pending
         const tasksPendingRows = await db.query(
             'SELECT COUNT(*) as count FROM work w JOIN proyek p ON w.id_Proyek = p.ID WHERE p.Id_User = ? AND w.progress < 100',
@@ -55,31 +66,50 @@ exports.GET = async function (req, res, next) {
         );
         const tasksPending = tasksPendingRows[0] ? tasksPendingRows[0].count : 0;
 
+        // 2b. Growth for Tasks Pending
+        const lastMonthTasksRows = await db.query(
+            'SELECT COUNT(*) as count FROM work w JOIN proyek p ON w.id_Proyek = p.ID WHERE p.Id_User = ? AND w.progress < 100 AND w.created_at < ?',
+            [id_user, firstDayThisMonth]
+        );
+        const lastMonthTasks = lastMonthTasksRows[0] ? lastMonthTasksRows[0].count : 0;
+        const tasksGrowth = lastMonthTasks === 0 ? 0 : ((tasksPending - lastMonthTasks) / lastMonthTasks * 100).toFixed(1);
+
         // 3. Completed Tasks
         const completedTasksRows = await db.query(
-            'SELECT COUNT(*) as count FROM work w JOIN proyek p ON w.id_Proyek = p.ID WHERE p.Id_User = ? AND w.progress = 100',
+            'SELECT COUNT(*) as count FROM proyek WHERE Id_User = ? AND status = "Compleated"',
             [id_user]
         );
         const completedTasks = completedTasksRows[0] ? completedTasksRows[0].count : 0;
 
+        // 3b. Growth for Hours Worked (based on completed tasks)
+        const lastMonthCompletedRows = await db.query(
+            'SELECT COUNT(*) as count FROM proyek WHERE Id_User = ? AND status = "Compleated" AND finished_at < ?',
+            [id_user, firstDayThisMonth]
+        );
+        const lastMonthCompleted = lastMonthCompletedRows[0] ? lastMonthCompletedRows[0].count : 0;
+        const hoursGrowth = lastMonthCompleted === 0 ? 0 : ((completedTasks - lastMonthCompleted) / lastMonthCompleted * 100).toFixed(1);
+
         // 4. Priority Tasks
         const priorityTasksRows = await db.query(
-            'SELECT w.id, w.work_name as name, w.status as priority, p.Nama_Proyek as project, w.progress ' +
+            'SELECT w.id, w.work_name as name, w.priority, p.Nama_Proyek as project, w.progress, w.deadline ' +
             'FROM work w JOIN proyek p ON w.id_Proyek = p.ID ' +
             'WHERE p.Id_User = ? ORDER BY w.id DESC LIMIT 5',
             [id_user]
         );
 
-        const priorityTasks = priorityTasksRows.map(task => ({
-            id: task.id,
-            name: task.name,
-            priority: task.progress < 50 ? 'High Priority' : 'Routine',
-            priorityClass: task.progress < 50 ? 'high' : 'routine',
-            project: task.project,
-            dueDate: 'Today', 
-            dueTime: '5:00 PM',
-            completed: task.progress === 100
-        }));
+        const priorityTasks = priorityTasksRows.map(task => {
+            const deadlineDate = task.deadline ? new Date(task.deadline) : null;
+            return {
+                id: task.id,
+                name: task.name,
+                priority: task.priority ? task.priority.charAt(0).toUpperCase() + task.priority.slice(1) : 'Medium',
+                priorityClass: task.priority || 'medium',
+                project: task.project,
+                dueDate: deadlineDate ? deadlineDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) : 'TBD',
+                dueTime: deadlineDate ? deadlineDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '',
+                completed: task.progress === 100
+            };
+        });
 
         // 5. Recent Updates (from query_actions)
         const recentUpdatesRows = await db.query(
@@ -97,9 +127,13 @@ exports.GET = async function (req, res, next) {
 
         const stats = {
             tasksPending,
+            tasksGrowth: (tasksGrowth >= 0 ? '+' : '') + tasksGrowth + '%',
             ongoingProjects,
+            projectGrowth: (projectGrowth >= 0 ? '+' : '') + projectGrowth + '%',
             hoursWorked: (completedTasks * 2.5).toFixed(1),
-            safetyAlerts: 0
+            hoursGrowth: (hoursGrowth >= 0 ? '+' : '') + hoursGrowth + '%',
+            safetyAlerts: 0,
+            safetyGrowth: '+0%'
         };
 
         const currentYear = now.getFullYear();
@@ -118,21 +152,21 @@ exports.GET = async function (req, res, next) {
             totalProjects: ongoingProjects,
             trend: 12.5
         };
+        
+        // 6. Monthly Data (Completed Projects per month for current year)
+        const monthlyDataRows = await db.query(
+            'SELECT MONTH(finished_at) as month, COUNT(*) as count ' +
+            'FROM proyek WHERE Id_User = ? AND status = "Compleated" AND YEAR(finished_at) = ? ' +
+            'GROUP BY MONTH(finished_at)',
+            [id_user, currentYear]
+        );
 
-        const monthlyData = [
-            Math.floor(completedTasks * 0.5),
-            Math.floor(completedTasks * 0.6),
-            Math.floor(completedTasks * 0.55),
-            Math.floor(completedTasks * 0.7),
-            Math.floor(completedTasks * 0.65),
-            Math.floor(completedTasks * 0.8),
-            Math.floor(completedTasks * 0.85),
-            Math.floor(completedTasks * 0.82),
-            Math.floor(completedTasks * 0.9),
-            Math.floor(completedTasks * 0.88),
-            Math.floor(completedTasks * 0.92),
-            completedTasks
-        ];
+        const monthlyData = Array(12).fill(0);
+        monthlyDataRows.forEach(row => {
+            if (row.month >= 1 && row.month <= 12) {
+                monthlyData[row.month - 1] = row.count;
+            }
+        });
 
         res.json({
             success: true,

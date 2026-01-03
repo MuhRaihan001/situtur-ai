@@ -6,11 +6,54 @@ const worksHandler = new Works();
 class Workers {
 
     async list() {
-        const query = "SELECT * FROM workers";
+        const query = `
+            SELECT 
+                wk.*, 
+                w.work_name as current_task_name,
+                p.Nama_Proyek as current_project_name
+            FROM workers wk
+            LEFT JOIN work w ON wk.current_task = w.id
+            LEFT JOIN proyek p ON w.id_Proyek = p.ID
+        `;
         const result = await database.query(query);
+        
+        // Calculate stats
+        const totalWorkers = result.length;
+        const currentlyOnSite = result.filter(w => w.status === 'Active').length;
+        const onLeave = result.filter(w => w.status === 'Not active').length;
+        
+        // Growth calculation for Total Workers
+        const now = new Date();
+        const firstDayThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        
+        let growth = "0.0%";
+        try {
+            // Check if created_at exists (it might not be in the schema yet)
+            const columns = await database.query("SHOW COLUMNS FROM workers LIKE 'created_at'");
+            if (columns.length > 0) {
+                const lastMonthWorkersRows = await database.query(
+                    'SELECT COUNT(*) as count FROM workers WHERE created_at < ?',
+                    [firstDayThisMonth]
+                );
+                const lastMonthWorkers = lastMonthWorkersRows[0] ? lastMonthWorkersRows[0].count : 0;
+                const growthVal = lastMonthWorkers === 0 ? 0 : ((totalWorkers - lastMonthWorkers) / lastMonthWorkers * 100).toFixed(1);
+                growth = (growthVal >= 0 ? '+' : '') + growthVal + '%';
+            }
+        } catch (e) {
+            console.warn("Could not calculate worker growth:", e.message);
+        }
+
+        const stats = {
+            totalWorkers,
+            currentlyOnSite,
+            onLeave,
+            tasksPending: result.filter(w => w.current_task).length, // Estimate
+            growth: growth
+        };
+
         if (result.length === 0)
-            return { status: 200, message: "No Workers", workers: [] };
-        return { status: 200, message: "Success", workers: result };
+            return { status: 200, message: "No Workers", workers: [], stats };
+        return { status: 200, message: "Success", workers: result, stats };
     }
 
     async addWorker(phone_number, name) {

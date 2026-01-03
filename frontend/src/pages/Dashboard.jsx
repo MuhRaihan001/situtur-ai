@@ -83,10 +83,10 @@ const Dashboard = () => {
   const { username, currentDate, stats: rawStats, chartData: rawChart, monthlyData: rawMonthly, priorityTasks: rawTasks, recentUpdates } = data;
 
   const stats = [
-    { label: 'Tasks Pending', value: rawStats.tasksPending, icon: ClipboardList, color: 'text-blue-600', bg: 'bg-blue-50', change: 'Real-time' },
-    { label: 'Ongoing Projects', value: rawStats.ongoingProjects, icon: LayoutDashboard, color: 'text-orange-600', bg: 'bg-orange-50', change: 'Active' },
-    { label: 'Hours Worked', value: rawStats.hoursWorked, icon: Clock, color: 'text-purple-600', bg: 'bg-purple-50', change: 'Estimated' },
-    { label: 'Safety Alerts', value: rawStats.safetyAlerts, icon: TriangleAlert, color: 'text-red-600', bg: 'bg-red-50', change: 'System' },
+    { label: 'Tasks Pending', value: rawStats.tasksPending, icon: ClipboardList, color: 'text-blue-600', bg: 'bg-blue-50', change: rawStats.tasksGrowth || 'Real-time' },
+    { label: 'Ongoing Projects', value: rawStats.ongoingProjects, icon: LayoutDashboard, color: 'text-orange-600', bg: 'bg-orange-50', change: rawStats.projectGrowth || 'Active' },
+    { label: 'Hours Worked', value: rawStats.hoursWorked, icon: Clock, color: 'text-purple-600', bg: 'bg-purple-50', change: rawStats.hoursGrowth || 'Estimated' },
+    { label: 'Safety Alerts', value: rawStats.safetyAlerts, icon: TriangleAlert, color: 'text-red-600', bg: 'bg-red-50', change: rawStats.safetyGrowth || 'System' },
   ];
 
   const barData = {
@@ -137,9 +137,10 @@ const Dashboard = () => {
                 <div className={`w-10 h-10 ${stat.bg} rounded-lg flex items-center justify-center`}>
                   <stat.icon className={`w-6 h-6 ${stat.color}`} />
                 </div>
-                <span className="px-2 py-1 bg-[#F5F8F8] text-[#16A34A] text-xs font-medium rounded-full">
+                <div className={`px-2 py-1 bg-[#F5F8F8] ${stat.change.startsWith('+') ? 'text-[#16A34A]' : stat.change.startsWith('-') ? 'text-red-600' : 'text-[#64748B]'} text-xs font-medium rounded-full flex items-center gap-1`}>
+                  {stat.change.includes('%') && (stat.change.startsWith('+') ? '↑' : stat.change.startsWith('-') ? '↓' : '')}
                   {stat.change}
-                </span>
+                </div>
               </div>
               <div className="text-2xl font-bold text-[#111827] mb-1">{stat.value}</div>
               <div className="text-sm text-[#64748B]">{stat.label}</div>
@@ -202,8 +203,8 @@ const Dashboard = () => {
                           <div className="text-sm font-medium text-[#111827]">{task.name}</div>
                           <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-medium mt-1 ${
                             task.priorityClass === 'high' ? 'bg-red-100 text-red-700' : 
-                            task.priorityClass === 'logistics' ? 'bg-blue-100 text-blue-700' :
-                            task.priorityClass === 'admin' ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-700'
+                            task.priorityClass === 'medium' ? 'bg-orange-100 text-orange-700' :
+                            task.priorityClass === 'low' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'
                           }`}>
                             {task.priority}
                           </span>

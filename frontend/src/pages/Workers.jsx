@@ -26,7 +26,8 @@ const StatCard = ({ label, value, icon: Icon, color, bg, change }) => (
       <div className={`${bg} ${color} p-3 rounded-xl`}>
         <Icon className="w-6 h-6" />
       </div>
-      <span className={`text-xs font-bold px-2 py-1 rounded-full ${change.startsWith('+') ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
+      <span className={`text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1 ${change.startsWith('+') ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
+        {change.includes('%') && (change.startsWith('+') ? '↑' : change.startsWith('-') ? '↓' : '')}
         {change}
       </span>
     </div>
@@ -46,61 +47,101 @@ StatCard.propTypes = {
   change: PropTypes.string.isRequired,
 };
 
-const WorkerRow = ({ worker, onEdit, onDelete }) => (
-  <tr className="hover:bg-gray-50 transition-colors group">
-    <td className="px-6 py-4">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-[#0DEDF2]/10 flex items-center justify-center text-[#134E4A] font-bold">
-          {worker.name.charAt(0)}
+const WorkerRow = ({ worker, onEdit, onDelete }) => {
+  const [showActions, setShowActions] = useState(false);
+
+  return (
+    <tr className="hover:bg-gray-50 transition-colors group">
+      <td className="px-6 py-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-[#0DEDF2]/10 flex items-center justify-center text-[#134E4A] font-bold">
+            {(worker.name || 'U').charAt(0)}
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-[#111827]">{worker.name || 'Unnamed'}</p>
+            <p className="text-xs text-[#64748B]">{worker.joinedDate || '-'}</p>
+          </div>
         </div>
-        <div>
-          <p className="text-sm font-semibold text-[#111827]">{worker.name}</p>
-          <p className="text-xs text-[#64748B]">{worker.joinedDate}</p>
+      </td>
+      <td className="px-6 py-4">
+        <span className="text-sm font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-md">
+          {(worker.phone_number || '').split('@')[0] || '-'}
+        </span>
+      </td>
+      <td className="px-6 py-4 text-sm text-[#475569]">{worker.role}</td>
+      <td className="px-6 py-4">
+        <div className="flex items-center gap-2">
+          <div className={`w-2 h-2 rounded-full ${worker.currentProject !== 'Unassigned' ? 'bg-blue-500' : 'bg-gray-300'}`}></div>
+          <span className="text-sm text-[#475569]">{worker.currentProject}</span>
         </div>
-      </div>
-    </td>
-    <td className="px-6 py-4">
-      <span className="text-sm font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-md">
-        {worker.phone_number.split('@')[0]}
-      </span>
-    </td>
-    <td className="px-6 py-4 text-sm text-[#475569]">{worker.role}</td>
-    <td className="px-6 py-4">
-      <div className="flex items-center gap-2">
-        <div className={`w-2 h-2 rounded-full ${worker.currentProject !== 'Unassigned' ? 'bg-blue-500' : 'bg-gray-300'}`}></div>
-        <span className="text-sm text-[#475569]">{worker.currentProject}</span>
-      </div>
-    </td>
-    <td className="px-6 py-4">
-      <span className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider ${
-        worker.status === 'Active' ? 'bg-emerald-50 text-emerald-600' : 
-        worker.status === 'On Leave' ? 'bg-orange-50 text-orange-600' : 
-        'bg-gray-100 text-gray-500'
-      }`}>
-        {worker.status}
-      </span>
-    </td>
-    <td className="px-6 py-4 text-right">
-      <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button 
-          onClick={() => onEdit(worker)}
-          className="p-2 hover:bg-white rounded-lg text-gray-400 hover:text-emerald-600 transition-colors shadow-sm border border-transparent hover:border-gray-100"
-        >
-          <Edit2 className="w-4 h-4" />
-        </button>
-        <button 
-          onClick={() => onDelete(worker)}
-          className="p-2 hover:bg-white rounded-lg text-gray-400 hover:text-red-600 transition-colors shadow-sm border border-transparent hover:border-gray-100"
-        >
-          <Trash2 className="w-4 h-4" />
-        </button>
-      </div>
-      <button className="p-2 text-gray-400 group-hover:hidden">
-        <MoreVertical className="w-4 h-4" />
-      </button>
-    </td>
-  </tr>
-);
+      </td>
+      <td className="px-6 py-4">
+        <span className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider ${
+          worker.status === 'Active' ? 'bg-emerald-50 text-emerald-600' : 
+          worker.status === 'On Leave' ? 'bg-orange-50 text-orange-600' : 
+          'bg-gray-100 text-gray-500'
+        }`}>
+          {worker.status}
+        </span>
+      </td>
+      <td className="px-6 py-4 text-right">
+        <div className="relative flex items-center justify-end gap-2">
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button 
+              onClick={() => onEdit(worker)}
+              className="p-2 hover:bg-white rounded-lg text-gray-400 hover:text-emerald-600 transition-colors shadow-sm border border-transparent hover:border-gray-100"
+            >
+              <Edit2 className="w-4 h-4" />
+            </button>
+            <button 
+              onClick={() => onDelete(worker)}
+              className="p-2 hover:bg-white rounded-lg text-gray-400 hover:text-red-600 transition-colors shadow-sm border border-transparent hover:border-gray-100"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Mobile Actions */}
+          <div className="md:hidden">
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowActions(!showActions);
+              }}
+              className="p-2 text-gray-400 hover:text-gray-600 rounded-lg transition-colors border border-gray-100"
+            >
+              <MoreVertical className="w-4 h-4" />
+            </button>
+
+            {showActions && (
+              <div className="absolute right-0 top-full mt-1 bg-white rounded-xl shadow-xl border border-gray-100 py-1 min-w-[120px] z-20 animate-in fade-in zoom-in-95 duration-200">
+                <button 
+                  onClick={() => {
+                    onEdit(worker);
+                    setShowActions(false);
+                  }}
+                  className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 flex items-center gap-2 transition-colors"
+                >
+                  <Edit2 className="w-3.5 h-3.5" /> Edit
+                </button>
+                <button 
+                  onClick={() => {
+                    onDelete(worker);
+                    setShowActions(false);
+                  }}
+                  className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors"
+                >
+                  <Trash2 className="w-3.5 h-3.5" /> Delete
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </td>
+    </tr>
+  );
+};
 
 WorkerRow.propTypes = {
   worker: PropTypes.shape({
@@ -151,6 +192,8 @@ const Workers = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
   
   // CRUD States
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
@@ -165,40 +208,65 @@ const Workers = () => {
     phone: ''
   });
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
+
+  const workers = data?.workers || [];
+  const stats = data?.stats || { totalWorkers: 0, currentlyOnSite: 0, onLeave: 0, tasksPending: 0 };
+
+  const filteredWorkers = workers.filter(worker => {
+    const s = searchTerm.toLowerCase();
+    return (
+      (worker.name || '').toLowerCase().includes(s) ||
+      (worker.phone_number || '').toLowerCase().includes(s) ||
+      (worker.role || '').toLowerCase().includes(s) ||
+      (worker.currentProject || '').toLowerCase().includes(s)
+    );
+  });
+
+  const totalPages = Math.ceil(filteredWorkers.length / itemsPerPage);
+  const paginatedWorkers = filteredWorkers.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   const fetchWorkers = async () => {
     try {
       setLoading(true);
+      setError(null);
       const response = await axios.get('/workers/list', {
         headers: {
           'Accept': 'application/json'
         }
       });
-      if (response.data.success) {
+      if (response.data && response.data.success) {
         const workers = response.data.workers || [];
         setData({
           success: true,
           workers: workers.map(w => ({
-            id: w.id,
-            phone_number: w.phone_number.startsWith('62') ? "+" + w.phone_number : w.phone_number,
-            name: w.worker_name,
-            joinedDate: "Jan 2025",
-            role: "Worker",
-            currentProject: w.current_task ? "Project " + w.current_task : "Unassigned",
-            status: "Active"
+            id: w.id || Math.random(),
+            phone_number: (w.phone_number || '').startsWith('62') ? "+" + w.phone_number : (w.phone_number || ''),
+            name: w.worker_name || 'Unnamed Worker',
+            joinedDate: w.created_at ? new Date(w.created_at).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' }) : "Jan 2025",
+            role: w.current_task_name || "Field Worker",
+            currentProject: w.current_project_name || "Unassigned",
+            status: w.status || "Active"
           })),
-          stats: {
+          stats: response.data.stats || {
             totalWorkers: workers.length,
-            currentlyOnSite: Math.floor(workers.length * 0.8),
-            onLeave: 0,
-            tasksPending: 0
+            currentlyOnSite: workers.filter(w => w.status === 'Active').length,
+            onLeave: workers.filter(w => w.status === 'Not active').length,
+            tasksPending: workers.filter(w => w.current_task).length,
+            growth: '+0%'
           }
         });
       } else {
-        setError(response.data.message || 'Gagal mengambil data pekerja');
+        setError(response.data?.message || 'Gagal mengambil data pekerja');
       }
     } catch (err) {
       console.error('Fetch error:', err);
-      setError(err.response?.data?.message || 'Terjadi kesalahan koneksi ke server');
+      setError(err.response?.data?.message || err.response?.data?.error || 'Terjadi kesalahan koneksi ke server');
     } finally {
       setLoading(false);
     }
@@ -324,22 +392,12 @@ const Workers = () => {
 
   if (!data) return null;
 
-  const { stats, workers } = data;
-
   const statCards = [
-    { label: 'Total Workers', value: stats.totalWorkers, icon: Users, color: 'text-blue-600', bg: 'bg-blue-50', change: '+2%' },
-    { label: 'Currently On-Site', value: stats.currentlyOnSite, icon: MapPin, color: 'text-emerald-600', bg: 'bg-emerald-50', change: '+15%' },
-    { label: 'On Leave', value: stats.onLeave, icon: Calendar, color: 'text-orange-600', bg: 'bg-orange-50', change: '-10%' },
-    { label: 'Tasks Pending', value: stats.tasksPending, icon: ClipboardList, color: 'text-purple-600', bg: 'bg-purple-50', change: '+5%' },
+    { label: 'Total Workers', value: stats.totalWorkers, icon: Users, color: 'text-blue-600', bg: 'bg-blue-50', change: stats.growth || '+0%' },
+    { label: 'Currently On-Site', value: stats.currentlyOnSite, icon: MapPin, color: 'text-emerald-600', bg: 'bg-emerald-50', change: '+0%' },
+    { label: 'On Leave', value: stats.onLeave, icon: Calendar, color: 'text-orange-600', bg: 'bg-orange-50', change: '+0%' },
+    { label: 'Tasks Pending', value: stats.tasksPending, icon: ClipboardList, color: 'text-purple-600', bg: 'bg-purple-50', change: '+0%' },
   ];
-
-  const filteredWorkers = workers.filter(worker => 
-    worker.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    worker.phone_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    worker.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    worker.currentProject.toLowerCase().includes(searchTerm.toLowerCase())
-    
-  );
 
   return (
     <Layout>
@@ -403,35 +461,70 @@ const Workers = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {filteredWorkers.map((worker) => (
-                  <WorkerRow 
-                    key={worker.id} 
-                    worker={worker} 
-                    onEdit={handleOpenEditModal}
-                    onDelete={handleOpenDeleteModal}
-                  />
-                ))}
+                {paginatedWorkers.length > 0 ? (
+                  paginatedWorkers.map((worker) => (
+                    <WorkerRow 
+                      key={worker.id} 
+                      worker={worker} 
+                      onEdit={handleOpenEditModal}
+                      onDelete={handleOpenDeleteModal}
+                    />
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="px-6 py-12 text-center">
+                      <div className="flex flex-col items-center gap-2">
+                        <Users className="w-8 h-8 text-gray-300" />
+                        <p className="text-gray-500 font-medium">Tidak ada data pekerja yang ditemukan</p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
 
           {/* Pagination */}
-          <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
-            <p className="text-sm text-[#64748B]">
-              Showing <span className="font-semibold text-[#111827]">1</span> to <span className="font-semibold text-[#111827]">{filteredWorkers.length}</span> of <span className="font-semibold text-[#111827]">{workers.length}</span> entries
-            </p>
-            <div className="flex items-center gap-2">
-              <button className="p-2 rounded-lg border border-gray-200 text-gray-400 hover:bg-gray-50 disabled:opacity-50 transition-all" disabled>
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button className="w-8 h-8 rounded-lg bg-[#0DEDF2] text-[#134E4A] font-bold text-sm">1</button>
-              <button className="w-8 h-8 rounded-lg border border-gray-200 text-[#64748B] hover:bg-gray-50 text-sm">2</button>
-              <button className="w-8 h-8 rounded-lg border border-gray-200 text-[#64748B] hover:bg-gray-50 text-sm">3</button>
-              <button className="p-2 rounded-lg border border-gray-200 text-gray-400 hover:bg-gray-50 transition-all">
-                <ChevronRight className="w-4 h-4" />
-              </button>
+          {totalPages > 1 && (
+            <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+              <p className="text-sm text-[#64748B]">
+                Showing <span className="font-semibold text-[#111827]">{((currentPage - 1) * itemsPerPage) + 1}</span> to <span className="font-semibold text-[#111827]">{Math.min(currentPage * itemsPerPage, filteredWorkers.length)}</span> of <span className="font-semibold text-[#111827]">{filteredWorkers.length}</span> entries
+              </p>
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="p-2 rounded-lg border border-gray-200 text-gray-400 hover:bg-gray-50 disabled:opacity-50 transition-all"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                
+                <div className="flex items-center gap-1">
+                  {[...Array(totalPages)].map((_, i) => (
+                    <button
+                      key={i + 1}
+                      onClick={() => setCurrentPage(i + 1)}
+                      className={`w-8 h-8 rounded-lg font-bold text-sm transition-all ${
+                        currentPage === i + 1 
+                          ? 'bg-[#0DEDF2] text-[#134E4A] shadow-sm' 
+                          : 'border border-gray-200 text-[#64748B] hover:bg-gray-50'
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+                </div>
+
+                <button 
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="p-2 rounded-lg border border-gray-200 text-gray-400 hover:bg-gray-50 disabled:opacity-50 transition-all"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
