@@ -2,21 +2,26 @@ const { Meta } = require("../../handler/meta");
 const Database = require("../../handler/database");
 const AuditService = require("../../handler/audit");
 const { isLoggedIn, isUser } = require("../../middleware/auth");
+const Tokenizer = require("../../handler/token");
 const db = new Database();
-
+const token = new Tokenizer();
 module.exports = {
     middleware: [isLoggedIn, isUser],
     GET: {
         handler: async function (req, res) {
             try {
-                const id_user = req.session.user.id_user;
+                const rawData = req.signedCookies.userData;
+                const data = await token.verify(rawData);
+                console.log(data)
+
+                const id_user = data.id_user;
                 const page = parseInt(req.query.page) || 1;
                 const limit = parseInt(req.query.limit) || 10;
                 const search = req.query.search || '';
 
                 let baseQuery = `
                     SELECT 
-    p.ID,
+                        p.ID,
     p.Nama_Proyek,
     p.status,
     p.due_date,
@@ -30,7 +35,7 @@ FROM proyek p
 LEFT JOIN work w ON p.ID = w.id_Proyek
 LEFT JOIN user u ON u.id_user = p.id_user
 WHERE p.Id_User = ?
-GROUP BY p.id, p.Nama_Proyek, p.status, p.due_date`;
+GROUP BY p.ID, p.Nama_Proyek, p.status, p.due_date`;
                 
                 const params = [id_user];
                 if (search) {
@@ -95,7 +100,9 @@ GROUP BY p.id, p.Nama_Proyek, p.status, p.due_date`;
         handler: async function (req, res) {
             try {
                 const { name } = req.body;
-                const id_user = req.session.user.id_user;
+                const rawData = req.signedCookies.userData;
+                const user = await token.verify(rawData)
+                const id_user = user.id_user;
 
                 // 1. Strict Validation
                 if (!name || typeof name !== 'string' || name.trim().length < 3) {

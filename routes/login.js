@@ -2,6 +2,8 @@
 
 const crypto = require('crypto');
 const sanitizeHtml = require('sanitize-html');
+const Tokenizer = require('../handler/token');
+const token = new Tokenizer();
 
 function sha256(password) {
     return crypto
@@ -24,18 +26,18 @@ exports.POST = async function (req, res, next) {
         console.log('[DEBUG] username input:', username);
 
         const sql = "SELECT * FROM user WHERE username = ?";
-        
+
         // GUNAKAN AWAIT, BUKAN CALLBACK!
         const results = await db.query(sql, [username]);
-        
+
         console.log('[DEBUG] hasil query:', results);
 
         // user tidak ditemukan
         if (results.length === 0) {
             console.log('[DEBUG] user tidak ditemukan');
-            return res.status(401).json({ 
-                success: false, 
-                message: "Username atau password salah" 
+            return res.status(401).json({
+                success: false,
+                message: "Username atau password salah"
             });
         }
 
@@ -50,14 +52,14 @@ exports.POST = async function (req, res, next) {
 
         if (!match) {
             console.log('[DEBUG] password tidak cocok');
-            return res.status(401).json({ 
-                success: false, 
-                message: "Username atau password salah" 
+            return res.status(401).json({
+                success: false,
+                message: "Username atau password salah"
             });
         }
 
-        // simpan session
-        req.session.user = {
+
+        const cookiesObject = {
             id_user: user.id_user,
             username: user.username,
             email: user.email,
@@ -65,8 +67,16 @@ exports.POST = async function (req, res, next) {
             nama_depan: user.nama_depan,
             nama_belakang: user.nama_belakang
         };
+        const cookieToken = await token.generate(cookiesObject)
 
-        console.log('[DEBUG] session dibuat:', req.session.user);
+        res.cookie('userData', cookieToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'strict',
+            signed: true
+        })
+
+        //console.log('[DEBUG] session dibuat:', req.session.user);
 
         // Simpan session dengan Promise
         await new Promise((resolve, reject) => {

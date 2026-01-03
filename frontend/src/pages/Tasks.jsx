@@ -3,10 +3,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Layout from '../components/Layout';
-import { 
-  Plus, 
-  Edit, 
-  Download, 
+import {
+  Plus,
+  Edit,
+  Download,
   CheckCircle,
   Clock,
   AlertCircle,
@@ -179,8 +179,8 @@ const Tasks = () => {
 
   const handleOpenEditModal = (task) => {
     setSelectedTask(task);
-    setFormData({ 
-      name: task.name, 
+    setFormData({
+      name: task.name,
       deadline: task.raw_deadline ? new Date(task.raw_deadline).toISOString().split('T')[0] : '',
       progress: task.progress
     });
@@ -315,25 +315,25 @@ const Tasks = () => {
               </div>
               <h1 className="text-2xl font-bold text-gray-900">{data.projectName}</h1>
               <p className="text-sm text-gray-500 max-w-2xl leading-relaxed">
-                Manajemen tugas konstruksi dan pemantauan progres harian untuk proyek pembangunan terowongan dan stasiun MRT Jakarta fase 2.
+                {/*Nanti di isi disini*/}
               </p>
             </div>
             <div className="flex items-center gap-6">
-               <div className="relative w-20 h-20">
-                  <svg className="w-20 h-20 transform -rotate-90">
-                    <circle className="text-gray-50" strokeWidth="6" stroke="currentColor" fill="transparent" r="34" cx="40" cy="40" />
-                    <circle className="text-[#0DEDF2]" strokeWidth="6" strokeDasharray={213} strokeDashoffset={213 * (1 - data.projectProgress/100)} strokeLinecap="round" stroke="currentColor" fill="transparent" r="34" cx="40" cy="40" />
-                  </svg>
-                  <span className="absolute inset-0 flex items-center justify-center text-lg font-bold">{data.projectProgress}%</span>
-               </div>
-               <div className="flex flex-col gap-2">
-                  <button 
-                    onClick={handleOpenAddModal}
-                    className="flex items-center gap-2 px-4 py-2 bg-[#0DEDF2] text-[#134E4A] text-xs font-bold rounded-xl hover:bg-[#0BBDC7] transition-all"
-                  >
-                    <Plus className="w-4 h-4" /> Add Task
-                  </button>
-               </div>
+              <div className="relative w-20 h-20">
+                <svg className="w-20 h-20 transform -rotate-90">
+                  <circle className="text-gray-50" strokeWidth="6" stroke="currentColor" fill="transparent" r="34" cx="40" cy="40" />
+                  <circle className="text-[#0DEDF2]" strokeWidth="6" strokeDasharray={213} strokeDashoffset={213 * (1 - data.projectProgress / 100)} strokeLinecap="round" stroke="currentColor" fill="transparent" r="34" cx="40" cy="40" />
+                </svg>
+                <span className="absolute inset-0 flex items-center justify-center text-lg font-bold">{data.projectProgress}%</span>
+              </div>
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={handleOpenAddModal}
+                  className="flex items-center gap-2 px-4 py-2 bg-[#0DEDF2] text-[#134E4A] text-xs font-bold rounded-xl hover:bg-[#0BBDC7] transition-all"
+                >
+                  <Plus className="w-4 h-4" /> Add Task
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -568,24 +568,24 @@ const Tasks = () => {
                <button 
                 onClick={handleOpenAddModal}
                 className="w-full p-4 text-xs font-bold text-[#0BBDC7] hover:bg-gray-50 transition-colors border-t border-gray-50 flex items-center justify-center gap-2"
-               >
-                  <Plus className="w-3 h-3" /> Add New Task
-               </button>
+              >
+                <Plus className="w-3 h-3" /> Add New Task
+              </button>
             </div>
           </div>
 
           {/* Sidebar Info */}
           <div className="space-y-6">
-             <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center space-y-1">
-                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Days Left</p>
-                   <p className="text-3xl font-bold text-gray-900">{data.daysLeft}</p>
-                </div>
-                <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center space-y-1">
-                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Team Size</p>
-                   <p className="text-3xl font-bold text-gray-900">{data.teamSize}</p>
-                </div>
-             </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center space-y-1">
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Days Left</p>
+                <p className="text-3xl font-bold text-gray-900">{data.daysLeft}</p>
+              </div>
+              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center space-y-1">
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Team Size</p>
+                <p className="text-3xl font-bold text-gray-900">{data.teamSize}</p>
+              </div>
+            </div>
 
              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-6">
                 <div className="flex justify-between items-center">
@@ -621,15 +621,15 @@ const Tasks = () => {
       </div>
 
       {/* Form Modal (Add/Edit) */}
-      <Modal 
-        isOpen={isFormModalOpen} 
-        onClose={() => setIsFormModalOpen(false)} 
+      <Modal
+        isOpen={isFormModalOpen}
+        onClose={() => setIsFormModalOpen(false)}
         title={selectedTask ? 'Edit Task' : 'Add New Task'}
       >
         <form onSubmit={handleFormSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Nama Tugas</label>
-            <input 
+            <input
               type="text"
               required
               className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#0DEDF2]/20 focus:border-[#0DEDF2] outline-none transition-all"
@@ -640,7 +640,7 @@ const Tasks = () => {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Deadline</label>
-            <input 
+            <input
               type="date"
               required
               className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#0DEDF2]/20 focus:border-[#0DEDF2] outline-none transition-all"
@@ -660,7 +660,7 @@ const Tasks = () => {
             />
           </div>
           <div className="pt-2">
-            <button 
+            <button
               type="submit"
               disabled={formLoading}
               className="w-full bg-[#0DEDF2] hover:bg-[#0BBDC7] text-[#134E4A] font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2"
@@ -672,9 +672,9 @@ const Tasks = () => {
       </Modal>
 
       {/* Delete Confirmation Modal */}
-      <Modal 
-        isOpen={isDeleteModalOpen} 
-        onClose={() => setIsDeleteModalOpen(false)} 
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
         title="Konfirmasi Hapus Tugas"
       >
         <div className="space-y-4">
@@ -682,7 +682,7 @@ const Tasks = () => {
             Tindakan ini tidak dapat dibatalkan. Silakan ketik nama pekerja yang mengerjakan tugas ini: <strong>{selectedTask?.assignee_name}</strong> untuk mengonfirmasi penghapusan tugas <strong>{selectedTask?.name}</strong>.
           </div>
           <form onSubmit={handleDeleteSubmit} className="space-y-4">
-            <input 
+            <input
               type="text"
               required
               className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-red-100 focus:border-red-500 outline-none transition-all"
@@ -691,7 +691,7 @@ const Tasks = () => {
               onChange={(e) => setDeleteConfirmWorkerName(e.target.value)}
             />
             {deleteError && <p className="text-xs text-red-600 font-medium">{deleteError}</p>}
-            <button 
+            <button
               type="submit"
               disabled={formLoading}
               className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2"

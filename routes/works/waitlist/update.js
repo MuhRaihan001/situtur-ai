@@ -1,10 +1,12 @@
 const { Meta } = require("../../../handler/meta");
 const Works = require("../../../handler/work");
+const { isAdmin } = require("../../../middleware/auth");
 
 const worksHandler = new Works();
 
 module.exports = {
     POST: {
+        middleware: isAdmin,
         handler: async function (req, res) {
             try {
                 const { work_id, column, value } = req.body;

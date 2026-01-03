@@ -1,26 +1,24 @@
-exports.isLoggedIn = function (req, res, next) {
-  if (req.session && req.session.user) {
-    return next();
-  }
-  
-  // Jika request AJAX atau mengharapkan JSON, kirim 401
-  if (req.xhr || (req.headers.accept && req.headers.accept.includes('application/json'))) {
-    return res.status(401).json({ success: false, message: 'Unauthorized' });
-  }
-  
-  return res.redirect('/');
-}
+const Tokenizer = require("../handler/token");
+const token = new Tokenizer();
 
-exports.isAdmin = function (req, res, next) {
-  if (req.session.user.role === 'admin') {
-    return next();
-  }
-  return res.status(403).send("Akses khusus admin");
-}
+const checkRole = (role) => (req, res, next) => {
+  const rawData = req.signedCookies.userData;
 
-exports.isUser = function (req, res, next) {
-  if (req.session.user.role === 'user') {
-    return next();
+  if (!rawData)
+    return res.status(401).send("Unauthorized");
+
+  let data;
+  try {
+    data = token.verify(rawData);
+  } catch {
+    return res.status(400).send("Invalid cookie data");
   }
-  return res.status(403).send("Akses khusus user");
-}
+
+  if (data.role === role)
+    return next();
+
+  return res.status(403).send("You don't have access for this action");
+};
+
+exports.isAdmin = checkRole('admin');
+exports.isUser  = checkRole('user');

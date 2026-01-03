@@ -1,6 +1,7 @@
-const {isLoggedIn, isUser} = require('../../middleware/auth');
+const Tokenizer = require('../../handler/token');
+const { isLoggedIn, isUser } = require('../../middleware/auth');
+const tokenHandler = new Tokenizer();
 
-exports.middleware = [isLoggedIn, isUser];
 
 exports.GET = async function (req, res, next) {
     // Jika request mengharapkan HTML (dari browser langsung/refresh), 
@@ -15,10 +16,11 @@ exports.GET = async function (req, res, next) {
     }
 
     try {
-        console.log('[API DASHBOARD] Fetching JSON data for user:', req.session.user);
+        const rawData = req.signedCookies.userData;
         const db = req.app.locals.db;
-        const user = req.session.user;
-        
+        const user = await tokenHandler.verify(rawData);
+        console.log('[API DASHBOARD] Fetching JSON data for user:', user);
+
         if (!user || !user.id_user) {
             console.error('[API DASHBOARD] No user session or id_user found');
             return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -26,7 +28,7 @@ exports.GET = async function (req, res, next) {
 
         const id_user = user.id_user;
         const username = user.nama_depan || user.username || 'User';
-        
+
         // Data profil untuk Header
         const profile = {
             id_user: user.id_user,
@@ -36,7 +38,7 @@ exports.GET = async function (req, res, next) {
             nama_lengkap: `${user.nama_depan || ''} ${user.nama_belakang || ''}`.trim() || user.username,
             role_display: user.role === 'user' ? 'Site Manager' : user.role.charAt(0).toUpperCase() + user.role.slice(1)
         };
-        
+
         const now = new Date();
         const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
         const currentDate = now.toLocaleDateString('id-ID', options);
@@ -97,19 +99,16 @@ exports.GET = async function (req, res, next) {
             [id_user]
         );
 
-        const priorityTasks = priorityTasksRows.map(task => {
-            const deadlineDate = task.deadline ? new Date(task.deadline) : null;
-            return {
-                id: task.id,
-                name: task.name,
-                priority: task.priority ? task.priority.charAt(0).toUpperCase() + task.priority.slice(1) : 'Medium',
-                priorityClass: task.priority || 'medium',
-                project: task.project,
-                dueDate: deadlineDate ? deadlineDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) : 'TBD',
-                dueTime: deadlineDate ? deadlineDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '',
-                completed: task.progress === 100
-            };
-        });
+        const priorityTasks = priorityTasksRows.map(task => ({
+            id: task.id,
+            name: task.name,
+            priority: task.progress < 50 ? 'High Priority' : 'Routine',
+            priorityClass: task.progress < 50 ? 'high' : 'routine',
+            project: task.project,
+            dueDate: 'Today', 
+            dueTime: '5:00 PM',
+            completed: task.progress === 100
+        }));
 
         // 5. Recent Updates (from query_actions)
         const recentUpdatesRows = await db.query(
@@ -139,10 +138,10 @@ exports.GET = async function (req, res, next) {
         const currentYear = now.getFullYear();
         const years = Array.from({ length: 5 }, (_, i) => currentYear - 4 + i);
         const values = [
-            Math.floor(ongoingProjects * 0.2), 
-            Math.floor(ongoingProjects * 0.4), 
-            Math.floor(ongoingProjects * 0.6), 
-            Math.floor(ongoingProjects * 0.8), 
+            Math.floor(ongoingProjects * 0.2),
+            Math.floor(ongoingProjects * 0.4),
+            Math.floor(ongoingProjects * 0.6),
+            Math.floor(ongoingProjects * 0.8),
             ongoingProjects
         ];
 

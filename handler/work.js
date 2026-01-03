@@ -115,6 +115,7 @@ class Works {
             project: projectInfo
         }
     }
+    }
 
     async waitList(work) {
         if (!work || typeof work !== "object") {
@@ -245,7 +246,7 @@ class Works {
 
     async addWork({ work_name, deadline, id_Proyek, progress }) {
         try {
-            if (!work_name || !deadline) 
+            if (!work_name || !deadline)
                 return { status: 400, message: "Missing required fields" };
 
             // Ensure we have an id_Proyek
