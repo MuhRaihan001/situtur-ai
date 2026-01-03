@@ -36,7 +36,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   const menuItems = [
     { name: 'Dashboard', path: '/user/dashboard', icon: LayoutDashboard },
     { name: 'List Proyek', path: '/user/projects', icon: FolderOpen },
-    { name: 'To Do List Setiap Proyek', path: '/user/tasks', icon: ListChecks },
+    //{ name: 'To Do List Setiap Proyek', path: '/user/tasks/1', icon: ListChecks },
     { name: 'List Data Worker', path: '/user/workers', icon: Users },
     { name: 'Halaman Notifikasi', path: '/user/notifications', icon: Bell },
     { name: 'Monitoring Kehadiran', path: '/user/attendance', icon: ClipboardCheck },

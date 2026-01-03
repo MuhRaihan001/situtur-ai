@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { 
   FolderOpen, 
@@ -112,19 +113,25 @@ const Projects = () => {
     fetchProjects();
   }, []);
 
+  const handleProjectClick = (projectId) => {
+    navigate(`/user/tasks/${projectId}`);
+  };
+
   const handleOpenAddModal = () => {
     setSelectedProject(null);
     setFormData({ name: '' });
     setIsFormModalOpen(true);
   };
 
-  const handleOpenEditModal = (project) => {
+  const handleOpenEditModal = (e, project) => {
+    e.stopPropagation(); // Prevent row click
     setSelectedProject(project);
     setFormData({ name: project.name });
     setIsFormModalOpen(true);
   };
 
-  const handleOpenDeleteModal = (project) => {
+  const handleOpenDeleteModal = (e, project) => {
+    e.stopPropagation(); // Prevent row click
     setSelectedProject(project);
     setDeleteConfirmName('');
     setDeleteError('');
@@ -291,8 +298,9 @@ const Projects = () => {
                     className="hover:bg-gray-50 transition-colors group cursor-pointer"
                   >
                     <td className="px-6 py-4">
-                      <div>
+                      <div className="flex items-center gap-3">
                         <p className="text-sm font-semibold text-[#111827]">{project.name}</p>
+                        <ArrowRight className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
                     </td>
                     <td className="px-6 py-4">

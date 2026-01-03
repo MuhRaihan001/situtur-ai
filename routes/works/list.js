@@ -53,7 +53,7 @@ module.exports = {
             )
             .setTags("Works")
             .setOperationId("getWorksList")
-
+            .addQueryParam("project_id", "Filter berdasarkan ID proyek", false, "integer") // Tambah param ini
             .addSuccessResponse("Berhasil mengambil daftar karya", {
                 type: "array",
                 items: {
@@ -86,11 +86,9 @@ module.exports = {
                     }
                 }
             })
-
             .addNotFoundResponse("Tidak ada data karya")
             .addServerErrorResponse()
             .build()
-            
     }
-    
+
 };

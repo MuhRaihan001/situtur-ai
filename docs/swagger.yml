@@ -38,11 +38,16 @@ paths:
       responses:
         '200':
           description: Success
-      summary: Mengambil daftar proyek dengan paginasi
-      description: Endpoint ini digunakan untuk mengambil data proyek milik user dengan dukungan paginasi dan pencarian.
+      summary: Mengambil daftar proyek atau detail proyek
+      description: Endpoint ini digunakan untuk mengambil data proyek. Gunakan query param 'id' untuk single project, atau page/limit untuk list.
       tags:
         - Projects
       parameters:
+        - name: id
+          in: query
+          required: number
+          schema: ID proyek untuk fetch single project
+          description: id parameter
         - name: page
           in: query
           required: number
@@ -94,6 +99,31 @@ paths:
                 phone_number:
                   type: string
                   example: '+6281234567890'
+  /workers/delete:
+    delete:
+      responses:
+        '200':
+          description: Worker deleted successfully
+        '400':
+          description: Missing ID
+        '500':
+          description: Internal Server Error
+      summary: Delete Worker
+      description: Deletes a worker from the system by ID.
+      tags:
+        - Workers
+      operationId: deleteWorker
+      requestBody:
+        description: Worker ID to delete
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
   /workers/delete:
     delete:
       responses:
@@ -325,6 +355,45 @@ paths:
                 work_id:
                   type: integer
                   example: 1
+  /works/list:
+    get:
+      responses:
+        '200':
+          description: Berhasil mengambil daftar karya
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    work_name:
+                      type: string
+                      example: Pembuatan API OpenAI
+                    progress:
+                      type: integer
+                      example: 80
+                    status:
+                      type: string
+                      example: on_progress
+                    starterd_at:
+                      type: string
+                      example: 25 Desember 2025 10.00.00
+                    finished_at:
+                      type: string
+                      example: 30 Desember 2025 18.00.00
+        '404':
+          description: Tidak ada data karya
+        '500':
+          description: Internal Server Error
+      summary: Mengambil daftar karya
+      description: Endpoint ini digunakan untuk mengambil seluruh data karya yang tersimpan dalam sistem.
+      tags:
+        - Works
+      operationId: getWorksList
   /works/update:
     put:
       responses:

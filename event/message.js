@@ -36,7 +36,22 @@ module.exports = (client) => {
         }
 
         console.log(`${message.from}: ${message.body}`);
-        // const result = await instructions.updateDatabase(message.body);
-        // console.log(result)
+        const workerData = await workers.workerDataByPhone(message.from);
+        if (!workerData || workerData.current_task === null) return;
+
+        const instructionsList = await instructions.generateInsturction(message.body);
+
+        for (const inst of instructionsList) {
+            console.log(`Instruction for worker ${workerData.worker_name}:`, inst);
+
+            const isUnclear = inst.ambiguity_level !== "low" || inst.confidence < 0.8;
+            if (isUnclear) {
+                await works.waitList(inst);
+                continue;
+            }
+
+            const { sql, params } = instructions.generateMysqlQuery(inst);
+            await db.query(sql, params);
+        }
     })
 }

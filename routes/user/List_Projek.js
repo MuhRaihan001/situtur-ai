@@ -12,31 +12,80 @@ module.exports = {
             try {
                 const rawData = req.signedCookies.userData;
                 const data = await token.verify(rawData);
-                console.log(data)
-
                 const id_user = data.id_user;
+
+                // ✅ TAMBAHKAN INI: Check if requesting single project
+                const projectId = req.query.id;
+
+                if (projectId) {
+                    // Fetch single project
+                    const query = `
+                    SELECT 
+                        p.ID,
+                        p.Nama_Proyek,
+                        p.Id_User,
+                        p.status,
+                        p.due_date,
+                        ROUND(
+                            IFNULL(
+                                (SUM(CASE WHEN w.status = 'completed' THEN 1 ELSE 0 END) / NULLIF(COUNT(w.id), 0)) * 100, 
+                                0
+                            )
+                        ) AS progress
+                    FROM proyek p
+                    LEFT JOIN work w ON p.ID = w.id_Proyek
+                    WHERE p.ID = ? AND p.Id_User = ?
+                    GROUP BY p.ID, p.Nama_Proyek, p.Id_User, p.status, p.due_date
+                `;
+
+                    const result = await db.query(query, [projectId, id_user]);
+
+                    if (result.length === 0) {
+                        return res.status(404).json({
+                            success: false,
+                            message: "Proyek tidak ditemukan"
+                        });
+                    }
+
+                    const project = result[0];
+                    return res.status(200).json({
+                        success: true,
+                        message: "Berhasil mengambil data proyek",
+                        project: {
+                            id: project.ID,
+                            name: project.Nama_Proyek,
+                            id_user: project.Id_User,
+                            location: "Jakarta",
+                            progress: project.progress,
+                            status: project.status,
+                            dueDate: project.due_date
+                        }
+                    });
+                }
+
+                // Original code untuk list projects
                 const page = parseInt(req.query.page) || 1;
                 const limit = parseInt(req.query.limit) || 10;
                 const search = req.query.search || '';
 
                 let baseQuery = `
-                    SELECT 
-                        p.ID,
-    p.Nama_Proyek,
-    p.status,
-    p.due_date,
-    ROUND(
-        IFNULL(
-            (SUM(CASE WHEN w.status = 'completed' THEN 1 ELSE 0 END) / NULLIF(COUNT(w.id), 0)) * 100, 
-            0
-        )
-    ) AS progress
-FROM proyek p
-LEFT JOIN work w ON p.ID = w.id_Proyek
-LEFT JOIN user u ON u.id_user = p.id_user
-WHERE p.Id_User = ?
-GROUP BY p.ID, p.Nama_Proyek, p.status, p.due_date`;
-                
+                SELECT 
+                    p.ID,
+                    p.Nama_Proyek,
+                    p.Id_User,
+                    p.status,
+                    p.due_date,
+                    ROUND(
+                        IFNULL(
+                            (SUM(CASE WHEN w.status = 'completed' THEN 1 ELSE 0 END) / NULLIF(COUNT(w.id), 0)) * 100, 
+                            0
+                        )
+                    ) AS progress
+                FROM proyek p
+                LEFT JOIN work w ON p.ID = w.id_Proyek
+                WHERE p.Id_User = ?
+                GROUP BY p.ID, p.Nama_Proyek, p.Id_User, p.status, p.due_date`;
+
                 const params = [id_user];
                 if (search) {
                     baseQuery += ` AND p.Nama_Proyek LIKE ?`;
@@ -69,7 +118,7 @@ GROUP BY p.ID, p.Nama_Proyek, p.status, p.due_date`;
                         id: p.ID,
                         name: p.Nama_Proyek,
                         id_user: p.Id_User,
-                        location: "Jakarta", 
+                        location: "Jakarta",
                         progress: p.progress,
                         status: p.status,
                         dueDate: p.due_date
@@ -88,9 +137,10 @@ GROUP BY p.ID, p.Nama_Proyek, p.status, p.due_date`;
             }
         },
         meta: new Meta()
-            .setSummary("Mengambil daftar proyek dengan paginasi")
-            .setDescription("Endpoint ini digunakan untuk mengambil data proyek milik user dengan dukungan paginasi dan pencarian.")
+            .setSummary("Mengambil daftar proyek atau detail proyek")
+            .setDescription("Endpoint ini digunakan untuk mengambil data proyek. Gunakan query param 'id' untuk single project, atau page/limit untuk list.")
             .setTags("Projects")
+            .addQueryParam("id", "ID proyek untuk fetch single project", false, "number")
             .addQueryParam("page", "Halaman ke-n", false, "number")
             .addQueryParam("limit", "Jumlah data per halaman", false, "number")
             .addQueryParam("search", "Kata kunci pencarian nama proyek", false, "string")
@@ -106,9 +156,9 @@ GROUP BY p.ID, p.Nama_Proyek, p.status, p.due_date`;
 
                 // 1. Strict Validation
                 if (!name || typeof name !== 'string' || name.trim().length < 3) {
-                    return res.status(400).json({ 
-                        success: false, 
-                        message: "Nama proyek wajib diisi (minimal 3 karakter)" 
+                    return res.status(400).json({
+                        success: false,
+                        message: "Nama proyek wajib diisi (minimal 3 karakter)"
                     });
                 }
 
@@ -127,10 +177,10 @@ GROUP BY p.ID, p.Nama_Proyek, p.status, p.due_date`;
                     newValues: { name: name.trim(), id_user }
                 }, req);
 
-                res.status(201).json({ 
-                    success: true, 
-                    message: "Proyek berhasil ditambahkan", 
-                    projectId 
+                res.status(201).json({
+                    success: true,
+                    message: "Proyek berhasil ditambahkan",
+                    projectId
                 });
             } catch (error) {
                 console.error("Error in POST /user/List_Projek:", error);
@@ -155,14 +205,14 @@ GROUP BY p.ID, p.Nama_Proyek, p.status, p.due_date`;
                 const result = await db.transaction(async (tx) => {
                     // Fetch old values for audit
                     const oldValues = await tx.safeQuery("SELECT Nama_Proyek FROM proyek WHERE ID = ? AND Id_User = ?", [id, id_user]);
-                    
+
                     if (oldValues.length === 0) {
                         throw new Error("NOT_FOUND_OR_UNAUTHORIZED");
                     }
 
                     const updateQuery = "UPDATE proyek SET Nama_Proyek = ? WHERE ID = ? AND Id_User = ?";
                     const updateResult = await tx.safeQuery(updateQuery, [name.trim(), id, id_user]);
-                    
+
                     return { updateResult, oldValues: oldValues[0] };
                 });
 
@@ -198,14 +248,14 @@ GROUP BY p.ID, p.Nama_Proyek, p.status, p.due_date`;
                 // Atomic Transaction: Fetch -> Delete -> Audit
                 const deletedData = await db.transaction(async (tx) => {
                     const oldData = await tx.safeQuery("SELECT * FROM proyek WHERE ID = ? AND Id_User = ?", [id, id_user]);
-                    
+
                     if (oldData.length === 0) {
                         throw new Error("NOT_FOUND_OR_UNAUTHORIZED");
                     }
 
                     const deleteQuery = "DELETE FROM proyek WHERE ID = ? AND Id_User = ?";
                     await tx.safeQuery(deleteQuery, [id, id_user]);
-                    
+
                     return oldData[0];
                 });
 

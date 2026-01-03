@@ -13,7 +13,7 @@ const PROMPT_TEMPLATE = fs.readFileSync(
 
 class Instructor {
 
-    async updateDatabase(command) {
+    async generateInsturction(command) {
         console.log(`Generating stuructured action for: "${command}"`);
 
         const { columns, tasks } = await this.#fetchWorkData();

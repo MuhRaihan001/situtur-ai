@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import {
   Plus,
@@ -49,7 +50,8 @@ Modal.propTypes = {
 };
 
 const Tasks = () => {
-  const navigate = useNavigate();
+  const { id } = useParams(); // Ambil parameter id dari URL
+  const navigate = useNavigate(); // Untuk navigasi kembali
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -81,7 +83,25 @@ const Tasks = () => {
 
     try {
       setLoading(true);
-      const response = await axios.get(`/works/list?id_proyek=${idProyek}`);
+
+      // Fetch project details jika ada id
+      let projectData = null;
+      if (id) {
+        try {
+          const projectResponse = await axios.get(`/user/List_Projek?id=${id}`);
+          if (projectResponse.data.success) {
+            projectData = projectResponse.data.project || projectResponse.data.projects?.[0];
+          }
+        } catch (err) {
+          console.error('Error fetching project:', err);
+        }
+      }
+
+      // Fetch works/tasks
+      const url = id ? `/works/list?project_id=${id}` : '/works/list';
+      const response = await axios.get(url);
+      console.log('Full Works Response:', response.data);
+
       if (response.data.success) {
         const works = response.data.works || [];
         const backendTeamSize = response.data.team_size || 0;
@@ -118,6 +138,13 @@ const Tasks = () => {
           if (daysLeft < 0) daysLeft = 0;
         }
 
+        const finalProjectId = id
+          ? parseInt(id)
+          : (works[0]?.project?.id ?? null);
+
+        const finalProjectName = id
+          ? (projectData?.name || `Project #${id}`)
+          : (works[0]?.project?.name || 'Tidak ada proyek');
         setData({
           projectName: project.Nama_Proyek || (works.length > 0 && works[0].Nama_Proyek ? works[0].Nama_Proyek : 'Daftar Tugas Proyek'),
           projectProgress: works.length > 0 ? Math.round(works.reduce((acc, curr) => acc + curr.progress, 0) / works.length) : 0,
@@ -152,6 +179,7 @@ const Tasks = () => {
             color: w.status === 'completed' ? 'bg-emerald-500' : 'bg-[#0DEDF2]'
           }))
         });
+        setError(null);
       } else {
         setError(response.data.message || 'Gagal mengambil daftar tugas');
       }
@@ -204,6 +232,10 @@ const Tasks = () => {
         progress: parseInt(formData.progress),
         id_proyek: idProyek // Include project ID
       };
+
+      if (id) {
+        payload.id_Proyek = parseInt(id);
+      }
 
       let response;
       if (selectedTask) {
@@ -305,6 +337,19 @@ const Tasks = () => {
   return (
     <Layout>
       <div className="space-y-6 animate-in fade-in duration-500">
+        {/* Back Button */}
+        {id && (
+          <button
+            onClick={() => navigate('/projects')}
+            className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 font-medium transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Kembali ke Projects
+          </button>
+        )}
+
         {/* Project Header Card */}
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
           <div className="flex flex-col md:flex-row justify-between items-start gap-6">
@@ -315,7 +360,7 @@ const Tasks = () => {
               </div>
               <h1 className="text-2xl font-bold text-gray-900">{data.projectName}</h1>
               <p className="text-sm text-gray-500 max-w-2xl leading-relaxed">
-                {/*Nanti di isi disini*/}
+                {data.tasks.length} tugas dalam proyek ini
               </p>
             </div>
             <div className="flex items-center gap-6">
