@@ -6,6 +6,7 @@ exports.GET = function (req, res) {
                 return res.status(500).json({ success: false, message: 'Gagal logout' });
             }
             res.clearCookie('connect.sid');
+            res.clearCookie('userData');
             return res.json({ success: true, message: 'Logout berhasil' });
         });
     } else {

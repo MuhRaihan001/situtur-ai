@@ -69,6 +69,8 @@ exports.POST = async function (req, res, next) {
         };
         const cookieToken = await token.generate(cookiesObject)
 
+        req.session.user = cookiesObject;
+
         res.cookie('userData', cookieToken, {
             httpOnly: true,
             secure: true,

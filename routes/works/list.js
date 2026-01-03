@@ -1,15 +1,22 @@
 const { Meta } = require("../../handler/meta");
 const Works = require("../../handler/work");
+const { isUser } = require("../../middleware/auth");
+const Tokenizer = require("../../handler/token");
 
 const work = new Works();
+const token = new Tokenizer();
 
 module.exports = {
+    middleware: [isUser],
     GET: {
         handler: async function (req, res) {
             try {
                 const db = req.app.locals.db;
                 const id_proyek = req.query.id_proyek;
-                const id_user = req.session.user.id_user;
+                
+                const rawData = req.signedCookies.userData;
+                const user = await token.verify(rawData);
+                const id_user = user.id_user;
 
                 // Jika ada id_proyek, validasi kepemilikan
                 if (id_proyek) {

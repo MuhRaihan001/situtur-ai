@@ -1,4 +1,6 @@
 const {isLoggedIn, isAdmin, isUser} = require('../../middleware/auth');
+const Tokenizer = require('../../handler/token');
+const token = new Tokenizer();
 
 exports.middleware = [ isLoggedIn, isUser ]
 
@@ -6,10 +8,12 @@ exports.GET =  async function (req, res, next) {
     const db = req.app.locals.db;
     
     try {
-        // FIX TYPO: req.sesssion → req.session
+        const rawData = req.signedCookies.userData;
+        const user = await token.verify(rawData);
+        
         const Profile = await db.query(
             'SELECT * FROM user WHERE username = ?', 
-            [req.session.user.username]
+            [user.username]
         );
         
         // Cek jika user tidak ditemukan

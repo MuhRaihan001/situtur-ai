@@ -1,7 +1,11 @@
 const {isLoggedIn, isUser} = require('../../middleware/auth');
+const Tokenizer = require('../../handler/token');
+const token = new Tokenizer();
 
 exports.middleware = [isLoggedIn, isUser];
 
-exports.GET = function (req,res,next){
-    res.render('user/settings', {title: 'Situtur | Pengaturan', username: req.session.user.username});
+exports.GET = async function (req,res,next){
+    const rawData = req.signedCookies.userData;
+    const user = await token.verify(rawData);
+    res.render('user/settings', {title: 'Situtur | Pengaturan', username: user.username});
 }

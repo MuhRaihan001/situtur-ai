@@ -142,7 +142,9 @@ GROUP BY p.ID, p.Nama_Proyek, p.status, p.due_date`;
         handler: async function (req, res) {
             try {
                 const { id, name } = req.body;
-                const id_user = req.session.user.id_user;
+                const rawData = req.signedCookies.userData;
+                const user = await token.verify(rawData);
+                const id_user = user.id_user;
 
                 // 1. Validation
                 if (!id || !name || name.trim().length < 3) {
@@ -187,7 +189,9 @@ GROUP BY p.ID, p.Nama_Proyek, p.status, p.due_date`;
         handler: async function (req, res) {
             try {
                 const { id } = req.body;
-                const id_user = req.session.user.id_user;
+                const rawData = req.signedCookies.userData;
+                const user = await token.verify(rawData);
+                const id_user = user.id_user;
 
                 if (!id) return res.status(400).json({ success: false, message: "ID Proyek wajib diisi" });
 
