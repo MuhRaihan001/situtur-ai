@@ -107,7 +107,7 @@ module.exports = {
                 const lastMonthProjectsRows = await db.query(
                     'SELECT COUNT(*) as count FROM proyek WHERE Id_User = ? AND created_at < ?',
                     [id_user, firstDayThisMonth]
-                );
+                ).catch(() => [{ count: 0 }]); // Handle if created_at column doesn't exist yet
                 const lastMonthProjects = lastMonthProjectsRows[0] ? lastMonthProjectsRows[0].count : 0;
                 const growth = lastMonthProjects === 0 ? 0 : ((totalProjects - lastMonthProjects) / lastMonthProjects * 100).toFixed(1);
 

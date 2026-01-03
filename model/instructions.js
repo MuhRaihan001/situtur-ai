@@ -13,8 +13,8 @@ const PROMPT_TEMPLATE = fs.readFileSync(
 
 class Instructor {
 
-    async generateInsturction(command) {
-        console.log(`Generating stuructured action for: "${command}"`);
+    async generateInstruction(command) {
+        console.log(`Generating structured action for: "${command}"`);
 
         const { columns, tasks } = await this.#fetchWorkData();
         const prompt = this.#buildPrompt({ columns, tasks, command });

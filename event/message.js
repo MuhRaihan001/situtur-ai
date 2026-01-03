@@ -1,8 +1,14 @@
 const { commands } = require('../handler/command');
 const Instructor = require('../model/instructions');
+const Workers = require('../handler/worker');
+const Works = require('../handler/work');
+const Database = require('../handler/database');
 
 const prefix = process.env.PREFIX || '!'
 const instructions = new Instructor();
+const workers = new Workers();
+const works = new Works();
+const db = new Database();
 
 /**
  * @param {import('whatsapp-web.js').Client} client
@@ -36,12 +42,15 @@ module.exports = (client) => {
         }
 
         console.log(`${message.from}: ${message.body}`);
-        const workerData = await workers.workerDataByPhone(message.from);
+        
+        // Extract phone number from WhatsApp ID (e.g., 6281234567890@c.us -> 6281234567890)
+        const phoneNumber = message.from.split('@')[0];
+        const workerData = await workers.workerDataByPhone(phoneNumber);
         if (!workerData || workerData.current_task === null) return;
 
-        const instructionsList = await instructions.generateInsturction(message.body);
+        const instructionsList = await instructions.generateInstruction(message.body);
 
-        for (const inst of instructionsList) {
+        for (const inst of instructionsList.actions) {
             console.log(`Instruction for worker ${workerData.worker_name}:`, inst);
 
             const isUnclear = inst.ambiguity_level !== "low" || inst.confidence < 0.8;

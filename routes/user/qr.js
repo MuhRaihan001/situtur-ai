@@ -1,4 +1,5 @@
 const qrcode = require('qrcode');
+const { client: waClient } = require('../../handler/client');
 
 let currentQR = null;
 let qrImageBuffer = null;
@@ -88,8 +89,8 @@ exports.POST = async function (req, res, next) {
         // Generate QR code sebagai PNG buffer
         qrImageBuffer = await qrcode.toBuffer(qr, {
             type: 'png',
-            width: 300,
-            margin: 2,
+            width: 400,
+            margin: 4,
             color: {
                 dark: '#000000',
                 light: '#FFFFFF'
@@ -117,12 +118,27 @@ exports.POST = async function (req, res, next) {
     }
 };
 
-exports.DELETE = function (req, res, next) {
+exports.DELETE = async function (req, res, next) {
     try {
         currentQR = null;
         qrImageBuffer = null;
         qrGenerated = false;
         
+        // Logout from WhatsApp if client is initialized
+        if (waClient) {
+            try {
+                await waClient.logout();
+                console.log('WhatsApp client logged out successfully');
+                
+                // Re-initialize client after logout to allow fresh login
+                await waClient.initialize();
+                console.log('WhatsApp client re-initialized');
+            } catch (logoutError) {
+                console.error('Error during WhatsApp logout/re-init:', logoutError);
+                // Even if logout fails, we still want to clear local state
+            }
+        }
+
         console.log('QR code reset successfully');
         
         broadcastToClients({

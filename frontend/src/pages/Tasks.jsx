@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { decodeId } from '../utils/masking';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import {
   Plus,
@@ -75,7 +75,9 @@ const Tasks = () => {
   });
 
   const fetchTasks = async () => {
-    if (!idProyek) {
+    const activeId = decodeId(id) || idProyek;
+    
+    if (!activeId) {
       setError('Tidak ada proyek yang dipilih. Silakan pilih proyek terlebih dahulu.');
       setLoading(false);
       return;
@@ -86,20 +88,17 @@ const Tasks = () => {
 
       // Fetch project details jika ada id
       let projectData = null;
-      if (id) {
-        try {
-          const projectResponse = await axios.get(`/user/List_Projek?id=${id}`);
-          if (projectResponse.data.success) {
-            projectData = projectResponse.data.project || projectResponse.data.projects?.[0];
-          }
-        } catch (err) {
-          console.error('Error fetching project:', err);
+      try {
+        const projectResponse = await axios.get(`/user/List_Projek?id=${activeId}`);
+        if (projectResponse.data.success) {
+          projectData = projectResponse.data.project || projectResponse.data.projects?.[0];
         }
+      } catch (err) {
+        console.error('Error fetching project:', err);
       }
 
-      // Fetch works/tasks
-      const url = id ? `/works/list?project_id=${id}` : '/works/list';
-      const response = await axios.get(url);
+      // Fetch works/tasks - Gunakan id_proyek sesuai backend
+      const response = await axios.get(`/works/list?id_proyek=${activeId}`);
       console.log('Full Works Response:', response.data);
 
       if (response.data.success) {
@@ -197,7 +196,7 @@ const Tasks = () => {
 
   useEffect(() => {
     fetchTasks();
-  }, [idProyek]);
+  }, [id, idProyek]);
 
   const handleOpenAddModal = () => {
     setSelectedTask(null);
@@ -225,17 +224,14 @@ const Tasks = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setFormLoading(true);
+    const activeId = decodeId(id) || idProyek;
     try {
       const payload = {
         work_name: formData.name,
         deadline: new Date(formData.deadline).getTime(),
         progress: parseInt(formData.progress),
-        id_proyek: idProyek // Include project ID
+        id_proyek: parseInt(activeId)
       };
-
-      if (id) {
-        payload.id_Proyek = parseInt(id);
-      }
 
       let response;
       if (selectedTask) {
@@ -340,7 +336,7 @@ const Tasks = () => {
         {/* Back Button */}
         {id && (
           <button
-            onClick={() => navigate('/projects')}
+            onClick={() => navigate('/user/projects')}
             className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 font-medium transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

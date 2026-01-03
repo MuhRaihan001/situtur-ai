@@ -124,31 +124,6 @@ paths:
                 id:
                   type: integer
                   example: 1
-  /workers/delete:
-    delete:
-      responses:
-        '200':
-          description: Worker deleted successfully
-        '400':
-          description: Missing ID
-        '500':
-          description: Internal Server Error
-      summary: Delete Worker
-      description: Deletes a worker from the system by ID.
-      tags:
-        - Workers
-      operationId: deleteWorker
-      requestBody:
-        description: Worker ID to delete
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  example: 1
   /workers/list:
     get:
       responses:
@@ -322,6 +297,39 @@ paths:
                 deadline:
                   type: TIMESTAMP
                   example: '2026-01-01 12:00:00'
+  /works/update:
+    put:
+      responses:
+        '200':
+          description: Task updated successfully
+        '400':
+          description: Missing ID
+        '500':
+          description: Internal Server Error
+      summary: Update Task
+      description: Updates an existing task's details.
+      tags:
+        - Works
+      operationId: updateWork
+      requestBody:
+        description: Task details to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                work_name:
+                  type: string
+                deadline:
+                  type: TIMESTAMP
+                progress:
+                  type: integer
+                status:
+                  type: string
   /works/delete:
     delete:
       responses:
@@ -379,78 +387,6 @@ paths:
                     status:
                       type: string
                       example: on_progress
-                    starterd_at:
-                      type: string
-                      example: 25 Desember 2025 10.00.00
-                    finished_at:
-                      type: string
-                      example: 30 Desember 2025 18.00.00
-        '404':
-          description: Tidak ada data karya
-        '500':
-          description: Internal Server Error
-      summary: Mengambil daftar karya
-      description: Endpoint ini digunakan untuk mengambil seluruh data karya yang tersimpan dalam sistem.
-      tags:
-        - Works
-      operationId: getWorksList
-  /works/update:
-    put:
-      responses:
-        '200':
-          description: Task updated successfully
-        '400':
-          description: Missing ID
-        '500':
-          description: Internal Server Error
-      summary: Update Task
-      description: Updates an existing task's details.
-      tags:
-        - Works
-      operationId: updateWork
-      requestBody:
-        description: Task details to update
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  example: 1
-                work_name:
-                  type: string
-                deadline:
-                  type: TIMESTAMP
-                progress:
-                  type: integer
-                status:
-                  type: string
-  /works/list:
-    get:
-      responses:
-        '200':
-          description: Berhasil mengambil daftar karya
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 1
-                    work_name:
-                      type: string
-                      example: Pembuatan API OpenAI
-                    progress:
-                      type: integer
-                      example: 80
-                    status:
-                      type: string
-                      example: on_progress
                     started_at:
                       type: string
                       example: '2025-12-25'
@@ -466,6 +402,12 @@ paths:
       tags:
         - Works
       operationId: getWorksList
+      parameters:
+        - name: project_id
+          in: query
+          required: integer
+          schema: Filter berdasarkan ID proyek
+          description: project_id parameter
   /works/waitlist/accept:
     post:
       responses:

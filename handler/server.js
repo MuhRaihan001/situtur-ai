@@ -19,7 +19,9 @@ app.use(session({
         maxAge: 60000 * 60 // 1 jam
     }
 }));
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false, // Nonaktifkan CSP untuk sementara agar tidak memblokir inline scripts/styles dari Vite
+}));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));

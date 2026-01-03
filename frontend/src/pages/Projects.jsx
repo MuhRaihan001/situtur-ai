@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { 
   FolderOpen, 
@@ -16,9 +15,11 @@ import {
   Trash2,
   AlertCircle,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  ArrowRight
 } from 'lucide-react';
 import PropTypes from 'prop-types';
+import { encodeId } from '../utils/masking';
 
 // --- Modal Component ---
 const Modal = ({ isOpen, onClose, title, children }) => {
@@ -123,15 +124,13 @@ const Projects = () => {
     setIsFormModalOpen(true);
   };
 
-  const handleOpenEditModal = (e, project) => {
-    e.stopPropagation(); // Prevent row click
+  const handleOpenEditModal = (project) => {
     setSelectedProject(project);
     setFormData({ name: project.name });
     setIsFormModalOpen(true);
   };
 
-  const handleOpenDeleteModal = (e, project) => {
-    e.stopPropagation(); // Prevent row click
+  const handleOpenDeleteModal = (project) => {
     setSelectedProject(project);
     setDeleteConfirmName('');
     setDeleteError('');
@@ -195,7 +194,35 @@ const Projects = () => {
     }
   };
 
-  if (!data) return null;
+  if (loading) {
+    return (
+      <Layout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <Loader2 className="w-8 h-8 animate-spin text-[#0DEDF2]" />
+        </div>
+      </Layout>
+    );
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-4">
+          <div className="bg-red-50 p-4 rounded-full text-red-600 mb-4">
+            <AlertCircle className="w-8 h-8" />
+          </div>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Gagal Memuat Proyek</h2>
+          <p className="text-gray-600 mb-6 max-w-md">{error}</p>
+          <button 
+            onClick={fetchProjects}
+            className="px-6 py-2 bg-white border border-gray-200 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-colors shadow-sm"
+          >
+            Coba Lagi
+          </button>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -292,8 +319,7 @@ const Projects = () => {
                   <tr 
                     key={project.id} 
                     onClick={() => {
-                      sessionStorage.setItem('selected_project_id', project.id);
-                      navigate('/user/tasks');
+                      navigate(`/user/tasks/${encodeId(project.id)}`);
                     }}
                     className="hover:bg-gray-50 transition-colors group cursor-pointer"
                   >
@@ -321,12 +347,12 @@ const Projects = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                        project.status === 'In Progres' ? 'bg-[#DBEAFE] text[#166534]' :
-                        project.status === 'Completed' ? 'bg-[#DBEAFE] text-[#1E40AF]' :
-                        project.status === 'Fieled' ? 'bg-[#FEE2E2] text-[#991B1B]' :
-                        'bg-blue-50 text-blue-600'
+                        project.status === 'in_progress' ? 'bg-blue-50 text-blue-600' :
+                        project.status === 'completed' ? 'bg-emerald-50 text-emerald-600' :
+                        project.status === 'failed' ? 'bg-red-50 text-red-600' :
+                        'bg-gray-50 text-gray-600'
                       }`}>
-                        {project.status}
+                        {project.status?.replace('_', ' ')}
                       </span>
                     </td>
                     <td className="px-6 py-4">
