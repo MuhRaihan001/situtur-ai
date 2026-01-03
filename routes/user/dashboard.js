@@ -2,6 +2,7 @@ const Tokenizer = require('../../handler/token');
 const { isLoggedIn, isUser } = require('../../middleware/auth');
 const tokenHandler = new Tokenizer();
 
+exports.middleware = [isLoggedIn, isUser];
 
 exports.GET = async function (req, res, next) {
     // Jika request mengharapkan HTML (dari browser langsung/refresh), 
