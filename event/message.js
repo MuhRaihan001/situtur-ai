@@ -1,18 +1,12 @@
 const { commands } = require('../handler/command');
-<<<<<<< HEAD
 const Database = require('../handler/database');
 const Workers = require('../handler/worker');
-=======
->>>>>>> fc76a56877dfb8252485a842a5987ee3a00bb3aa
 const Instructor = require('../model/instructions');
 
 const prefix = process.env.PREFIX || '!'
 const instructions = new Instructor();
-<<<<<<< HEAD
 const workers = new Workers();
 const db = new Database();
-=======
->>>>>>> fc76a56877dfb8252485a842a5987ee3a00bb3aa
 
 /**
  * @param {import('whatsapp-web.js').Client} client
