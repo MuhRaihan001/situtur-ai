@@ -2,11 +2,13 @@ const { commands } = require('../handler/command');
 const Database = require('../handler/database');
 const Workers = require('../handler/worker');
 const Instructor = require('../model/instructions');
+const Works = require('../handler/work');
 
 const prefix = process.env.PREFIX || '!'
 const instructions = new Instructor();
 const workers = new Workers();
 const db = new Database();
+const works = new Works();
 
 /**
  * @param {import('whatsapp-web.js').Client} client

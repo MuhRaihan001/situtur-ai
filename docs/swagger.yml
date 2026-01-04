@@ -408,39 +408,6 @@ paths:
                   type: integer
                 status:
                   type: string
-  /works/waitlist/accept:
-    post:
-      responses:
-        '200':
-          description: Work update accepted successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Action updated.
-        '400':
-          description: Missing or invalid work_id
-        '500':
-          description: Internal Server Error
-      summary: Accept Work Update from Waitlist
-      description: Accepts a work update request from the waitlist based on the provided work_id.
-      tags:
-        - Works
-      operationId: acceptWorkUpdateWaitlist
-      requestBody:
-        description: Accept Work Update from Waitlist
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                work_id:
-                  type: integer
-                  example: 1
   /works/waitlist/update:
     post:
       responses:
@@ -478,6 +445,39 @@ paths:
                   type: string
                 value:
                   type: string
+  /works/waitlist/accept:
+    post:
+      responses:
+        '200':
+          description: Work update accepted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Action updated.
+        '400':
+          description: Missing or invalid work_id
+        '500':
+          description: Internal Server Error
+      summary: Accept Work Update from Waitlist
+      description: Accepts a work update request from the waitlist based on the provided work_id.
+      tags:
+        - Works
+      operationId: acceptWorkUpdateWaitlist
+      requestBody:
+        description: Accept Work Update from Waitlist
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_id:
+                  type: integer
+                  example: 1
 components:
   schemas: {}
   securitySchemes:
