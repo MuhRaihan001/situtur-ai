@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../components/Layout';
-import { 
-  FolderOpen, 
-  Search, 
-  Filter, 
-  Plus, 
+import {
+  FolderOpen,
+  Search,
+  Filter,
+  Plus,
   MoreVertical,
   Loader2,
   Settings2,
@@ -55,7 +55,7 @@ const Projects = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   // CRUD States
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -64,11 +64,11 @@ const Projects = () => {
   const [formLoading, setFormLoading] = useState(false);
   const [deleteConfirmName, setDeleteConfirmName] = useState('');
   const [deleteError, setDeleteError] = useState('');
-  
+
   // Pagination States
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  
+
   const [formData, setFormData] = useState({
     name: '',
     due_date: ''
@@ -92,18 +92,55 @@ const Projects = () => {
     currentPage * itemsPerPage
   );
 
+  const handleProjectProgess = async (projectId) => {
+    try {
+      const response = await axios.get(`/works/list?id_proyek=${projectId}`);
+      const works = response.data.works || [];
+      const progress = works.length > 0 ? Math.round(works.reduce((acc, curr) => acc + curr.progress, 0) / works.length) : 0;
+      return progress;
+    } catch (err) {
+      console.error('Error calculating project progress:', err);
+      return 0;
+    }
+  }
+
   const fetchProjects = async () => {
     try {
       setLoading(true);
+
       const response = await axios.get('/user/List_Projek');
-      if (response.data.success) {
-        setData({
-          projects: response.data.projects,
-          stats: response.data.stats
-        });
-      } else {
-        setError('Gagal mengambil daftar proyek');
+
+      if (!response.data.success) {
+        setError('Gagal mengambil data proyek');
+        return;
       }
+
+      const projects = response.data.projects;
+
+      const projectsWithProgress = await Promise.all(
+        projects.map(async (project) => {
+          const progress = await handleProjectProgess(project.id);
+
+          return {
+            ...project,
+            progress,
+          };
+        })
+      );
+
+      setData({
+        projects: projectsWithProgress,
+        stats: {
+          total: projectsWithProgress.length,
+          inProgress: projectsWithProgress.filter(
+            (p) => p.status === 'On Track'
+          ).length,
+          completed: projectsWithProgress.filter(
+            (p) => p.status === 'Completed'
+          ).length,
+          growth: '+0%',
+        },
+      });
     } catch (err) {
       console.error('Fetch error:', err);
       setError('Terjadi kesalahan koneksi ke server');
@@ -238,6 +275,8 @@ const Projects = () => {
     );
   }
 
+  const filteredProjectsForTable = paginatedProjects;
+
   return (
     <Layout>
       <div className="space-y-8 animate-in fade-in duration-500">
@@ -249,7 +288,7 @@ const Projects = () => {
               <Filter className="w-4 h-4 text-gray-500" />
               <span className="text-sm font-medium text-gray-600">Filter</span>
             </button>
-            <button 
+            <button
               onClick={handleOpenAddModal}
               className="flex items-center gap-2 px-4 py-2 bg-[#0DEDF2] text-[#134E4A] font-bold rounded-xl hover:bg-[#0BBDC7] transition-all shadow-sm active:scale-95"
             >
@@ -306,8 +345,8 @@ const Projects = () => {
           <div className="p-4 border-b border-gray-100">
             <div className="relative max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input 
-                type="text" 
+              <input
+                type="text"
                 placeholder="Search projects by name or ID..."
                 className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0DEDF2]/20 focus:border-[#0DEDF2]"
                 value={searchTerm}
@@ -361,9 +400,9 @@ const Projects = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                        (project.status?.toLowerCase() === 'in_progress' || project.status?.toLowerCase() === 'pending') ? 'bg-blue-50 text-blue-600' :
+                        (project.status?.toLowerCase() === 'in_progress' || project.status?.toLowerCase() === 'pending' || project.status?.toLowerCase() === 'on track') ? 'bg-blue-50 text-blue-600' :
                         (project.status?.toLowerCase() === 'completed' || project.status?.toLowerCase() === 'compleated') ? 'bg-emerald-50 text-emerald-600' :
-                        project.status?.toLowerCase() === 'failed' ? 'bg-red-50 text-red-600' :
+                        (project.status?.toLowerCase() === 'failed' || project.status?.toLowerCase() === 'fieled') ? 'bg-red-50 text-red-600' :
                         'bg-gray-50 text-gray-600'
                       }`}>
                         {project.status?.replace('_', ' ')}
@@ -373,7 +412,7 @@ const Projects = () => {
                       <div className="flex -space-x-2">
                         {(project.team || []).map((avatar, i) => (
                           <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center overflow-hidden">
-                             <span className="text-[10px] font-bold text-gray-500">U{i}</span>
+                            <span className="text-[10px] font-bold text-gray-500">U{i}</span>
                           </div>
                         ))}
                         <div className="w-8 h-8 rounded-full border-2 border-white bg-gray-50 flex items-center justify-center">
@@ -492,24 +531,33 @@ const Projects = () => {
               </div>
             </div>
           )}
+
+          {filteredProjects.length === 0 && (
+            <div className="p-12 text-center">
+              <FolderOpen className="w-12 h-12 text-gray-200 mx-auto mb-4" />
+              <p className="text-sm text-gray-400 font-medium">
+                {searchTerm ? 'Tidak ada proyek yang sesuai dengan pencarian' : 'Belum ada proyek'}
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Form Modal (Add/Edit) */}
-      <Modal 
-        isOpen={isFormModalOpen} 
-        onClose={() => setIsFormModalOpen(false)} 
+      <Modal
+        isOpen={isFormModalOpen}
+        onClose={() => setIsFormModalOpen(false)}
         title={selectedProject ? 'Edit Proyek' : 'Tambah Proyek Baru'}
       >
         <form onSubmit={handleFormSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-1">Nama Proyek</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               required
               className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#0DEDF2]/20 focus:border-[#0DEDF2]"
               value={formData.name}
-              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="Contoh: Pembangunan MRT Fase 2"
             />
           </div>
@@ -534,9 +582,9 @@ const Projects = () => {
       </Modal>
 
       {/* Delete Modal */}
-      <Modal 
-        isOpen={isDeleteModalOpen} 
-        onClose={() => setIsDeleteModalOpen(false)} 
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
         title="Hapus Proyek"
       >
         <div className="space-y-4">
@@ -547,13 +595,13 @@ const Projects = () => {
               <p className="text-xs text-red-600 mt-1">Seluruh data tugas dan progres yang terkait dengan proyek ini akan dihapus secara permanen.</p>
             </div>
           </div>
-          
+
           <div className="space-y-2">
             <p className="text-sm text-gray-600">
               Ketik nama proyek <span className="font-bold text-gray-900">"{selectedProject?.name}"</span> untuk mengonfirmasi penghapusan.
             </p>
-            <input 
-              type="text" 
+            <input
+              type="text"
               className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
               value={deleteConfirmName}
               onChange={(e) => setDeleteConfirmName(e.target.value)}
@@ -563,13 +611,13 @@ const Projects = () => {
           </div>
 
           <div className="flex gap-3">
-            <button 
+            <button
               onClick={() => setIsDeleteModalOpen(false)}
               className="flex-1 py-3 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition-all"
             >
               Batal
             </button>
-            <button 
+            <button
               onClick={handleDeleteSubmit}
               disabled={formLoading || deleteConfirmName !== selectedProject?.name}
               className="flex-1 py-3 bg-red-500 text-white font-bold rounded-xl hover:bg-red-600 transition-all disabled:opacity-50 flex items-center justify-center"

@@ -12,7 +12,7 @@ module.exports = {
         handler: async function (req, res) {
             try {
                 const db = req.app.locals.db;
-                const id_proyek = req.query.id_proyek;
+                const id_proyek = req.query.id_proyek || req.query.project_id;
                 
                 const rawData = req.signedCookies.userData;
                 const user = await token.verify(rawData);

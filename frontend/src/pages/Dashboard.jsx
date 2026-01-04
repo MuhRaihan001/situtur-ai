@@ -184,7 +184,9 @@ const Dashboard = () => {
           <div className="bg-white border border-[#E5E7EB] rounded-xl shadow-sm overflow-hidden">
             <div className="px-6 py-4 border-b border-[#F1F5F9] flex justify-between items-center">
               <h3 className="text-xl font-bold text-[#111827]">Priority Tasks</h3>
-              <button className="text-sm font-medium text-[#0BBDC7] hover:underline">View All</button>
+              <a href='/user/projects'>
+                <button className="text-sm font-medium text-[#0BBDC7] hover:underline">View All</button>
+              </a>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">

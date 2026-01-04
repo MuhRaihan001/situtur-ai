@@ -33,7 +33,6 @@ class Database {
             if (duration > 100) {
                 console.warn(`[PERF] Slow Query (${duration}ms): ${sql.substring(0, 100)}...`);
             }
-
             return rows;
         } catch (err) {
             console.error(`[DB ERROR] Query: ${sql}`);

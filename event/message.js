@@ -1,8 +1,8 @@
 const { commands } = require('../handler/command');
-const Instructor = require('../model/instructions');
-const Workers = require('../handler/worker');
-const Works = require('../handler/work');
 const Database = require('../handler/database');
+const Workers = require('../handler/worker');
+const Instructor = require('../model/instructions');
+const Works = require('../handler/work');
 
 const prefix = process.env.PREFIX || '!'
 const instructions = new Instructor();
@@ -49,6 +49,7 @@ module.exports = (client) => {
         if (!workerData || workerData.current_task === null) return;
 
         const instructionsList = await instructions.generateInstruction(message.body);
+        console.log('Instructions generated:', instructionsList);
 
         for (const inst of instructionsList.actions) {
             console.log(`Instruction for worker ${workerData.worker_name}:`, inst);
