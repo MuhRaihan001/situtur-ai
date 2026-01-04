@@ -330,39 +330,6 @@ paths:
                 work_id:
                   type: integer
                   example: 1
-  /works/update:
-    put:
-      responses:
-        '200':
-          description: Task updated successfully
-        '400':
-          description: Missing ID
-        '500':
-          description: Internal Server Error
-      summary: Update Task
-      description: Updates an existing task's details.
-      tags:
-        - Works
-      operationId: updateWork
-      requestBody:
-        description: Task details to update
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  example: 1
-                work_name:
-                  type: string
-                deadline:
-                  type: TIMESTAMP
-                progress:
-                  type: integer
-                status:
-                  type: string
   /works/list:
     get:
       responses:
@@ -408,6 +375,39 @@ paths:
           required: integer
           schema: Filter berdasarkan ID proyek
           description: project_id parameter
+  /works/update:
+    put:
+      responses:
+        '200':
+          description: Task updated successfully
+        '400':
+          description: Missing ID
+        '500':
+          description: Internal Server Error
+      summary: Update Task
+      description: Updates an existing task's details.
+      tags:
+        - Works
+      operationId: updateWork
+      requestBody:
+        description: Task details to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                work_name:
+                  type: string
+                deadline:
+                  type: TIMESTAMP
+                progress:
+                  type: integer
+                status:
+                  type: string
   /works/waitlist/accept:
     post:
       responses:

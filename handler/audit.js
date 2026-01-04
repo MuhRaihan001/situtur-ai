@@ -1,5 +1,7 @@
 const Database = require("./database");
+const Tokenizer = require("./token");
 const db = new Database();
+const token = new Tokenizer();
 
 class AuditService {
     /**
@@ -21,9 +23,10 @@ class AuditService {
                     old_values, new_values, ip_address, user_agent
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             `;
-            
+            const rawData = req.signedCookies.userData;
+            const user = await token.verify(rawData);
             const params = [
-                data.userId || (req?.session?.user?.id_user) || null,
+                data.userId || (user?.id_user) || null,
                 data.action,
                 data.tableName,
                 data.recordId || null,
