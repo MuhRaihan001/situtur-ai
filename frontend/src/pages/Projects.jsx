@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
-import { 
-  FolderOpen, 
-  Search, 
-  Filter, 
-  Plus, 
+import {
+  FolderOpen,
+  Search,
+  Filter,
+  Plus,
   MoreVertical,
   Loader2,
   Settings2,
@@ -51,7 +51,7 @@ const Projects = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   // CRUD States
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -59,28 +59,55 @@ const Projects = () => {
   const [formLoading, setFormLoading] = useState(false);
   const [deleteConfirmName, setDeleteConfirmName] = useState('');
   const [deleteError, setDeleteError] = useState('');
-  
+
   const [formData, setFormData] = useState({
     name: ''
   });
 
+  const handleProjectProgess = async (projectId) => {
+    const response = await axios.get(`/works/list?project_id=${projectId}`);
+    const works = await response.data.works || [];
+    const progress = works.length > 0 ? Math.round(works.reduce((acc, curr) => acc + curr.progress, 0) / works.length) : 0;
+    return progress;
+  }
+
   const fetchProjects = async () => {
     try {
       setLoading(true);
+
       const response = await axios.get('/user/List_Projek');
-      if (response.data.success) {
-        setData({
-          projects: response.data.projects,
-          stats: {
-            total: response.data.projects.length,
-            inProgress: response.data.projects.filter(p => p.status === 'On Track').length,
-            completed: response.data.projects.filter(p => p.status === 'Completed').length,
-            growth: '+0%'
-          }
-        });
-      } else {
+
+      if (!response.data.success) {
         setError('Gagal mengambil data proyek');
+        return;
       }
+
+      const projects = response.data.projects;
+
+      const projectsWithProgress = await Promise.all(
+        projects.map(async (project) => {
+          const progress = await handleProjectProgess(project.id);
+
+          return {
+            ...project,
+            progress,
+          };
+        })
+      );
+
+      setData({
+        projects: projectsWithProgress,
+        stats: {
+          total: projectsWithProgress.length,
+          inProgress: projectsWithProgress.filter(
+            (p) => p.status === 'On Track'
+          ).length,
+          completed: projectsWithProgress.filter(
+            (p) => p.status === 'Completed'
+          ).length,
+          growth: '+0%',
+        },
+      });
     } catch (err) {
       console.error('Fetch error:', err);
       setError('Terjadi kesalahan koneksi ke server');
@@ -187,7 +214,7 @@ const Projects = () => {
 
   const { stats, projects } = data || { stats: { total: 0, inProgress: 0, completed: 0, growth: '+0%' }, projects: [] };
 
-  const filteredProjects = projects.filter(p => 
+  const filteredProjects = projects.filter(p =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.id.toString().includes(searchTerm)
   );
@@ -203,7 +230,7 @@ const Projects = () => {
               <Filter className="w-4 h-4 text-gray-500" />
               <span className="text-sm font-medium text-gray-600">Filter</span>
             </button>
-            <button 
+            <button
               onClick={handleOpenAddModal}
               className="flex items-center gap-2 px-4 py-2 bg-[#0DEDF2] text-[#134E4A] font-bold rounded-xl hover:bg-[#0BBDC7] transition-all shadow-sm active:scale-95"
             >
@@ -258,8 +285,8 @@ const Projects = () => {
           <div className="p-4 border-b border-gray-100">
             <div className="relative max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input 
-                type="text" 
+              <input
+                type="text"
                 placeholder="Search projects by name or ID..."
                 className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0DEDF2]/20 focus:border-[#0DEDF2]"
                 value={searchTerm}
@@ -282,8 +309,8 @@ const Projects = () => {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {filteredProjects.map((project) => (
-                  <tr 
-                    key={project.id} 
+                  <tr
+                    key={project.id}
                     onClick={() => handleProjectClick(project.id)}
                     className="hover:bg-gray-50 transition-colors group cursor-pointer"
                   >
@@ -310,12 +337,11 @@ const Projects = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                        project.status === 'In Progres' ? 'bg-[#DBEAFE] text[#166534]' :
-                        project.status === 'Completed' ? 'bg-[#DBEAFE] text-[#1E40AF]' :
-                        project.status === 'Fieled' ? 'bg-[#FEE2E2] text-[#991B1B]' :
-                        'bg-blue-50 text-blue-600'
-                      }`}>
+                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${project.status === 'In Progres' ? 'bg-[#DBEAFE] text[#166534]' :
+                          project.status === 'Completed' ? 'bg-[#DBEAFE] text-[#1E40AF]' :
+                            project.status === 'Fieled' ? 'bg-[#FEE2E2] text-[#991B1B]' :
+                              'bg-blue-50 text-blue-600'
+                        }`}>
                         {project.status}
                       </span>
                     </td>
@@ -323,7 +349,7 @@ const Projects = () => {
                       <div className="flex -space-x-2">
                         {(project.team || []).map((avatar, i) => (
                           <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center overflow-hidden">
-                             <span className="text-[10px] font-bold text-gray-500">U{i}</span>
+                            <span className="text-[10px] font-bold text-gray-500">U{i}</span>
                           </div>
                         ))}
                         <div className="w-8 h-8 rounded-full border-2 border-white bg-gray-50 flex items-center justify-center">
@@ -336,13 +362,13 @@ const Projects = () => {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button 
+                        <button
                           onClick={(e) => handleOpenEditModal(e, project)}
                           className="p-2 rounded-lg text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors shadow-sm border border-transparent hover:border-gray-100"
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
-                        <button 
+                        <button
                           onClick={(e) => handleOpenDeleteModal(e, project)}
                           className="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors shadow-sm border border-transparent hover:border-gray-100"
                         >
@@ -355,7 +381,7 @@ const Projects = () => {
               </tbody>
             </table>
           </div>
-          
+
           {filteredProjects.length === 0 && (
             <div className="p-12 text-center">
               <FolderOpen className="w-12 h-12 text-gray-200 mx-auto mb-4" />
@@ -368,25 +394,25 @@ const Projects = () => {
       </div>
 
       {/* Form Modal (Add/Edit) */}
-      <Modal 
-        isOpen={isFormModalOpen} 
-        onClose={() => setIsFormModalOpen(false)} 
+      <Modal
+        isOpen={isFormModalOpen}
+        onClose={() => setIsFormModalOpen(false)}
         title={selectedProject ? 'Edit Proyek' : 'Tambah Proyek Baru'}
       >
         <form onSubmit={handleFormSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-1">Nama Proyek</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               required
               className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#0DEDF2]/20 focus:border-[#0DEDF2]"
               value={formData.name}
-              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="Contoh: Pembangunan MRT Fase 2"
             />
           </div>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={formLoading}
             className="w-full py-3 bg-[#0DEDF2] text-[#134E4A] font-bold rounded-xl hover:bg-[#0BBDC7] transition-all disabled:opacity-50 flex items-center justify-center"
           >
@@ -396,9 +422,9 @@ const Projects = () => {
       </Modal>
 
       {/* Delete Modal */}
-      <Modal 
-        isOpen={isDeleteModalOpen} 
-        onClose={() => setIsDeleteModalOpen(false)} 
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
         title="Hapus Proyek"
       >
         <div className="space-y-4">
@@ -409,13 +435,13 @@ const Projects = () => {
               <p className="text-xs text-red-600 mt-1">Seluruh data tugas dan progres yang terkait dengan proyek ini akan dihapus secara permanen.</p>
             </div>
           </div>
-          
+
           <div className="space-y-2">
             <p className="text-sm text-gray-600">
               Ketik nama proyek <span className="font-bold text-gray-900">"{selectedProject?.name}"</span> untuk mengonfirmasi penghapusan.
             </p>
-            <input 
-              type="text" 
+            <input
+              type="text"
               className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
               value={deleteConfirmName}
               onChange={(e) => setDeleteConfirmName(e.target.value)}
@@ -425,13 +451,13 @@ const Projects = () => {
           </div>
 
           <div className="flex gap-3">
-            <button 
+            <button
               onClick={() => setIsDeleteModalOpen(false)}
               className="flex-1 py-3 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition-all"
             >
               Batal
             </button>
-            <button 
+            <button
               onClick={handleDeleteSubmit}
               disabled={formLoading || deleteConfirmName !== selectedProject?.name}
               className="flex-1 py-3 bg-red-500 text-white font-bold rounded-xl hover:bg-red-600 transition-all disabled:opacity-50 flex items-center justify-center"
