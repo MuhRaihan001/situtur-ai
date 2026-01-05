@@ -34,7 +34,7 @@ module.exports = {
                 }
 
                 const works = await work.list(id_proyek);
-                res.status(works.status).json({
+                res.status(200).json({
                     success: true,
                     works: works.works,
                     team_size: works.team_size,

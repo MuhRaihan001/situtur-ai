@@ -249,7 +249,7 @@ const Workers = () => {
             phone_number: (w.phone_number || '').startsWith('62') ? "+" + w.phone_number : (w.phone_number || ''),
             name: w.worker_name || 'Unnamed Worker',
             joinedDate: w.created_at ? new Date(w.created_at).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' }) : "Jan 2025",
-            role: w.current_task_name || "Field Worker",
+            role: w.current_task_name || "Worker",
             currentProject: w.current_project_name || "Unassigned",
             status: w.status || "Active"
           })),

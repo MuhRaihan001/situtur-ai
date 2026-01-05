@@ -28,7 +28,7 @@ module.exports = {
                         p.due_date,
                         ROUND(
                             IFNULL(
-                                (SUM(CASE WHEN w.status = 'completed' THEN 1 ELSE 0 END) / NULLIF(COUNT(w.id), 0)) * 100, 
+                                (SUM(CASE WHEN w.status = 'completed' OR w.progress = 100 THEN 1 ELSE 0 END) / NULLIF(COUNT(w.id), 0)) * 100, 
                                 0
                             )
                         ) AS progress
@@ -58,7 +58,7 @@ module.exports = {
                             location: "Jakarta",
                             progress: project.progress,
                             status: project.status,
-                            dueDate: project.due_date
+                            dueDate: project.due_date ? Number(project.due_date) : null
                         }
                     });
                 }
@@ -77,14 +77,13 @@ module.exports = {
                     p.due_date,
                     ROUND(
                         IFNULL(
-                            (SUM(CASE WHEN w.status = 'completed' THEN 1 ELSE 0 END) / NULLIF(COUNT(w.id), 0)) * 100, 
+                            (SUM(CASE WHEN w.status = 'completed' OR w.progress = 100 THEN 1 ELSE 0 END) / NULLIF(COUNT(w.id), 0)) * 100, 
                             0
                         )
                     ) AS progress
                 FROM proyek p
                 LEFT JOIN work w ON p.ID = w.id_Proyek
-                WHERE p.Id_User = ?
-                GROUP BY p.ID, p.Nama_Proyek, p.Id_User, p.status, p.due_date`;
+                WHERE p.Id_User = ?`;
 
                 const params = [id_user];
                 if (search) {
@@ -92,11 +91,13 @@ module.exports = {
                     params.push(`%${search}%`);
                 }
 
+                baseQuery += ` GROUP BY p.ID, p.Nama_Proyek, p.Id_User, p.status, p.due_date`;
+
                 const result = await db.queryWithPagination(baseQuery, params, page, limit);
                 
                 // Calculate growth for projects
-                const now = new Date();
-                const firstDayThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+                const now = Date.now();
+                const firstDayThisMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime();
                 
                 const totalProjectsRows = await db.query(
                     'SELECT COUNT(*) as count FROM proyek WHERE Id_User = ?',
@@ -121,7 +122,7 @@ module.exports = {
                         location: "Jakarta",
                         progress: p.progress,
                         status: p.status,
-                        dueDate: p.due_date
+                        dueDate: p.due_date ? Number(p.due_date) : null
                     })),
                     stats: {
                         total: totalProjects,
@@ -162,10 +163,11 @@ module.exports = {
                     });
                 }
 
-                // 2. Atomic Transaction for Create + Audit
+                // Atomic Transaction for Create + Audit
                 const projectId = await db.transaction(async (tx) => {
-                    const insertQuery = "INSERT INTO proyek (Nama_Proyek, Id_User, due_date) VALUES (?, ?, ?)";
-                    const result = await tx.safeQuery(insertQuery, [name.trim(), id_user, due_date || null]);
+                    const numericDueDate = due_date ? new Date(due_date).getTime() : null;
+                    const insertQuery = "INSERT INTO proyek (Nama_Proyek, Id_User, due_date, status) VALUES (?, ?, ?, 'Pending')";
+                    const result = await tx.safeQuery(insertQuery, [name.trim(), id_user, numericDueDate]);
                     return result.insertId;
                 });
 
@@ -204,14 +206,15 @@ module.exports = {
                 // 2. Atomic Transaction: Check ownership -> Update -> Audit
                 const result = await db.transaction(async (tx) => {
                     // Fetch old values for audit
-                    const oldValues = await tx.safeQuery("SELECT Nama_Proyek, due_date FROM proyek WHERE ID = ? AND Id_User = ?", [id, id_user]);
+                    const oldValues = await tx.safeQuery("SELECT Nama_Proyek, due_date, status FROM proyek WHERE ID = ? AND Id_User = ?", [id, id_user]);
 
                     if (oldValues.length === 0) {
                         throw new Error("NOT_FOUND_OR_UNAUTHORIZED");
                     }
 
-                    const updateQuery = "UPDATE proyek SET Nama_Proyek = ?, due_date = ? WHERE ID = ? AND Id_User = ?";
-                    const updateResult = await tx.safeQuery(updateQuery, [name.trim(), due_date || null, id, id_user]);
+                    const numericDueDate = due_date ? new Date(due_date).getTime() : (oldValues[0].due_date ? Number(oldValues[0].due_date) : null);
+                    const updateQuery = "UPDATE proyek SET Nama_Proyek = ?, due_date = ?, status = ? WHERE ID = ? AND Id_User = ?";
+                    const updateResult = await tx.safeQuery(updateQuery, [name.trim(), numericDueDate, req.body.status || oldValues[0].status, id, id_user]);
 
                     return { updateResult, oldValues: oldValues[0] };
                 });

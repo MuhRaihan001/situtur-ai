@@ -1,9 +1,11 @@
 const { Meta } = require("../../handler/meta");
 const Workers = require("../../handler/worker");
+const { isUser } = require("../../middleware/auth");
 
 const workersHandler = new Workers();
 
 module.exports = {
+    middleware: [isUser],
     PUT: {
         handler: async function (req, res) {
             try {
@@ -11,14 +13,22 @@ module.exports = {
                 if (!id) return res.status(400).json({ success: false, error: "Worker ID is required." });
 
                 let affectedRows = 0;
+                let lastError = null;
+
                 if (worker_name) {
                     const result = await workersHandler.updateWorkerData(id, 'worker_name', worker_name);
-                    affectedRows += (result.affectedRows || 0);
+                    if (result.status === 200) affectedRows += (result.affectedRows || 1);
+                    else lastError = result.message;
                 }
+                
                 if (phone_number) {
-                    const waId = phone => `62${phone.replace(/[^0-9]/g, "").replace(/^(\+?62|0)/, "")}@c.us`;
-                    const result = await workersHandler.updateWorkerData(id, 'phone_number', waId(phone_number));
-                    affectedRows += (result.affectedRows || 0);
+                    const result = await workersHandler.updateWorkerData(id, 'phone_number', phone_number);
+                    if (result.status === 200) affectedRows += (result.affectedRows || 1);
+                    else lastError = result.message;
+                }
+
+                if (lastError && affectedRows === 0) {
+                    return res.status(400).json({ success: false, message: lastError });
                 }
 
                 if (affectedRows === 0) {

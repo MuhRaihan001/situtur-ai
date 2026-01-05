@@ -1,13 +1,38 @@
 const { Meta } = require("../../handler/meta")
 const Works = require("../../handler/work")
+const { isUser } = require("../../middleware/auth");
+const Tokenizer = require("../../handler/token");
 const workHandler = new Works();
+const token = new Tokenizer();
 
 module.exports = {
+    middleware: [isUser],
     POST: {
         handler:  async (req, res) => {
             try {
+                const db = req.app.locals.db;
                 const { work_name, deadline, id_proyek, progress } = req.body;
-                if (!work_name || !deadline) return res.status(400).json({ success: false, error: "Missing required fields" });
+                
+                if (!work_name || !deadline || !id_proyek) {
+                    return res.status(400).json({ success: false, error: "Nama tugas, deadline, dan ID Proyek wajib diisi" });
+                }
+
+                // Validasi kepemilikan proyek
+                const rawData = req.signedCookies.userData;
+                const user = await token.verify(rawData);
+                const id_user = user.id_user;
+
+                const checkProject = await db.query(
+                    "SELECT ID FROM proyek WHERE ID = ? AND Id_User = ?",
+                    [id_proyek, id_user]
+                );
+
+                if (checkProject.length === 0) {
+                    return res.status(403).json({
+                        success: false,
+                        message: "Anda tidak memiliki akses ke proyek ini atau proyek tidak ditemukan."
+                    });
+                }
 
                 const result = await workHandler.addWork({ 
                     work_name, 

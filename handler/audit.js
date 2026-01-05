@@ -23,8 +23,8 @@ class AuditService {
                     old_values, new_values, ip_address, user_agent
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             `;
-            const rawData = req.signedCookies.userData;
-            const user = await token.verify(rawData);
+            const rawData = req?.signedCookies?.userData;
+            const user = rawData ? await token.verify(rawData) : null;
             const params = [
                 data.userId || (user?.id_user) || null,
                 data.action,

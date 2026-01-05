@@ -64,11 +64,11 @@ const Projects = () => {
   const [formLoading, setFormLoading] = useState(false);
   const [deleteConfirmName, setDeleteConfirmName] = useState('');
   const [deleteError, setDeleteError] = useState('');
-
+  
   // Pagination States
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-
+  
   const [formData, setFormData] = useState({
     name: '',
     due_date: ''
@@ -92,58 +92,32 @@ const Projects = () => {
     currentPage * itemsPerPage
   );
 
-  const handleProjectProgess = async (projectId) => {
-    try {
-      const response = await axios.get(`/works/list?id_proyek=${projectId}`);
-      const works = response.data.works || [];
-      const progress = works.length > 0 ? Math.round(works.reduce((acc, curr) => acc + curr.progress, 0) / works.length) : 0;
-      return progress;
-    } catch (err) {
-      console.error('Error calculating project progress:', err);
-      return 0;
-    }
-  }
-
   const fetchProjects = async () => {
     try {
       setLoading(true);
+      setError(null);
 
       const response = await axios.get('/user/List_Projek');
-
+      
       if (!response.data.success) {
-        setError('Gagal mengambil data proyek');
+        setError(response.data.message || 'Gagal mengambil daftar proyek');
+        setLoading(false);
         return;
       }
 
-      const projects = response.data.projects;
+      const projectsData = response.data.projects || [];
+      const statsData = response.data.stats || { total: 0, inProgress: 0, completed: 0, growth: '+0%' };
 
-      const projectsWithProgress = await Promise.all(
-        projects.map(async (project) => {
-          const progress = await handleProjectProgess(project.id);
-
-          return {
-            ...project,
-            progress,
-          };
-        })
-      );
-
+      // Update data immediately with backend results
       setData({
-        projects: projectsWithProgress,
-        stats: {
-          total: projectsWithProgress.length,
-          inProgress: projectsWithProgress.filter(
-            (p) => p.status === 'On Track'
-          ).length,
-          completed: projectsWithProgress.filter(
-            (p) => p.status === 'Completed'
-          ).length,
-          growth: '+0%',
-        },
+        projects: projectsData,
+        stats: statsData
       });
+
     } catch (err) {
       console.error('Fetch error:', err);
-      setError('Terjadi kesalahan koneksi ke server');
+      const errorMessage = err.response?.data?.message || err.response?.data || err.message || 'Terjadi kesalahan koneksi ke server';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -275,8 +249,6 @@ const Projects = () => {
     );
   }
 
-  const filteredProjectsForTable = paginatedProjects;
-
   return (
     <Layout>
       <div className="space-y-8 animate-in fade-in duration-500">
@@ -400,9 +372,9 @@ const Projects = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                        (project.status?.toLowerCase() === 'in_progress' || project.status?.toLowerCase() === 'pending' || project.status?.toLowerCase() === 'on track') ? 'bg-blue-50 text-blue-600' :
+                        (project.status?.toLowerCase() === 'in_progress' || project.status?.toLowerCase() === 'pending') ? 'bg-blue-50 text-blue-600' :
                         (project.status?.toLowerCase() === 'completed' || project.status?.toLowerCase() === 'compleated') ? 'bg-emerald-50 text-emerald-600' :
-                        (project.status?.toLowerCase() === 'failed' || project.status?.toLowerCase() === 'fieled') ? 'bg-red-50 text-red-600' :
+                        project.status?.toLowerCase() === 'failed' ? 'bg-red-50 text-red-600' :
                         'bg-gray-50 text-gray-600'
                       }`}>
                         {project.status?.replace('_', ' ')}
@@ -529,15 +501,6 @@ const Projects = () => {
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
-            </div>
-          )}
-
-          {filteredProjects.length === 0 && (
-            <div className="p-12 text-center">
-              <FolderOpen className="w-12 h-12 text-gray-200 mx-auto mb-4" />
-              <p className="text-sm text-gray-400 font-medium">
-                {searchTerm ? 'Tidak ada proyek yang sesuai dengan pencarian' : 'Belum ada proyek'}
-              </p>
             </div>
           )}
         </div>

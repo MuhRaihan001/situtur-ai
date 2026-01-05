@@ -52,8 +52,7 @@ exports.GET = async function (req, res, next) {
         const ongoingProjects = ongoingProjectsRows[0] ? ongoingProjectsRows[0].count : 0;
 
         // 1b. Growth for Ongoing Projects
-        const firstDayThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-        const firstDayLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        const firstDayThisMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime();
         
         const lastMonthProjectsRows = await db.query(
             'SELECT COUNT(*) as count FROM proyek WHERE Id_User = ? AND created_at < ?',
@@ -115,8 +114,8 @@ exports.GET = async function (req, res, next) {
                 priority: priorityMap[dbPriority] || 'Low',
                 priorityClass: dbPriority || 'low',
                 project: task.project,
-                dueDate: task.deadline ? new Date(task.deadline).toLocaleDateString('id-ID', options) : 'No deadline', 
-                dueTime: task.deadline ? new Date(task.deadline).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : 'No deadline',
+                dueDate: task.deadline ? new Date(Number(task.deadline)).toLocaleDateString('id-ID', options) : 'No deadline', 
+                dueTime: task.deadline ? new Date(Number(task.deadline)).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : 'No deadline',
                 completed: task.progress === 100
             };
         });
@@ -130,7 +129,7 @@ exports.GET = async function (req, res, next) {
         const recentUpdates = recentUpdatesRows.map(update => ({
             title: update.title,
             description: update.category.charAt(0).toUpperCase() + update.category.slice(1),
-            time: new Date(update.time).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' today',
+            time: new Date(Number(update.time)).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' today',
             icon: update.category === 'work' ? 'ClipboardList' : 'LayoutDashboard',
             color: update.category === 'work' ? 'text-blue-600' : 'text-orange-600'
         }));
@@ -149,16 +148,16 @@ exports.GET = async function (req, res, next) {
         const currentYear = now.getFullYear();
         const years = Array.from({ length: 5 }, (_, i) => currentYear - 4 + i);
         
-        // 6. Chart Data (Projects per year for last 5 years)
+        // 6. Project Chart Data (Last 5 years)
         const yearlyDataRows = await db.query(
-            'SELECT YEAR(created_at) as year, COUNT(*) as count ' +
-            'FROM proyek WHERE Id_User = ? AND YEAR(created_at) >= ? ' +
-            'GROUP BY YEAR(created_at)',
+            "SELECT FROM_UNIXTIME(created_at / 1000, '%Y') as year, COUNT(*) as count " +
+            "FROM proyek WHERE Id_User = ? AND FROM_UNIXTIME(created_at / 1000, '%Y') >= ? " +
+            "GROUP BY year",
             [id_user, currentYear - 4]
         );
 
         const values = years.map(year => {
-            const found = yearlyDataRows.find(row => row.year === year);
+            const found = yearlyDataRows.find(row => Number(row.year) === year);
             return found ? found.count : 0;
         });
 
@@ -181,9 +180,9 @@ exports.GET = async function (req, res, next) {
         
         // 7. Monthly Data (Completed Projects per month for current year)
         const monthlyDataRows = await db.query(
-            'SELECT MONTH(finished_at) as month, COUNT(*) as count ' +
-            'FROM proyek WHERE Id_User = ? AND status = "Compleated" AND YEAR(finished_at) = ? ' +
-            'GROUP BY MONTH(finished_at)',
+            'SELECT MONTH(FROM_UNIXTIME(finished_at / 1000)) as month, COUNT(*) as count ' +
+            'FROM proyek WHERE Id_User = ? AND status = "Compleated" AND YEAR(FROM_UNIXTIME(finished_at / 1000)) = ? ' +
+            'GROUP BY month',
             [id_user, currentYear]
         );
 

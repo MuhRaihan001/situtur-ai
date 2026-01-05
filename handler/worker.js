@@ -33,7 +33,7 @@ class Workers {
             if (columns.length > 0) {
                 const lastMonthWorkersRows = await database.query(
                     'SELECT COUNT(*) as count FROM workers WHERE created_at < ?',
-                    [firstDayThisMonth]
+                    [firstDayThisMonth.getTime()]
                 );
                 const lastMonthWorkers = lastMonthWorkersRows[0] ? lastMonthWorkersRows[0].count : 0;
                 const growthVal = lastMonthWorkers === 0 ? 0 : ((totalWorkers - lastMonthWorkers) / lastMonthWorkers * 100).toFixed(1);
@@ -59,16 +59,42 @@ class Workers {
     async addWorker(phone_number, name) {
         const waId = phone =>
             `62${phone.replace(/[^0-9]/g, "").replace(/^(\+?62|0)/, "")}@c.us`;
+        
+        const formattedPhone = waId(phone_number);
 
-        const query = "INSERT INTO workers (worker_name, phone_number) VALUES (?, ?)";
-        await database.query(query, [name, waId(phone_number)]);
+        // Check for duplicates
+        const check = await database.query("SELECT id FROM workers WHERE phone_number = ?", [formattedPhone]);
+        if (check.length > 0) {
+            return { status: 400, message: "Pekerja dengan nomor ini sudah terdaftar" };
+        }
+
+        const query = "INSERT INTO workers (worker_name, phone_number, status) VALUES (?, ?, 'Active')";
+        await database.query(query, [name, formattedPhone]);
         return { status: 201, message: "Worker added successfully" };
     }   
 
     async updateWorkerData(worker_id, column, value) {
         try {
+            // Validate column name to prevent SQL injection
+            const allowedColumns = ['worker_name', 'phone_number', 'status', 'current_task', 'finished_task'];
+            if (!allowedColumns.includes(column)) {
+                return { status: 400, message: "Kolom tidak valid" };
+            }
+
+            let finalValue = value;
+            if (column === 'phone_number') {
+                const waId = phone => `62${phone.replace(/[^0-9]/g, "").replace(/^(\+?62|0)/, "")}@c.us`;
+                finalValue = waId(value);
+                
+                // Check duplicate for new phone
+                const check = await database.query("SELECT id FROM workers WHERE phone_number = ? AND id != ?", [finalValue, worker_id]);
+                if (check.length > 0) {
+                    return { status: 400, message: "Nomor telepon sudah digunakan oleh pekerja lain" };
+                }
+            }
+
             const query = `UPDATE workers SET ${column} = ? WHERE id = ?`;
-            const result = await database.query(query, [value, worker_id]);
+            const result = await database.query(query, [finalValue, worker_id]);
             return { 
                 status: 200, 
                 message: "Worker updated successfully",

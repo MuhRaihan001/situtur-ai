@@ -1,9 +1,11 @@
 const { Meta } = require("../../handler/meta");
 const Workers = require("../../handler/worker");
+const { isUser } = require("../../middleware/auth");
 
 const workersHandler = new Workers();
 
 module.exports = {
+    middleware: [isUser],
     POST: {
         handler: async function (req, res) {
             try {

@@ -63,6 +63,204 @@ paths:
           required: string
           schema: Kata kunci pencarian nama proyek
           description: search parameter
+  /workers/delete:
+    delete:
+      responses:
+        '200':
+          description: Worker deleted successfully
+        '400':
+          description: Missing ID
+        '500':
+          description: Internal Server Error
+      summary: Delete Worker
+      description: Deletes a worker from the system by ID.
+      tags:
+        - Workers
+      operationId: deleteWorker
+      requestBody:
+        description: Worker ID to delete
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+  /workers/add:
+    post:
+      responses:
+        '200':
+          description: Worker added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Worker added successfully
+        '400':
+          description: Missing or invalid parameters
+        '500':
+          description: Internal Server Error
+      summary: Add New Worker
+      description: Adds a new worker to the system with the provided name and phone number.
+      tags:
+        - Workers
+      operationId: addNewWorker
+      requestBody:
+        description: Add New Worker
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                worker_name:
+                  type: string
+                  example: Jane Doe
+                phone_number:
+                  type: string
+                  example: '+6281234567890'
+  /workers/list:
+    get:
+      responses:
+        '200':
+          description: List of workers retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  workers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        worker_name:
+                          type: string
+                          example: John Doe
+                        phone_number:
+                          type: string
+                          example: '+6281234567890'
+                        current_task:
+                          type: integer
+                          example: 1
+        '404':
+          description: No workers found
+        '500':
+          description: Internal Server Error
+      summary: List All Workers
+      description: Retrieves a list of all workers with their names, phone numbers, and current tasks.
+      tags:
+        - Workers
+      operationId: listAllWorkers
+  /workers/top:
+    get:
+      responses:
+        '200':
+          description: Top worker retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  data:
+                    type: object
+                    properties:
+                      worker_name:
+                        type: string
+                        example: John Doe
+                      phone_number:
+                        type: string
+                        example: '+6281234567890'
+                      finished_task:
+                        type: number
+                        example: 42
+        '404':
+          description: No workers found
+        '500':
+          description: Internal Server Error
+      summary: Get Top Worker
+      description: Retrieves the worker with the highest performance metrics.
+      tags:
+        - Workers
+      operationId: getTopWorker
+  /workers/update:
+    put:
+      responses:
+        '200':
+          description: Worker updated successfully
+        '400':
+          description: Missing ID
+        '500':
+          description: Internal Server Error
+      summary: Update Worker
+      description: Updates worker information including name and phone number.
+      tags:
+        - Workers
+      operationId: updateWorker
+      requestBody:
+        description: Worker data to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                worker_name:
+                  type: string
+                  example: Jane Doe
+                phone_number:
+                  type: string
+                  example: '+6281234567890'
+  /workers/task/set:
+    post:
+      responses:
+        '200':
+          description: Worker task set successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Worker task updated successfully
+        '400':
+          description: Missing or invalid parameters
+        '500':
+          description: Internal Server Error
+      summary: Set Worker Task
+      description: Assigns a specific task to a worker based on the provided worker_id and work_id.
+      tags:
+        - Workers
+      operationId: setWorkerTask
+      requestBody:
+        description: Set Worker Task
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                worker_id:
+                  type: integer
+                  example: 1
+                work_id:
+                  type: integer
+                  example: 1
   /works/add:
     post:
       responses:

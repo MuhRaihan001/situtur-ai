@@ -15,22 +15,16 @@ const formatID = date =>
     });
 
 class Works {
-    formatToDateOnly(date) {
+    formatToTimestamp(date) {
         if (!date) return null;
         const d = new Date(date);
-        const year = d.getFullYear();
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+        return d.getTime();
     }
 
     validateDates(startedAt, deadline) {
         if (!startedAt || !deadline) return true;
-        const start = new Date(startedAt);
-        const end = new Date(deadline);
-        // Reset hours to compare only dates
-        start.setHours(0, 0, 0, 0);
-        end.setHours(0, 0, 0, 0);
+        const start = typeof startedAt === 'number' ? startedAt : new Date(startedAt).getTime();
+        const end = typeof deadline === 'number' ? deadline : new Date(deadline).getTime();
         return start <= end;
     }
 
@@ -88,7 +82,7 @@ class Works {
             if (projectResult.length > 0) {
                 projectInfo = {
                     Nama_Proyek: projectResult[0].Nama_Proyek,
-                    project_deadline: this.formatToDateOnly(projectResult[0].due_date)
+                    project_deadline: projectResult[0].due_date ? Number(projectResult[0].due_date) : null
                 };
             }
         }
@@ -96,13 +90,13 @@ class Works {
         const response = result.map((work) => {
             return {
                 ...work,    
-                raw_deadline: work.deadline,
-                raw_started_at: work.started_at,
-                raw_finished_at: work.finished_at,
-                started_at: work.started_at ? this.formatToDateOnly(work.started_at) : null,
-                finished_at: work.finished_at ? formatID(work.finished_at) : null,
-                deadline: work.deadline ? this.formatToDateOnly(work.deadline) : 'TBD',
-                project_deadline: work.project_deadline ? this.formatToDateOnly(work.project_deadline) : (projectInfo ? projectInfo.project_deadline : null)
+                raw_deadline: work.deadline ? Number(work.deadline) : null,
+                raw_started_at: work.started_at ? Number(work.started_at) : null,
+                raw_finished_at: work.finished_at ? Number(work.finished_at) : null,
+                started_at: work.started_at ? Number(work.started_at) : null,
+                finished_at: work.finished_at ? Number(work.finished_at) : null,
+                deadline: work.deadline ? Number(work.deadline) : null,
+                project_deadline: work.project_deadline ? Number(work.project_deadline) : (projectInfo ? projectInfo.project_deadline : null)
             }
         });
 
@@ -267,11 +261,12 @@ class Works {
             // Auto-set started_at if progress has started
             let started_at = null;
             if (currentProgress >= 1 || currentStatus !== 'pending') {
-                started_at = this.formatToDateOnly(new Date());
+                started_at = Date.now();
             }
 
             // Validation: started_at <= deadline
-            if (started_at && deadline && !this.validateDates(started_at, deadline)) {
+            const numericDeadline = this.formatToTimestamp(deadline);
+            if (started_at && numericDeadline && !this.validateDates(started_at, numericDeadline)) {
                 return { status: 400, message: "Started date cannot be later than deadline" };
             }
             
@@ -279,7 +274,7 @@ class Works {
             await database.query(query, [
                 work_name, 
                 started_at, 
-                this.formatToDateOnly(deadline), 
+                numericDeadline, 
                 projectId, 
                 currentStatus, 
                 currentProgress
@@ -312,7 +307,7 @@ class Works {
                 params.push(work_name);
             }
 
-            let newDeadline = deadline !== undefined ? this.formatToDateOnly(deadline) : this.formatToDateOnly(currentWork.deadline);
+            let newDeadline = deadline !== undefined ? this.formatToTimestamp(deadline) : (currentWork.deadline ? Number(currentWork.deadline) : null);
             if (deadline !== undefined) {
                 updates.push("deadline = ?");
                 params.push(newDeadline);
@@ -331,12 +326,20 @@ class Works {
             params.push(targetStatus);
 
             // Auto-set started_at logic
-            let currentStartedAt = currentWork.started_at;
+            let currentStartedAt = currentWork.started_at ? Number(currentWork.started_at) : null;
 
             if (!currentStartedAt && (targetProgress >= 1 || (targetStatus !== 'pending' && currentWork.status === 'pending'))) {
-                currentStartedAt = this.formatToDateOnly(new Date());
+                currentStartedAt = Date.now();
                 updates.push("started_at = ?");
                 params.push(currentStartedAt);
+            }
+
+            // Set finished_at if progress is 100%
+            if (targetProgress === 100 && currentWork.progress < 100) {
+                updates.push("finished_at = ?");
+                params.push(Date.now());
+            } else if (targetProgress < 100 && currentWork.progress === 100) {
+                updates.push("finished_at = NULL");
             }
 
             // Validation: started_at <= deadline
@@ -371,8 +374,8 @@ class Works {
                 return;
             }
 
-            // Calculate progress based on completion percentage (User formula)
-            const completedTasks = tasks.filter(t => t.status === 'completed').length;
+            // Calculate progress based on number of completed tasks (User formula: (completed_tasks / total_tasks) * 100)
+            const completedTasks = tasks.filter(t => t.status === 'completed' || Number(t.progress) === 100).length;
             const avgProgress = Math.round((completedTasks / tasks.length) * 100);
 
             // Check if any task has progress >= 1% or status is not pending for status transition
