@@ -13,11 +13,11 @@ const PROMPT_TEMPLATE = fs.readFileSync(
 
 class Instructor {
 
-    async generateInstruction(command) {
+    async generateInstruction(command, workerContext = null) {
         console.log(`Generating structured action for: "${command}"`);
 
-        const { columns, tasks } = await this.#fetchWorkData();
-        const prompt = this.#buildPrompt({ columns, tasks, command });
+        const context = await this.#fetchSchemaContext();
+        const prompt = this.#buildPrompt({ context, command, workerContext });
 
         const aiResponse = await model.response(prompt);
         return this.#parseAndValidate(aiResponse.text());
@@ -32,26 +32,43 @@ class Instructor {
         return lowConfidence || ambiguousMatch;
     }
 
-    async #fetchWorkData() {
+    async #fetchSchemaContext() {
         return database.transaction(async (conn) => {
-            const [[columns], [tasks]] = await Promise.all([
-                conn.query("SHOW COLUMNS FROM work"),
-                conn.query("SELECT * FROM work")
+            const [proyek, work, workers] = await Promise.all([
+                conn.query("SELECT * FROM proyek"),
+                conn.query("SELECT * FROM work"),
+                conn.query("SELECT * FROM workers")
             ]);
 
             return {
-                columns: columns.map(({ Field }) => Field),
-                tasks
+                proyek,
+                work,
+                workers
             };
         });
     }
 
-    #buildPrompt({ columns, tasks, command }) {
-        return PROMPT_TEMPLATE
-            .replace("{{COLUMNS}}", columns.join(", "))
-            .replace("{{TASKS}}", JSON.stringify(tasks, null, 2))
+    #buildPrompt({ context, command, workerContext }) {
+        let prompt = PROMPT_TEMPLATE
+            .replace("{{CONTEXT}}", JSON.stringify(context, null, 2))
             .replace("{{COMMAND}}", command)
             .replace("{{TIMESTAMPT}}", Date.now());
+
+        if (workerContext) {
+            const contextStr = `
+            WORKER CONTEXT:
+            - Name: ${workerContext.worker_name}
+            - Current Task ID: ${workerContext.current_task}
+            - Current Task Name: ${workerContext.current_task_name}
+            
+            If the worker mentions a task but doesn't specify which one, assume they are talking about their "Current Task" unless context strongly suggests otherwise.
+            `;
+            prompt = prompt.replace("{{WORKER_CONTEXT}}", contextStr);
+        } else {
+            prompt = prompt.replace("{{WORKER_CONTEXT}}", "");
+        }
+
+        return prompt;
     }
 
     #parseAndValidate(text) {
@@ -157,8 +174,18 @@ class Instructor {
 
     #safeJSONParse(text) {
         try {
-            return JSON.parse(text);
-        } catch {
+            // Bersihkan teks dari blok kode markdown jika ada
+            let cleanedText = text;
+            if (text.includes("```")) {
+                const match = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+                if (match && match[1]) {
+                    cleanedText = match[1].trim();
+                }
+            }
+            return JSON.parse(cleanedText);
+        } catch (error) {
+            console.error("AI RAW RESPONSE:", text);
+            console.error("JSON PARSE ERROR:", error.message);
             throw new Error("AI returned invalid JSON");
         }
     }

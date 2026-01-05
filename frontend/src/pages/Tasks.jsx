@@ -158,7 +158,7 @@ const Tasks = () => {
         
         setData({
           projectName: finalProjectName,
-          projectProgress: works.length > 0 ? Math.round(works.reduce((acc, curr) => acc + curr.progress, 0) / works.length) : 0,
+          projectProgress: totalTasks > 0 ? Math.round((completedCount / totalTasks) * 100) : 0,
           projectDeadline: formatDate(projectDeadline),
           daysLeft: daysLeft,
           teamSize: backendTeamSize || new Set(works.filter(w => w.assignee_name).map(w => w.assignee_name)).size,
@@ -176,10 +176,6 @@ const Tasks = () => {
             rawStatus: w.status
           })),
           attachments: [
-            { name: 'Notification.txt', size: '1.2 KB', type: 'text/plain', date: 'Dec 31, 2025' },
-            { name: 'List worker.txt', size: '2.5 KB', type: 'text/plain', date: 'Dec 31, 2025' },
-            { name: 'To Do List.txt', size: '3.1 KB', type: 'text/plain', date: 'Dec 31, 2025' },
-            { name: 'list projek.txt', size: '0.8 KB', type: 'text/plain', date: 'Dec 31, 2025' }
           ],
           overview: works.slice(0, 3).map(w => ({
             name: w.work_name,

@@ -9,7 +9,6 @@ const instructions = new Instructor();
 const workers = new Workers();
 const works = new Works();
 const db = new Database();
-const works = new Works();
 
 /**
  * @param {import('whatsapp-web.js').Client} client
@@ -44,25 +43,70 @@ module.exports = (client) => {
 
         console.log(`${message.from}: ${message.body}`);
         
-        // Extract phone number from WhatsApp ID (e.g., 6281234567890@c.us -> 6281234567890)
-        const phoneNumber = message.from.split('@')[0];
-        const workerData = await workers.workerDataByPhone(phoneNumber);
+        // Cek trigger AI (Mendukung "Pak ", "AI ", "Halo ")
+        const triggers = ["PAK ", "AI ", "HALO ", " PAK"," ,PAK"];
+        const upperMessage = message.body.toUpperCase();
+        const matchedTrigger = triggers.find(t => upperMessage.startsWith(t));
+        
+        // Jika tidak ada trigger, jangan jalankan AI (menghindari "sembarangan" jalan)
+        if (!matchedTrigger) return;
+
+        // Ambil perintah setelah trigger (Case-insensitive removal)
+        const cleanCommand = message.body.slice(matchedTrigger.length).trim();
+        if (!cleanCommand) return;
+
+        // Use full WhatsApp ID for lookup (e.g., 6281234567890@c.us)
+        const workerData = await workers.workerDataByPhone(message.from);
         if (!workerData || workerData.current_task === null) return;
 
-        const instructionsList = await instructions.generateInstruction(message.body);
-        console.log('Instructions generated:', instructionsList);
+        try {
+            const instructionsList = await instructions.generateInstruction(cleanCommand, workerData);
+            console.log('Instructions generated:', instructionsList);
 
-        for (const inst of instructionsList.actions) {
-            console.log(`Instruction for worker ${workerData.worker_name}:`, inst);
+            // Simpan percakapan user
+            await instructions.saveConversation(message.from, 'user', cleanCommand);
 
-            const isUnclear = inst.ambiguity_level !== "low" || inst.confidence < 0.8;
-            if (isUnclear) {
-                await works.waitList(inst);
-                continue;
+            if (!instructionsList.actions || instructionsList.actions.length === 0) return;
+
+            for (const inst of instructionsList.actions) {
+                console.log(`Instruction for worker ${workerData.worker_name}:`, inst);
+
+                // Simpan konteks AI jika ada aksi penting
+                if (inst.context_type) {
+                    await instructions.saveConversation(
+                        message.from, 
+                        'ai', 
+                        inst.reason, 
+                        inst.context_type, 
+                        inst.matched_task_ids?.[0]
+                    );
+                }
+
+                // Jika ini adalah aksi assignment atau update dari "siap pak", beri balasan konfirmasi
+                const isAssignment = inst.context_type === 'assignment';
+                const isSiapPak = cleanCommand.toUpperCase().includes("SIAP PAK");
+
+                if (isSiapPak || isAssignment) {
+                    message.reply(`Baik, instruksi diterima: "${inst.reason}". Saya akan segera mengerjakannya. ✅`);
+                }
+
+                // Jika AI mendeteksi ini bukan instruksi database (method null), jangan proses
+                if (!inst.method) {
+                    console.log("Skipping non-database action:", inst.reason);
+                    return;
+                }
+
+                const isUnclear = inst.ambiguity_level !== "low" || inst.confidence < 0.8;
+                if (isUnclear) {
+                    await works.waitList(inst);
+                    continue;
+                }
+
+                const { sql, params } = instructions.generateMysqlQuery(inst);
+                await db.query(sql, params);
             }
-
-            const { sql, params } = instructions.generateMysqlQuery(inst);
-            await db.query(sql, params);
+        } catch (error) {
+            console.error("AI Error:", error);
         }
     })
 }

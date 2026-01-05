@@ -127,7 +127,17 @@ class Workers {
     }
 
     async workerDataByPhone(phone_number) {
-        const query = "SELECT id, worker_name, phone_number, current_task FROM workers WHERE phone_number = ?";
+        const query = `
+            SELECT 
+                wk.id, 
+                wk.worker_name, 
+                wk.phone_number, 
+                wk.current_task,
+                w.work_name as current_task_name
+            FROM workers wk
+            LEFT JOIN work w ON wk.current_task = w.id
+            WHERE wk.phone_number = ?
+        `;
         const rows = await database.query(query, [phone_number]);
         return rows[0];
     }
