@@ -9,6 +9,7 @@ const instructions = new Instructor();
 const workers = new Workers();
 const works = new Works();
 const db = new Database();
+const works = new Works();
 
 /**
  * @param {import('whatsapp-web.js').Client} client
