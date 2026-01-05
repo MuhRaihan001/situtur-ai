@@ -99,6 +99,31 @@ paths:
                 phone_number:
                   type: string
                   example: '+6281234567890'
+  /workers/delete:
+    delete:
+      responses:
+        '200':
+          description: Worker deleted successfully
+        '400':
+          description: Missing ID
+        '500':
+          description: Internal Server Error
+      summary: Delete Worker
+      description: Deletes a worker from the system by ID.
+      tags:
+        - Workers
+      operationId: deleteWorker
+      requestBody:
+        description: Worker ID to delete
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
   /workers/list:
     get:
       responses:
@@ -135,31 +160,6 @@ paths:
       tags:
         - Workers
       operationId: listAllWorkers
-  /workers/delete:
-    delete:
-      responses:
-        '200':
-          description: Worker deleted successfully
-        '400':
-          description: Missing ID
-        '500':
-          description: Internal Server Error
-      summary: Delete Worker
-      description: Deletes a worker from the system by ID.
-      tags:
-        - Workers
-      operationId: deleteWorker
-      requestBody:
-        description: Worker ID to delete
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  example: 1
   /workers/top:
     get:
       responses:

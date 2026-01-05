@@ -1,5 +1,5 @@
 {
-    "temperature": 0.9,
+    "temperature": 0.2,
     "topK": 1,
     "topP": 1,
     "max_output": 2048

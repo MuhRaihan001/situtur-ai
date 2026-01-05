@@ -174,19 +174,23 @@ class Instructor {
 
     #safeJSONParse(text) {
         try {
-            // Bersihkan teks dari blok kode markdown jika ada
-            let cleanedText = text;
-            if (text.includes("```")) {
-                const match = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-                if (match && match[1]) {
-                    cleanedText = match[1].trim();
+            // Remove markdown code blocks if present
+            let cleanText = text.replace(/```json\n?|```/g, "").trim();
+            
+            // If it still doesn't look like JSON, try to extract the JSON part
+            if (!cleanText.startsWith("{")) {
+                const firstBrace = cleanText.indexOf("{");
+                const lastBrace = cleanText.lastIndexOf("}");
+                if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+                    cleanText = cleanText.substring(firstBrace, lastBrace + 1);
                 }
             }
-            return JSON.parse(cleanedText);
+
+            return JSON.parse(cleanText);
         } catch (error) {
-            console.error("AI RAW RESPONSE:", text);
-            console.error("JSON PARSE ERROR:", error.message);
-            throw new Error("AI returned invalid JSON");
+            console.error("Failed to parse AI response as JSON:");
+            console.error("RAW TEXT:", text);
+            throw new Error("AI returned invalid JSON: " + error.message);
         }
     }
 

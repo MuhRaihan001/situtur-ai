@@ -4,27 +4,20 @@ const AuditService = require("./audit");
 const database = new Database();
 const instruction = new Instructor();
 
-const formatID = date =>
-    new Date(date).toLocaleString("id-ID", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
-    });
-
 class Works {
     formatToTimestamp(date) {
         if (!date) return null;
         const d = new Date(date);
-        return d.getTime();
+        return Math.floor(d.getTime() / 1000);
     }
 
     validateDates(startedAt, deadline) {
         if (!startedAt || !deadline) return true;
-        const start = typeof startedAt === 'number' ? startedAt : new Date(startedAt).getTime();
-        const end = typeof deadline === 'number' ? deadline : new Date(deadline).getTime();
+        
+        // Ensure we are comparing numbers (Unix Epoch in seconds)
+        const start = typeof startedAt === 'number' ? startedAt : Math.floor(new Date(startedAt).getTime() / 1000);
+        const end = typeof deadline === 'number' ? deadline : Math.floor(new Date(deadline).getTime() / 1000);
+        
         return start <= end;
     }
 
@@ -107,6 +100,124 @@ class Works {
             works: response, 
             team_size: teamSize,
             project: projectInfo
+        }
+    }
+
+    async applyWorkRules(workId, targetProgress) {
+        const [currentWork] = await database.query(
+            "SELECT started_at, finished_at, deadline FROM work WHERE id = ?",
+            [workId]
+        );
+
+        if (!currentWork) return null;
+
+        let newStartedAt = null;
+        let newFinishedAt = null;
+        const nowSeconds = Math.floor(Date.now() / 1000);
+
+        if (targetProgress >= 1 && targetProgress <= 99) {
+            newStartedAt = currentWork.started_at ? Number(currentWork.started_at) : nowSeconds;
+            newFinishedAt = null;
+        } else if (targetProgress === 100) {
+            newStartedAt = null;
+            newFinishedAt = currentWork.finished_at ? Number(currentWork.finished_at) : nowSeconds;
+        } else {
+            newStartedAt = null;
+            newFinishedAt = null;
+        }
+
+        // Validation: started_at < finished_at (if both exist)
+        if (newStartedAt && newFinishedAt && newStartedAt >= newFinishedAt) {
+            throw new Error("Started date must be earlier than finished date");
+        }
+
+        // Validation: started_at <= deadline
+        if (newStartedAt && currentWork.deadline && !this.validateDates(newStartedAt, Number(currentWork.deadline))) {
+            throw new Error("Started date cannot be later than deadline");
+        }
+
+        return {
+            started_at: newStartedAt,
+            finished_at: newFinishedAt
+        };
+    }
+
+    async executeAIAction(inst) {
+        if (inst.table === 'work') {
+            const progressIndex = inst.columns.indexOf('progress');
+            const targetProgress = progressIndex !== -1 ? Number(inst.params[progressIndex]) : 0;
+
+            if (inst.method.toLowerCase() === 'update') {
+                let workId = null;
+                const idIndex = inst.where.indexOf('id');
+                if (idIndex !== -1) {
+                    workId = inst.params[inst.columns.length + idIndex];
+                } else if (inst.matched_task_ids && inst.matched_task_ids.length > 0) {
+                    workId = inst.matched_task_ids[0];
+                }
+
+                if (workId) {
+                    const rules = await this.applyWorkRules(workId, targetProgress);
+                    if (rules) {
+                        ['started_at', 'finished_at'].forEach(col => {
+                            const idx = inst.columns.indexOf(col);
+                            if (idx === -1) {
+                                inst.columns.push(col);
+                                inst.params.splice(inst.columns.length - 1, 0, rules[col]);
+                            } else {
+                                inst.params[idx] = rules[col];
+                            }
+                        });
+                    }
+                }
+            } else if (inst.method.toLowerCase() === 'insert') {
+                // For insert, we don't have a workId yet, so we apply rules manually
+                let started_at = null;
+                let finished_at = null;
+                const nowSeconds = Math.floor(Date.now() / 1000);
+
+                if (targetProgress >= 1 && targetProgress <= 99) {
+                    started_at = nowSeconds;
+                } else if (targetProgress === 100) {
+                    finished_at = nowSeconds;
+                }
+
+                ['started_at', 'finished_at'].forEach(col => {
+                    const val = col === 'started_at' ? started_at : finished_at;
+                    const idx = inst.columns.indexOf(col);
+                    if (idx === -1) {
+                        inst.columns.push(col);
+                        inst.params.push(val);
+                    } else {
+                        inst.params[idx] = val;
+                    }
+                });
+            }
+        }
+
+        const { sql, params } = instruction.generateMysqlQuery(inst);
+        await database.query(sql, params);
+
+        // Recalculate project stats if work table updated
+        if (inst.table === 'work') {
+            let projectIds = new Set();
+            
+            if (inst.matched_task_ids && inst.matched_task_ids.length > 0) {
+                for (const taskId of inst.matched_task_ids) {
+                    const [task] = await database.query("SELECT id_Proyek FROM work WHERE id = ?", [taskId]);
+                    if (task && task.id_Proyek) projectIds.add(task.id_Proyek);
+                }
+            }
+            
+            // Also check if id_Proyek is in the params (for insert or direct update)
+            const projIdIdx = inst.columns.indexOf('id_Proyek');
+            if (projIdIdx !== -1) {
+                projectIds.add(inst.params[projIdIdx]);
+            }
+
+            for (const projectId of projectIds) {
+                await this.updateProjectStats(projectId);
+            }
         }
     }
 
@@ -213,20 +324,7 @@ class Works {
                 reason: action.reason
             };
 
-            const newQuery = instruction.generateMysqlQuery(Newaction);
-            console.log("Generated SQL:", newQuery);
-
-            await database.query(newQuery.sql, newQuery.params);
-
-            // If we updated a task, recalculate project stats
-            if (action.table_name === 'work' && Newaction.matched_task_ids && Newaction.matched_task_ids.length > 0) {
-                for (const taskId of Newaction.matched_task_ids) {
-                    const [task] = await database.query("SELECT id_Proyek FROM work WHERE id = ?", [taskId]);
-                    if (task && task.id_Proyek) {
-                        await this.updateProjectStats(task.id_Proyek);
-                    }
-                }
-            }
+            await this.executeAIAction(Newaction);
 
             await database.query(`DELETE FROM query_actions WHERE id = ?`, [work_id]);
 
@@ -257,23 +355,36 @@ class Works {
 
             const currentProgress = progress !== undefined ? Number(progress) : 0;
             const currentStatus = this.calculateStatus(currentProgress);
-            
-            // Auto-set started_at if progress has started
+            const numericDeadline = this.formatToTimestamp(deadline);
+
+            // Logic for started_at and finished_at based on progress
             let started_at = null;
-            if (currentProgress >= 1 || currentStatus !== 'pending') {
-                started_at = Date.now();
+            let finished_at = null;
+            const nowSeconds = Math.floor(Date.now() / 1000);
+
+            if (currentProgress >= 1 && currentProgress <= 99) {
+                started_at = nowSeconds;
+                finished_at = null;
+            } else if (currentProgress === 100) {
+                started_at = null;
+                finished_at = nowSeconds;
+            }
+
+            // Validation: started_at < finished_at (if both exist)
+            if (started_at && finished_at && started_at >= finished_at) {
+                return { status: 400, message: "Started date must be earlier than finished date" };
             }
 
             // Validation: started_at <= deadline
-            const numericDeadline = this.formatToTimestamp(deadline);
             if (started_at && numericDeadline && !this.validateDates(started_at, numericDeadline)) {
                 return { status: 400, message: "Started date cannot be later than deadline" };
             }
             
-            const query = `INSERT INTO work (work_name, started_at, deadline, id_Proyek, status, progress) VALUES (?, ?, ?, ?, ?, ?)`;
+            const query = `INSERT INTO work (work_name, started_at, finished_at, deadline, id_Proyek, status, progress) VALUES (?, ?, ?, ?, ?, ?, ?)`;
             await database.query(query, [
                 work_name, 
                 started_at, 
+                finished_at,
                 numericDeadline, 
                 projectId, 
                 currentStatus, 
@@ -325,26 +436,17 @@ class Works {
             updates.push("status = ?");
             params.push(targetStatus);
 
-            // Auto-set started_at logic
-            let currentStartedAt = currentWork.started_at ? Number(currentWork.started_at) : null;
-
-            if (!currentStartedAt && (targetProgress >= 1 || (targetStatus !== 'pending' && currentWork.status === 'pending'))) {
-                currentStartedAt = Date.now();
-                updates.push("started_at = ?");
-                params.push(currentStartedAt);
-            }
-
-            // Set finished_at if progress is 100%
-            if (targetProgress === 100 && currentWork.progress < 100) {
-                updates.push("finished_at = ?");
-                params.push(Date.now());
-            } else if (targetProgress < 100 && currentWork.progress === 100) {
-                updates.push("finished_at = NULL");
-            }
-
-            // Validation: started_at <= deadline
-            if (currentStartedAt && newDeadline && !this.validateDates(currentStartedAt, newDeadline)) {
-                return { status: 400, message: "Started date cannot be later than deadline" };
+            // Apply started_at and finished_at rules
+            try {
+                const rules = await this.applyWorkRules(work_id, targetProgress);
+                if (rules) {
+                    updates.push("started_at = ?");
+                    params.push(rules.started_at);
+                    updates.push("finished_at = ?");
+                    params.push(rules.finished_at);
+                }
+            } catch (error) {
+                return { status: 400, message: error.message };
             }
 
             if (updates.length === 0) return { status: 400, message: "No fields to update" };

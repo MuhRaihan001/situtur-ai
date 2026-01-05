@@ -63,24 +63,10 @@ module.exports = (client) => {
             const instructionsList = await instructions.generateInstruction(cleanCommand, workerData);
             console.log('Instructions generated:', instructionsList);
 
-            // Simpan percakapan user
-            await instructions.saveConversation(message.from, 'user', cleanCommand);
-
             if (!instructionsList.actions || instructionsList.actions.length === 0) return;
 
             for (const inst of instructionsList.actions) {
                 console.log(`Instruction for worker ${workerData.worker_name}:`, inst);
-
-                // Simpan konteks AI jika ada aksi penting
-                if (inst.context_type) {
-                    await instructions.saveConversation(
-                        message.from, 
-                        'ai', 
-                        inst.reason, 
-                        inst.context_type, 
-                        inst.matched_task_ids?.[0]
-                    );
-                }
 
                 // Jika ini adalah aksi assignment atau update dari "siap pak", beri balasan konfirmasi
                 const isAssignment = inst.context_type === 'assignment';
@@ -102,8 +88,7 @@ module.exports = (client) => {
                     continue;
                 }
 
-                const { sql, params } = instructions.generateMysqlQuery(inst);
-                await db.query(sql, params);
+                await works.executeAIAction(inst);
             }
         } catch (error) {
             console.error("AI Error:", error);
