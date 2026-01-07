@@ -114,8 +114,8 @@ exports.GET = async function (req, res, next) {
                 priority: priorityMap[dbPriority] || 'Low',
                 priorityClass: dbPriority || 'low',
                 project: task.project,
-                dueDate: task.deadline ? new Date(Number(task.deadline)).toLocaleDateString('id-ID', options) : 'No deadline', 
-                dueTime: task.deadline ? new Date(Number(task.deadline)).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : 'No deadline',
+                dueDate: task.deadline ? new Date(Number(task.deadline) * 1000).toLocaleDateString('id-ID', options) : 'No deadline', 
+                dueTime: task.deadline ? new Date(Number(task.deadline) * 1000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : 'No deadline',
                 completed: task.progress === 100
             };
         });
