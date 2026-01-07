@@ -1,16 +1,16 @@
-/**
- * Utilitas untuk memformat tanggal ke format Indonesia yang ramah pengguna
- * @param {string|Date|number} dateInput - Input tanggal (ISO string, Date object, atau timestamp)
- * @param {boolean} includeTime - Apakah ingin menyertakan waktu (jam:menit)
- * @returns {string} - Tanggal terformat (contoh: 9 Jan 2026)
- */
 export const formatDate = (dateInput, includeTime = false) => {
   if (!dateInput) return 'TBD';
 
   try {
-    const date = new Date(dateInput);
-    
-    // Validasi apakah date valid
+    let date;
+
+    // Kalau number dan kelihatan kayak UNIX timestamp detik
+    if (typeof dateInput === 'number' && dateInput < 1e12) {
+      date = new Date(dateInput * 1000);
+    } else {
+      date = new Date(dateInput);
+    }
+
     if (isNaN(date.getTime())) {
       return 'Format Salah';
     }
@@ -19,12 +19,11 @@ export const formatDate = (dateInput, includeTime = false) => {
       day: 'numeric',
       month: 'short',
       year: 'numeric',
+      ...(includeTime && {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
     };
-
-    if (includeTime) {
-      options.hour = '2-digit';
-      options.minute = '2-digit';
-    }
 
     return new Intl.DateTimeFormat('id-ID', options).format(date);
   } catch (error) {

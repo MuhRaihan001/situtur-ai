@@ -261,6 +261,39 @@ paths:
                 work_id:
                   type: integer
                   example: 1
+  /works/delete:
+    delete:
+      responses:
+        '200':
+          description: deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Deleted successfully
+        '404':
+          description: Work not found
+        '500':
+          description: Internal Server Error
+      summary: Delete Work from list
+      description: This endpoint deletes a work item from the list based on the provided work_id.
+      tags:
+        - Works
+      operationId: deleteWork
+      requestBody:
+        description: Work ID to be deleted
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_id:
+                  type: integer
+                  example: 1
   /works/add:
     post:
       responses:
@@ -297,39 +330,6 @@ paths:
                 deadline:
                   type: TIMESTAMP
                   example: '2026-01-01 12:00:00'
-  /works/delete:
-    delete:
-      responses:
-        '200':
-          description: deleted successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Deleted successfully
-        '404':
-          description: Work not found
-        '500':
-          description: Internal Server Error
-      summary: Delete Work from list
-      description: This endpoint deletes a work item from the list based on the provided work_id.
-      tags:
-        - Works
-      operationId: deleteWork
-      requestBody:
-        description: Work ID to be deleted
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                work_id:
-                  type: integer
-                  example: 1
   /works/list:
     get:
       responses:

@@ -119,7 +119,6 @@ function registerMethodHandler(router, method, handler, routePath, openAPICollec
     }
 
     router[lowerMethod](handler.params, ...middlewares, handler.handler);
-    logRoute(httpMethod, fullRoutePath, middlewares.length > 0, handler.limit, handler.window);
 
     if (openAPICollector && handler.meta) {
       collectOpenAPIData(openAPICollector, fullRoutePath, lowerMethod, handler, middlewares, handler.limit, handler.window);
@@ -130,7 +129,6 @@ function registerMethodHandler(router, method, handler, routePath, openAPICollec
   if (typeof handler === "function") {
     const fullRoutePath = routePath || "/";
     router[lowerMethod]("/", handler);
-    logRoute(httpMethod, fullRoutePath, false);
     return;
   }
 
@@ -144,19 +142,12 @@ function registerMethodHandler(router, method, handler, routePath, openAPICollec
     }
 
     router[lowerMethod]("/", ...middlewares, handler.handler);
-    logRoute(httpMethod, fullRoutePath, middlewares.length > 0, handler.limit, handler.window);
 
     if (openAPICollector && handler.meta) {
       collectOpenAPIData(openAPICollector, fullRoutePath, lowerMethod, handler, middlewares, handler.limit, handler.window);
     }
   }
 }
-
-const logRoute = (method, path, hasMiddleware, limit, window) => {
-  const middlewareInfo = hasMiddleware ? " (with middleware)" : "";
-  const limitInfo = limit ? ` [Rate Limit: ${limit}/${window ? window / 1000 : 60}s]` : "";
-  console.log(`✅ | Route: ${method} ${path} Loaded${middlewareInfo}${limitInfo}`);
-};
 
 function collectOpenAPIData(collector, routePath, method, handler, middlewares, limit, window) {
   const openAPIPath = convertExpressParamsToOpenAPI(routePath);
@@ -339,7 +330,7 @@ async function loadApi(app, options = {}) {
     return null;
   }
 
-  console.log("🚀 Initiating API route loading...\n");
+  console.log("Initiating API route loading...");
 
   const openAPICollector = options.generateOpenAPI ? { paths: {} } : null;
 
@@ -350,7 +341,7 @@ async function loadApi(app, options = {}) {
     })
   );
 
-  console.log("\n✅ All routes loaded successfully.");
+  console.log("All routes loaded successfully.");
 
   if (options.generateOpenAPI && openAPICollector) {
     const spec = generateOpenAPISpec(openAPICollector, options.openAPIOptions || {});
