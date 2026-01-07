@@ -99,6 +99,31 @@ paths:
                 phone_number:
                   type: string
                   example: '+6281234567890'
+  /workers/delete:
+    delete:
+      responses:
+        '200':
+          description: Worker deleted successfully
+        '400':
+          description: Missing ID
+        '500':
+          description: Internal Server Error
+      summary: Delete Worker
+      description: Deletes a worker from the system by ID.
+      tags:
+        - Workers
+      operationId: deleteWorker
+      requestBody:
+        description: Worker ID to delete
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
   /workers/list:
     get:
       responses:
@@ -135,22 +160,22 @@ paths:
       tags:
         - Workers
       operationId: listAllWorkers
-  /workers/delete:
-    delete:
+  /workers/update:
+    put:
       responses:
         '200':
-          description: Worker deleted successfully
+          description: Worker updated successfully
         '400':
           description: Missing ID
         '500':
           description: Internal Server Error
-      summary: Delete Worker
-      description: Deletes a worker from the system by ID.
+      summary: Update Worker
+      description: Updates worker information including name and phone number.
       tags:
         - Workers
-      operationId: deleteWorker
+      operationId: updateWorker
       requestBody:
-        description: Worker ID to delete
+        description: Worker data to update
         required: true
         content:
           application/json:
@@ -160,6 +185,12 @@ paths:
                 id:
                   type: integer
                   example: 1
+                worker_name:
+                  type: string
+                  example: Jane Doe
+                phone_number:
+                  type: string
+                  example: '+6281234567890'
   /workers/top:
     get:
       responses:
@@ -194,37 +225,6 @@ paths:
       tags:
         - Workers
       operationId: getTopWorker
-  /workers/update:
-    put:
-      responses:
-        '200':
-          description: Worker updated successfully
-        '400':
-          description: Missing ID
-        '500':
-          description: Internal Server Error
-      summary: Update Worker
-      description: Updates worker information including name and phone number.
-      tags:
-        - Workers
-      operationId: updateWorker
-      requestBody:
-        description: Worker data to update
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  example: 1
-                worker_name:
-                  type: string
-                  example: Jane Doe
-                phone_number:
-                  type: string
-                  example: '+6281234567890'
   /workers/task/set:
     post:
       responses:
@@ -297,39 +297,6 @@ paths:
                 deadline:
                   type: TIMESTAMP
                   example: '2026-01-01 12:00:00'
-  /works/delete:
-    delete:
-      responses:
-        '200':
-          description: deleted successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Deleted successfully
-        '404':
-          description: Work not found
-        '500':
-          description: Internal Server Error
-      summary: Delete Work from list
-      description: This endpoint deletes a work item from the list based on the provided work_id.
-      tags:
-        - Works
-      operationId: deleteWork
-      requestBody:
-        description: Work ID to be deleted
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                work_id:
-                  type: integer
-                  example: 1
   /works/list:
     get:
       responses:
@@ -375,6 +342,39 @@ paths:
           required: integer
           schema: Filter berdasarkan ID proyek
           description: project_id parameter
+  /works/delete:
+    delete:
+      responses:
+        '200':
+          description: deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Deleted successfully
+        '404':
+          description: Work not found
+        '500':
+          description: Internal Server Error
+      summary: Delete Work from list
+      description: This endpoint deletes a work item from the list based on the provided work_id.
+      tags:
+        - Works
+      operationId: deleteWork
+      requestBody:
+        description: Work ID to be deleted
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_id:
+                  type: integer
+                  example: 1
   /works/update:
     put:
       responses:
