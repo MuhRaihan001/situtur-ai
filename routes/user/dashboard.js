@@ -20,7 +20,7 @@ exports.GET = async function (req, res, next) {
         const rawData = req.signedCookies.userData;
         const db = req.app.locals.db;
         const user = await tokenHandler.verify(rawData);
-        console.log('[API DASHBOARD] Fetching JSON data for user:', user);
+        //console.log('[API DASHBOARD] Fetching JSON data for user:', user);
 
         if (!user || !user.id_user) {
             console.error('[API DASHBOARD] No user session or id_user found');
