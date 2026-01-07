@@ -92,6 +92,13 @@ const Projects = () => {
     currentPage * itemsPerPage
   );
 
+  const handleProjectProgess = async (projectId) => {
+    const response = await axios.get(`/works/list?project_id=${projectId}`);
+    const works = await response.data.works || [];
+    const progress = works.length > 0 ? Math.round(works.reduce((acc, curr) => acc + curr.progress, 0) / works.length) : 0;
+    return progress;
+  }
+
   const fetchProjects = async () => {
     try {
       setLoading(true);
@@ -108,9 +115,20 @@ const Projects = () => {
       const projectsData = response.data.projects || [];
       const statsData = response.data.stats || { total: 0, inProgress: 0, completed: 0, growth: '+0%' };
 
+      const projectsWithProgress = await Promise.all(
+        projectsData.map(async (project) => {
+          const progress = await handleProjectProgess(project.id);
+
+          return {
+            ...project,
+            progress,
+          };
+        })
+      );
+
       // Update data immediately with backend results
       setData({
-        projects: projectsData,
+        projects: projectsWithProgress,
         stats: statsData
       });
 
