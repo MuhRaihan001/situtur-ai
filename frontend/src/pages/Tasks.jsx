@@ -158,7 +158,7 @@ const Tasks = () => {
         
         setData({
           projectName: finalProjectName,
-          projectProgress: totalTasks > 0 ? Math.round((completedCount / totalTasks) * 100) : 0,
+          projectProgress: works.length > 0 ? Math.round(works.reduce((acc, curr) => acc + curr.progress, 0) / works.length) : 0,
           projectDeadline: formatDate(projectDeadline),
           daysLeft: daysLeft,
           teamSize: backendTeamSize || new Set(works.filter(w => w.assignee_name).map(w => w.assignee_name)).size,
