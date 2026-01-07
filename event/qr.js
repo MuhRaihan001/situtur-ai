@@ -40,7 +40,6 @@ module.exports = (client) => {
                 throw new Error(`HTTP ${response.status}: ${errorData}`);
             }
 
-            console.log(`QR code sent to web interface (${targetUrl})`, { status: response.status });
         } catch (error) {
             console.error('Failed to send QR to web interface:', error.message);
         }
