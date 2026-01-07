@@ -213,7 +213,7 @@ const Tasks = () => {
     setSelectedTask(task);
     setFormData({
       name: task.name,
-      deadline: task.raw_deadline ? new Date(task.raw_deadline).toISOString().split('T')[0] : '',
+      deadline: task.raw_deadline ? new Date(task.raw_deadline * 1000).toISOString().split('T')[0] : '',
       progress: task.progress
     });
     setIsFormModalOpen(true);
