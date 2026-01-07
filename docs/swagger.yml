@@ -160,37 +160,6 @@ paths:
       tags:
         - Workers
       operationId: listAllWorkers
-  /workers/update:
-    put:
-      responses:
-        '200':
-          description: Worker updated successfully
-        '400':
-          description: Missing ID
-        '500':
-          description: Internal Server Error
-      summary: Update Worker
-      description: Updates worker information including name and phone number.
-      tags:
-        - Workers
-      operationId: updateWorker
-      requestBody:
-        description: Worker data to update
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  example: 1
-                worker_name:
-                  type: string
-                  example: Jane Doe
-                phone_number:
-                  type: string
-                  example: '+6281234567890'
   /workers/top:
     get:
       responses:
@@ -225,6 +194,37 @@ paths:
       tags:
         - Workers
       operationId: getTopWorker
+  /workers/update:
+    put:
+      responses:
+        '200':
+          description: Worker updated successfully
+        '400':
+          description: Missing ID
+        '500':
+          description: Internal Server Error
+      summary: Update Worker
+      description: Updates worker information including name and phone number.
+      tags:
+        - Workers
+      operationId: updateWorker
+      requestBody:
+        description: Worker data to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                worker_name:
+                  type: string
+                  example: Jane Doe
+                phone_number:
+                  type: string
+                  example: '+6281234567890'
   /workers/task/set:
     post:
       responses:
@@ -297,51 +297,6 @@ paths:
                 deadline:
                   type: TIMESTAMP
                   example: '2026-01-01 12:00:00'
-  /works/list:
-    get:
-      responses:
-        '200':
-          description: Berhasil mengambil daftar karya
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 1
-                    work_name:
-                      type: string
-                      example: Pembuatan API OpenAI
-                    progress:
-                      type: integer
-                      example: 80
-                    status:
-                      type: string
-                      example: on_progress
-                    started_at:
-                      type: string
-                      example: '2025-12-25'
-                    finished_at:
-                      type: string
-                      example: 30 Desember 2025 18.00.00
-        '404':
-          description: Tidak ada data karya
-        '500':
-          description: Internal Server Error
-      summary: Mengambil daftar karya
-      description: Endpoint ini digunakan untuk mengambil seluruh data karya yang tersimpan dalam sistem.
-      tags:
-        - Works
-      operationId: getWorksList
-      parameters:
-        - name: project_id
-          in: query
-          required: integer
-          schema: Filter berdasarkan ID proyek
-          description: project_id parameter
   /works/delete:
     delete:
       responses:
@@ -408,39 +363,51 @@ paths:
                   type: integer
                 status:
                   type: string
-  /works/waitlist/accept:
-    post:
+  /works/list:
+    get:
       responses:
         '200':
-          description: Work update accepted successfully
+          description: Berhasil mengambil daftar karya
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Action updated.
-        '400':
-          description: Missing or invalid work_id
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    work_name:
+                      type: string
+                      example: Pembuatan API OpenAI
+                    progress:
+                      type: integer
+                      example: 80
+                    status:
+                      type: string
+                      example: on_progress
+                    started_at:
+                      type: string
+                      example: '2025-12-25'
+                    finished_at:
+                      type: string
+                      example: 30 Desember 2025 18.00.00
+        '404':
+          description: Tidak ada data karya
         '500':
           description: Internal Server Error
-      summary: Accept Work Update from Waitlist
-      description: Accepts a work update request from the waitlist based on the provided work_id.
+      summary: Mengambil daftar karya
+      description: Endpoint ini digunakan untuk mengambil seluruh data karya yang tersimpan dalam sistem.
       tags:
         - Works
-      operationId: acceptWorkUpdateWaitlist
-      requestBody:
-        description: Accept Work Update from Waitlist
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                work_id:
-                  type: integer
-                  example: 1
+      operationId: getWorksList
+      parameters:
+        - name: project_id
+          in: query
+          required: integer
+          schema: Filter berdasarkan ID proyek
+          description: project_id parameter
   /works/waitlist/update:
     post:
       responses:
@@ -478,6 +445,39 @@ paths:
                   type: string
                 value:
                   type: string
+  /works/waitlist/accept:
+    post:
+      responses:
+        '200':
+          description: Work update accepted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Action updated.
+        '400':
+          description: Missing or invalid work_id
+        '500':
+          description: Internal Server Error
+      summary: Accept Work Update from Waitlist
+      description: Accepts a work update request from the waitlist based on the provided work_id.
+      tags:
+        - Works
+      operationId: acceptWorkUpdateWaitlist
+      requestBody:
+        description: Accept Work Update from Waitlist
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_id:
+                  type: integer
+                  example: 1
 components:
   schemas: {}
   securitySchemes:

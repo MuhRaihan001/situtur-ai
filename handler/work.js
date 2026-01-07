@@ -119,7 +119,9 @@ class Works {
             newStartedAt = currentWork.started_at ? Number(currentWork.started_at) : nowSeconds;
             newFinishedAt = null;
         } else if (targetProgress === 100) {
-            newStartedAt = null;
+            // Preserve started_at if it exists
+            newStartedAt = currentWork.started_at ? Number(currentWork.started_at) : null;
+            // Set finished_at to now if not already set
             newFinishedAt = currentWork.finished_at ? Number(currentWork.finished_at) : nowSeconds;
         } else {
             newStartedAt = null;
@@ -472,7 +474,7 @@ class Works {
         try {
             const tasks = await database.query("SELECT status, progress FROM work WHERE id_Proyek = ?", [projectId]);
             if (tasks.length === 0) {
-                await database.query("UPDATE proyek SET progress = 0, status = 'Pending' WHERE ID = ?", [projectId]);
+                await database.query("UPDATE proyek SET progress = 0, status = 'Pending', finished_at = NULL WHERE ID = ?", [projectId]);
                 return;
             }
 
@@ -483,9 +485,12 @@ class Works {
             // Check if any task has progress >= 1% or status is not pending for status transition
             const hasStarted = tasks.some(t => t.progress >= 1 || t.status !== 'pending');
 
-            const [currentProject] = await database.query("SELECT status FROM proyek WHERE ID = ?", [projectId]);
+            const [currentProject] = await database.query("SELECT status, finished_at FROM proyek WHERE ID = ?", [projectId]);
             
             let newStatus = currentProject.status;
+            let finishedAt = currentProject.finished_at ? Number(currentProject.finished_at) : null;
+            const nowSeconds = Math.floor(Date.now() / 1000);
+
             if (hasStarted && currentProject.status === 'Pending') {
                 newStatus = 'In Progress';
                 
@@ -502,15 +507,36 @@ class Works {
                 console.log(`[PROJECT LOG] Project ${projectId} status changed from Pending to In Progress due to task activity.`);
             }
 
-            // If progress is 100%, consider auto-completing project (optional but good practice)
-            if (avgProgress === 100 && newStatus !== 'Compleated') {
-                newStatus = 'Compleated';
+            // If progress is 100%, auto-complete project and set finished_at
+            if (avgProgress === 100 && newStatus !== 'Completed') {
+                newStatus = 'Completed';
+                finishedAt = finishedAt || nowSeconds; // Set finished_at if not already set
+                
+                // Log to audit table
+                await AuditService.log({
+                    action: 'SYSTEM_UPDATE',
+                    tableName: 'proyek',
+                    recordId: projectId,
+                    oldValues: { status: currentProject.status, progress: currentProject.progress },
+                    newValues: { status: 'Completed', progress: 100, finished_at: finishedAt },
+                    reason: 'Automatic completion based on all tasks being completed'
+                });
+
+                console.log(`[PROJECT LOG] Project ${projectId} automatically completed. All tasks finished.`);
             }
 
-            // Update project table
+            // If progress drops below 100%, reset status and clear finished_at
+            if (avgProgress < 100 && newStatus === 'Completed') {
+                newStatus = 'In Progress';
+                finishedAt = null;
+                
+                console.log(`[PROJECT LOG] Project ${projectId} status changed from Completed to In Progress due to incomplete tasks.`);
+            }
+
+            // Update project table with finished_at
             await database.query(
-                "UPDATE proyek SET progress = ?, status = ? WHERE ID = ?",
-                [avgProgress, newStatus, projectId]
+                "UPDATE proyek SET progress = ?, status = ?, finished_at = ? WHERE ID = ?",
+                [avgProgress, newStatus, finishedAt, projectId]
             );
 
         } catch (error) {

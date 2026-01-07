@@ -180,9 +180,15 @@ exports.GET = async function (req, res, next) {
         
         // 7. Monthly Data (Completed Projects per month for current year)
         const monthlyDataRows = await db.query(
-            'SELECT MONTH(FROM_UNIXTIME(finished_at / 1000)) as month, COUNT(*) as count ' +
-            'FROM proyek WHERE Id_User = ? AND status = "Compleated" AND YEAR(FROM_UNIXTIME(finished_at / 1000)) = ? ' +
-            'GROUP BY month',
+            `SELECT 
+            MONTH(FROM_UNIXTIME(finished_at)) as month, 
+                COUNT(*) as count 
+            FROM proyek 
+            WHERE Id_User = ? 
+                AND status = "Completed"
+                AND YEAR(FROM_UNIXTIME(finished_at)) = ?
+            GROUP BY month
+            ORDER BY month;`,
             [id_user, currentYear]
         );
 
