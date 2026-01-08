@@ -277,6 +277,18 @@ The AI will:
 3. Update the database
 4. Send confirmation
 
+<img src="public/images/output.png" alt="Situtur AI Output" style="
+    width: 100%;
+    max-width: 900px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    background: #0f172a;
+    display: block;
+  "
+/>
+
+
 ### For Managers (via Dashboard)
 
 **Project Management**:
@@ -284,22 +296,66 @@ The AI will:
 - Set deadlines and milestones
 - Track overall progress with visual charts
 
+<img src="public/images/project.png" alt="Situtur AI Output" style="
+    width: 100%;
+    max-width: 900px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    background: #0f172a;
+    display: block;
+  "
+/>
+
 **Task Management**:
 - Add tasks to projects
 - Assign workers to specific tasks
 - Monitor real-time progress updates
 - View task history and audit logs
 
+<img src="public/images/tasks.png" alt="Situtur AI Output" style="
+    width: 100%;
+    max-width: 900px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    background: #0f172a;
+    display: block;
+  "
+/>
+
 **Worker Management**:
 - Add workers with WhatsApp numbers
 - Assign tasks and track performance
 - View worker statistics and completed tasks
+
+<img src="public/images/workers.png" alt="Situtur AI Output" style="
+    width: 100%;
+    max-width: 900px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    background: #0f172a;
+    display: block;
+  "
+/>
 
 **Analytics**:
 - Project completion trends
 - Worker performance metrics
 - Monthly progress reports
 - Safety alerts and notifications
+
+<img src="public/images/dashboard.png" alt="Situtur AI Output" style="
+    width: 100%;
+    max-width: 900px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    background: #0f172a;
+    display: block;
+  "
+/>
 
 ---
 

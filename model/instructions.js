@@ -168,7 +168,7 @@ class Instructor {
                 reason
             }
         };
-        console.log(`Generated MySql from insturction: \n${data}`);
+        console.dir(data, { depth: null });
         return data
     }
 
