@@ -399,6 +399,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Having issues? We're here to help!
 
-- 📧 Email: support@situtur-ai.com
 - 🐛 Issues: [GitHub Issues](https://github.com/MuhRaihan001/situtur-ai/issues)
 - 💬 Discussions: [GitHub Discussions](https://github.com/MuhRaihan001/situtur-ai/discussions)
