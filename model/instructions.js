@@ -156,7 +156,7 @@ class Instructor {
                 throw new Error(`Unsupported method: ${method}`);
         }
 
-        return {
+        const data = {
             sql,
             params: sqlParams,
             meta: {
@@ -168,6 +168,8 @@ class Instructor {
                 reason
             }
         };
+        console.log(`Generated MySql from insturction: \n${data}`);
+        return data
     }
 
 

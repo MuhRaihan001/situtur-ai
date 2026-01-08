@@ -1,6 +1,6 @@
 Siap. Berikut **INSTRUKSI FULL & FINAL (UPDATED)** yang **sudah disesuaikan** dengan:
 
-* `status` = **ENUM** (bukan bebas string)
+* `status` = **ENUM** (bukan bebas string)  'pending','in_progress','completed','failed'
 * `starterd_at` & `finished_at` = **BIGINT (Unix timestamp ms)**
 * tetap **NO SQL**, **backend-driven**, **safe by design**
 * konsisten dengan tabel `work` terbaru

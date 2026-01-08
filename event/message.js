@@ -41,42 +41,19 @@ module.exports = (client) => {
             }
         }
 
-        console.log(`${message.from}: ${message.body}`);
-        
-        // Cek trigger AI (Mendukung "Pak ", "AI ", "Halo ")
-        const triggers = ["PAK ", "AI ", "HALO ", " PAK"," ,PAK"];
-        const upperMessage = message.body.toUpperCase();
-        const matchedTrigger = triggers.find(t => upperMessage.startsWith(t));
-        
-        // Jika tidak ada trigger, jangan jalankan AI (menghindari "sembarangan" jalan)
-        if (!matchedTrigger) return;
-
-        // Ambil perintah setelah trigger (Case-insensitive removal)
-        const cleanCommand = message.body.slice(matchedTrigger.length).trim();
-        if (!cleanCommand) return;
 
         // Use full WhatsApp ID for lookup (e.g., 6281234567890@c.us)
         const workerData = await workers.workerDataByPhone(message.from);
-        if (!workerData || workerData.current_task === null) return;
+        if (!workerData) return;
 
         try {
-            const instructionsList = await instructions.generateInstruction(cleanCommand, workerData);
-            console.log('Instructions generated:', instructionsList);
+            const instructionsList = await instructions.generateInstruction(message.body, workerData);
 
             if (!instructionsList.actions || instructionsList.actions.length === 0) return;
 
             for (const inst of instructionsList.actions) {
-                console.log(`Instruction for worker ${workerData.worker_name}:`, inst);
+                console.log(`Instruction for worker ${workerData.worker_name}:\n`, inst);;
 
-                // Jika ini adalah aksi assignment atau update dari "siap pak", beri balasan konfirmasi
-                const isAssignment = inst.context_type === 'assignment';
-                const isSiapPak = cleanCommand.toUpperCase().includes("SIAP PAK");
-
-                if (isSiapPak || isAssignment) {
-                    message.reply(`Baik, instruksi diterima: "${inst.reason}". Saya akan segera mengerjakannya. ✅`);
-                }
-
-                // Jika AI mendeteksi ini bukan instruksi database (method null), jangan proses
                 if (!inst.method) {
                     console.log("Skipping non-database action:", inst.reason);
                     return;
