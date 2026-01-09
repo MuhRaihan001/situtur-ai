@@ -271,6 +271,17 @@ Workers can interact with the system using natural language:
 ✅ "I'm starting the electrical wiring"
 ```
 
+<img src="public/images/chat.png" alt="Situtur AI Output" style="
+    width: 100%;
+    max-width: 900px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    background: #0f172a;
+    display: block;
+  "
+/>
+
 The AI will:
 1. Parse the message
 2. Identify the task
