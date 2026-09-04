@@ -1,0 +1,18 @@
+services:
+  - name: situtur-ai
+    type: web
+    instance_type: free
+    ports:
+      - port: 3000
+        protocol: http
+    build:
+      type: nodejs
+      build_command: npm run build
+      run_command: node app.js
+    env:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+      - key: ENABLE_WHATSAPP
+        value: "false"
