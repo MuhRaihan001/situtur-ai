@@ -54,7 +54,8 @@ async function syncDirect() {
   }
 
   try {
-    // Matikan check foreign key sementara di cloud agar insert data relasi lancar
+    // Nonaktifkan pemeriksaan primary key & foreign key sementara selama migrasi data
+    await cloudConn.query('SET SESSION sql_require_primary_key = 0;');
     await cloudConn.query('SET FOREIGN_KEY_CHECKS = 0;');
 
     if (isLocalRunning) {
@@ -67,12 +68,26 @@ async function syncDirect() {
 
         // 1. Ambil Create Table dari local
         const [[createResult]] = await localConn.query(`SHOW CREATE TABLE \`${table}\``);
-        const createSql = createResult['Create Table'];
+        let createSql = createResult['Create Table'];
 
-        // Buat tabel di cloud jika belum ada
+        // Buat tabel di cloud
         await cloudConn.query(`DROP TABLE IF EXISTS \`${table}\``);
         await cloudConn.query(createSql);
         console.log(`  ✓ Struktur tabel [${table}] dibuat di Cloud`);
+
+        // Jika tabel belum memiliki PRIMARY KEY (seperti query_actions di local), tambahkan primary key
+        if (!createSql.toUpperCase().includes('PRIMARY KEY')) {
+          const [cols] = await localConn.query(`SHOW COLUMNS FROM \`${table}\``);
+          const idColObj = cols.find(c => c.Field.toLowerCase() === 'id' || c.Field.toLowerCase() === 'id_user');
+          if (idColObj) {
+            try {
+              await cloudConn.query(`ALTER TABLE \`${table}\` ADD PRIMARY KEY (\`${idColObj.Field}\`);`);
+              console.log(`  ✓ Menambahkan PRIMARY KEY pada kolom [${idColObj.Field}]`);
+            } catch (pkErr) {
+              // abaikan jika sudah ada
+            }
+          }
+        }
 
         // 2. Ambil data dari local
         const [rows] = await localConn.query(`SELECT * FROM \`${table}\``);
