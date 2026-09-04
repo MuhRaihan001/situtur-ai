@@ -54,7 +54,7 @@ const Dashboard = () => {
         setError('Terjadi kesalahan koneksi ke server');
       } finally {
         setLoading(false);
-      }
+    }
     };
 
     fetchDashboardData();

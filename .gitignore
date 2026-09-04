@@ -4,3 +4,4 @@ node_modules/
 .wwebjs_cache/
 .windsurf/
 docs/
+frontend/node_modules/

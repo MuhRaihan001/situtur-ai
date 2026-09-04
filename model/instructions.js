@@ -125,16 +125,6 @@ class Instructor {
                 break;
             }
 
-            case "delete": {
-                if (!where.length) {
-                    throw new Error("DELETE requires where");
-                }
-
-                sql = `DELETE FROM ${table} WHERE ${where.map(c => `${c} = ?`).join(" AND ")}`;
-                sqlParams = params;
-                break;
-            }
-
             default:
                 throw new Error(`Unsupported method: ${method}`);
         }

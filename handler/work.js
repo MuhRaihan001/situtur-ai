@@ -15,6 +15,61 @@ const formatID = date =>
 
 class Works {
 
+    async getProjectTasks(id_proyek) {
+        try {
+            // Get Project Details
+            const projectQuery = `SELECT * FROM Proyek WHERE ID = ?`;
+            const project = await database.query(projectQuery, [id_proyek]);
+            
+            if (project.length === 0) return { status: 404, message: "Project not found" };
+
+            // Get Tasks (work items) for this project
+            const tasksQuery = `
+                SELECT 
+                    w.id, 
+                    w.work_name, 
+                    w.progress, 
+                    w.status, 
+                    w.priority,
+                    w.category,
+                    w.deadline,
+                    w.created_at,
+                    wr1.worker_name as current_worker,
+                    wr2.worker_name as finished_worker
+                FROM work w
+                LEFT JOIN workers wr1 ON w.Current_task = wr1.id
+                LEFT JOIN workers wr2 ON w.Finished_Task = wr2.id
+                WHERE w.id_Proyek = ?
+            `;
+            const tasks = await database.query(tasksQuery, [id_proyek]);
+
+            // Calculate overall progress
+            const totalTasks = tasks.length;
+            const overallProgress = totalTasks > 0 
+                ? Math.round(tasks.reduce((acc, task) => acc + (task.progress || 0), 0) / totalTasks)
+                : 0;
+
+            return {
+                status: 200,
+                message: "Success",
+                data: {
+                    project: project[0],
+                    tasks: tasks.map(t => ({
+                        ...t,
+                        deadline: t.deadline ? formatID(t.deadline) : null,
+                        created_at: t.created_at ? formatID(t.created_at) : null
+                    })),
+                    overallProgress,
+                    totalTasks,
+                    completedTasks: tasks.filter(t => t.progress === 100).length
+                }
+            };
+        } catch (error) {
+            console.error("Error in getProjectTasks:", error);
+            throw error;
+        }
+    }
+
     async list() {
         const query = `
             SELECT 

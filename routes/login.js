@@ -11,7 +11,14 @@ function sha256(password) {
 }
 
 exports.GET = function (req, res, next) {
-    res.render('login', { title: 'Login' });
+    // Jika request adalah navigasi browser (HTML), biarkan React Router yang handle di frontend
+    const isHtmlRequest = req.headers.accept && req.headers.accept.includes('text/html');
+    if (isHtmlRequest && !req.headers.accept.includes('application/json') && !req.xhr) {
+        return next();
+    }
+    
+    // Jika request API, kirim pesan saja
+    res.json({ success: true, message: "Login page is handled by frontend" });
 };
 
 exports.POST = async function (req, res, next) {

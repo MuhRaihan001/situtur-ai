@@ -138,42 +138,6 @@ paths:
                 phone_number:
                   type: string
                   example: '+6281234567890'
-  /user/workers/list:
-    get:
-      responses:
-        '200':
-          description: List of workers retrieved successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Success
-                  workers:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        worker_name:
-                          type: string
-                          example: John Doe
-                        phone_number:
-                          type: string
-                          example: '+6281234567890'
-                        current_task:
-                          type: integer
-                          example: 1
-        '404':
-          description: No workers found
-        '500':
-          description: Internal Server Error
-      summary: List All Workers
-      description: Retrieves a list of all workers with their names, phone numbers, and current tasks.
-      tags:
-        - Workers
-      operationId: listAllWorkers
   /user/workers/top:
     get:
       responses:

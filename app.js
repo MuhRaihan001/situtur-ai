@@ -5,12 +5,11 @@ const yaml = require('js-yaml');
 const swaggerUi = require('swagger-ui-express');
 
 const app = require('./handler/server');
-const { client, loadEvents } = require('./handler/client');
-const { loadCommands } = require('./handler/command');
 const { loadApi } = require('./handler/api');
 
 const PORT = process.env.PORT || 3000;
 const SWAGGER_PATH = path.join(__dirname, 'docs', 'swagger.yml');
+const ENABLE_WHATSAPP = process.env.ENABLE_WHATSAPP === 'true';
 
 const setupSwagger = (expressApp) => {
     try {
@@ -25,8 +24,25 @@ const setupSwagger = (expressApp) => {
 
 async function bootstrap() {
     try {
-        loadEvents();
-        loadCommands();
+        // Load WhatsApp bot only if explicitly enabled
+        if (ENABLE_WHATSAPP) {
+            console.log('📱 WhatsApp bot enabled, initializing...');
+            const { client, loadEvents } = require('./handler/client');
+            const { loadCommands } = require('./handler/command');
+            loadEvents();
+            loadCommands();
+            // Initialize WhatsApp client after server starts
+            app.once('listening', async () => {
+                try {
+                    await client.initialize();
+                    console.log('✅ WhatsApp client initialized.');
+                } catch (err) {
+                    console.error('⚠️ WhatsApp client failed to initialize:', err.message);
+                }
+            });
+        } else {
+            console.log('📵 WhatsApp bot disabled (ENABLE_WHATSAPP != true). Skipping...');
+        }
 
         await loadApi(app, {
             routeDir: path.join(__dirname, "routes"),
@@ -35,7 +51,7 @@ async function bootstrap() {
             openAPIOptions: {
                 title: "Situtur API Documentation",
                 version: "BETA",
-                servers: [{ url: `http://localhost:${PORT}` }]
+                servers: [{ url: process.env.APP_URL || `http://localhost:${PORT}` }]
             }
         });
 
@@ -43,8 +59,7 @@ async function bootstrap() {
 
         // Catch-all route for React SPA
         app.get('*any', (req, res, next) => {
-            // Jika rute sudah dihandle oleh EJS atau API (next dipanggil), 
-            // atau jika request adalah file statis (punya ekstensi), abaikan.
+            // Jika request adalah file statis (punya ekstensi), abaikan.
             if (req.path.includes('.')) {
                 return next();
             }
@@ -56,8 +71,6 @@ async function bootstrap() {
             console.log(`📄 Documentation available at http://localhost:${PORT}/api-docs`);
         });
 
-        await client.initialize();
-        
     } catch (error) {
         console.error('❌ Error during server startup:', error);
         process.exit(1);

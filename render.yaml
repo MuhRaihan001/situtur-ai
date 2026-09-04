@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: situtur-ai
+    env: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: node app.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: ENABLE_WHATSAPP
+        value: false
+      - key: APP_URL
+        generateValue: false
+      - key: KEY
+        sync: false
+      - key: MODEL_NAME
+        value: gemini-2.5-flash
+      - key: PREFIX
+        value: "!"
+      - key: DATABASE_HOST
+        sync: false
+      - key: DATABASE_USER
+        sync: false
+      - key: DATABASE_PASSWORD
+        sync: false
+      - key: DATABASE_NAME
+        value: situtur
+      - key: DATABASE_PORT
+        value: 3306
+      - key: DATABASE_SSL
+        value: true
+      - key: SECRET_KEY
+        generateValue: true

@@ -1,17 +1,18 @@
-/* List Data Worker */
+/* To-Do-List */
 
 /* Auto layout */
 display: flex;
 flex-direction: column;
 align-items: flex-start;
 padding: 0px;
+isolation: isolate;
 
 position: relative;
 width: 1728px;
 height: 1200px;
 
-/* White Porcelain */
-background: linear-gradient(0deg, #F5F8F8, #F5F8F8), #FFFFFF;
+/* White Athens Gray */
+background: linear-gradient(0deg, #F3F4F6, #F3F4F6), #FFFFFF;
 
 
 /* Container */
@@ -31,6 +32,7 @@ flex: none;
 order: 0;
 align-self: stretch;
 flex-grow: 0;
+z-index: 0;
 
 
 /* Aside */
@@ -343,6 +345,7 @@ gap: 12px;
 width: 239px;
 height: 44px;
 
+background: rgba(13, 231, 242, 0.2);
 border-radius: 8px;
 
 /* Inside auto layout */
@@ -391,8 +394,8 @@ right: 9.52%;
 top: 21.96%;
 bottom: 25.69%;
 
-/* Gray Chateau */
-background: #9CA3AF;
+/* Surfie Green */
+background: #0F766E;
 transform: matrix(1, 0, 0, -1, 0, 0);
 
 
@@ -404,7 +407,7 @@ flex-direction: column;
 align-items: flex-start;
 padding: 0px;
 
-width: 159px;
+width: 161px;
 height: 20px;
 
 
@@ -416,21 +419,21 @@ flex-grow: 0;
 
 /* Text */
 
-width: 159px;
+width: 161px;
 height: 20px;
 
 /* Inter/Medium */
 font-family: 'Inter';
 font-style: normal;
-font-weight: 500;
+font-weight: 700;
 font-size: 14px;
 line-height: 20px;
 /* identical to box height, or 143% */
 display: flex;
 align-items: center;
 
-/* Fiord */
-color: #475569;
+/* Eden */
+color: #134E4A;
 
 
 /* Inside auto layout */
@@ -451,7 +454,6 @@ gap: 12px;
 width: 239px;
 height: 44px;
 
-background: rgba(13, 231, 242, 0.2);
 border-radius: 8px;
 
 /* Inside auto layout */
@@ -500,8 +502,8 @@ right: 5.48%;
 top: 22.22%;
 bottom: 22.22%;
 
-/* Surfie Green */
-background: #0F766E;
+/* Gray Chateau */
+background: #9CA3AF;
 transform: matrix(1, 0, 0, -1, 0, 0);
 
 
@@ -513,7 +515,7 @@ flex-direction: column;
 align-items: flex-start;
 padding: 0px;
 
-width: 114px;
+width: 110px;
 height: 20px;
 
 
@@ -525,21 +527,21 @@ flex-grow: 0;
 
 /* Text */
 
-width: 114px;
+width: 110px;
 height: 20px;
 
 /* Inter/Bold */
 font-family: 'Inter';
 font-style: normal;
-font-weight: 700;
+font-weight: 400;
 font-size: 14px;
 line-height: 20px;
 /* identical to box height, or 143% */
 display: flex;
 align-items: center;
 
-/* Eden */
-color: #134E4A;
+/* Fiord */
+color: #475569;
 
 
 /* Inside auto layout */
@@ -621,7 +623,7 @@ flex-direction: column;
 align-items: flex-start;
 padding: 0px;
 
-width: 126px;
+width: 124px;
 height: 20px;
 
 
@@ -633,13 +635,12 @@ flex-grow: 0;
 
 /* Text */
 
-width: 126px;
+width: 124px;
 height: 20px;
 
-/* Inter/Medium */
 font-family: 'Inter';
 font-style: normal;
-font-weight: 500;
+font-weight: 400;
 font-size: 14px;
 line-height: 20px;
 /* identical to box height, or 143% */
@@ -1135,18 +1136,9 @@ flex-grow: 0;
 
 /* Main */
 
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: flex-start;
-padding: 0px;
-
 width: 1440px;
 height: 1200px;
 
-/* Porcelain */
-background: #F5F8F8;
 
 /* Inside auto layout */
 flex: none;
@@ -1155,25 +1147,235 @@ align-self: stretch;
 flex-grow: 1;
 
 
-/* Header */
+/* Container */
 
 /* Auto layout */
 display: flex;
-flex-direction: row;
-align-items: center;
-padding: 16px 32px;
-gap: 930px;
+flex-direction: column;
+align-items: flex-start;
+padding: 40px 80px;
 
-width: 1440px;
-height: 73px;
+position: absolute;
+left: 0px;
+right: 0px;
+top: 64px;
+bottom: -13.5px;
+overflow: scroll;
 
-/* White */
-background: #FFFFFF;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 32px;
+
+width: 1280px;
+max-width: 1280px;
+height: 1109.5px;
+
 
 /* Inside auto layout */
 flex: none;
 order: 0;
 align-self: stretch;
+flex-grow: 0;
+
+
+/* Background+Border+Shadow */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 24px;
+gap: 300px;
+
+width: 1279px;
+height: 165.5px;
+
+/* White */
+background: #FFFFFF;
+/* Athens Gray */
+border: 1px solid #E5E7EB;
+box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+border-radius: 16px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+width: 672px;
+height: 115.5px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 12px;
+
+position: absolute;
+height: 22px;
+left: 0px;
+right: 0px;
+top: 0px;
+
+
+
+/* Background+Border */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 2px 10px;
+
+width: 59px;
+height: 22px;
+
+/* Scandal */
+background: #DBEAFE;
+/* Ice Cold */
+border: 1px solid #BBF7D0;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Active */
+
+width: 37px;
+height: 16px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Jewel */
+color: #15803D;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 4px;
+
+width: 100px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 3px 0px;
+
+width: 14px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Component 1 */
+
+width: 14px;
+height: 14px;
+
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 8.4%;
+right: 8.4%;
+top: 4.1%;
+bottom: 4.1%;
+
+/* Pale Sky */
+background: #6B7280;
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+
+/* Due Dec 2024 */
+
+width: 82px;
+height: 16px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
 flex-grow: 0;
 
 
@@ -1185,7 +1387,1497 @@ flex-direction: column;
 align-items: flex-start;
 padding: 0px;
 
-width: 215px;
+position: absolute;
+height: 32px;
+left: 0px;
+right: 0px;
+top: 30px;
+
+
+
+/* MRT Phase 2A: Bundaran HI - Kota */
+
+width: 403px;
+height: 32px;
+
+/* Semantic/Heading 1 */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 32px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px 0px 0.625px;
+
+position: absolute;
+max-width: 672px;
+height: 46.62px;
+left: 0px;
+right: 0px;
+top: 68.88px;
+
+
+
+/* Construction of underground tunnels and stations connecting Bundaran HI to Kota. This phase includes the construction of Thamrin and Monas stations. */
+
+width: 623px;
+height: 46px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 23px;
+/* or 162% */
+display: flex;
+align-items: center;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 24px;
+
+width: 252px;
+height: 96px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 0px;
+isolation: isolate;
+
+width: 96px;
+height: 96px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Component 4 */
+
+width: 96px;
+height: 96px;
+
+transform: rotate(-90deg);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 1;
+z-index: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 8.33%;
+right: 8.33%;
+top: 8.33%;
+bottom: 8.33%;
+
+/* Athens Gray */
+border: 8px solid #F3F4F6;
+transform: rotate(-90deg);
+
+
+/* Vector */
+
+position: absolute;
+left: 8.33%;
+right: 8.33%;
+top: 8.33%;
+bottom: 8.33%;
+
+/* Turquoise */
+border: 8px solid #2DD4BF;
+transform: rotate(-90deg);
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 0px;
+
+position: absolute;
+width: 44px;
+height: 28px;
+left: 24.83px;
+top: 34px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+z-index: 1;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 44px;
+height: 28px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* 68% */
+
+width: 44px;
+height: 28px;
+
+/* Inter/Bold */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 20px;
+line-height: 28px;
+/* identical to box height, or 140% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 8px;
+
+width: 132px;
+height: 82px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Component 3 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 8px 23.26px 8px 23.27px;
+gap: 8px;
+
+width: 131.53px;
+height: 36px;
+
+background: #2DD4BF;
+box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+border-radius: 12px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 3px 0px;
+
+width: 14px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Component 1 */
+
+width: 14px;
+height: 14px;
+
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 20.9%;
+right: 20.9%;
+top: 20.9%;
+bottom: 20.9%;
+
+/* White */
+background: #FFFFFF;
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+
+/* Text */
+
+width: 63px;
+height: 20px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+text-align: center;
+
+/* White */
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Component 3 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 8px 16px;
+gap: 8px;
+
+width: 132px;
+height: 38px;
+
+background: #FFFFFF;
+border: 1px solid #E5E7EB;
+border-radius: 12px;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 3px 0px;
+
+width: 14px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Component 1 */
+
+width: 14px;
+height: 14px;
+
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 12.5%;
+right: 12.5%;
+top: 12.5%;
+bottom: 12.5%;
+
+/* Oxford Blue */
+background: #374151;
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+
+/* Text */
+
+width: 76px;
+height: 20px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+text-align: center;
+
+/* Oxford Blue */
+color: #374151;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: flex-start;
+padding: 0px;
+gap: 32px;
+
+width: 1280px;
+height: 912px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 32px;
+
+width: 842.66px;
+height: 912px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Background+Border+Shadow */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 0px 0px 24px;
+gap: 24px;
+
+width: 842px;
+height: 259px;
+
+/* White */
+background: #FFFFFF;
+/* Athens Gray */
+border: 1px solid #E5E7EB;
+box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+border-radius: 16px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* HorizontalBorder */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 16px 24.01px 16px 24px;
+gap: 540.59px;
+
+width: 842px;
+height: 57px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Heading 3 */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 144px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Timeline Overview */
+
+width: 144px;
+height: 24px;
+
+/* Semantic/Heading 3 */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 24px;
+/* identical to box height, or 150% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Component 5 */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 0px;
+
+width: 108px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Text */
+
+width: 108px;
+height: 20px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+text-align: center;
+
+/* Turquoise */
+color: #2DD4BF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 24px;
+
+width: 792.66px;
+height: 152px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 0px;
+gap: 16px;
+
+width: 792.66px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 186.16px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Foundation Works */
+
+width: 121px;
+height: 20px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Oxford Blue */
+color: #374151;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Background */
+
+width: 455.72px;
+height: 12px;
+
+/* Athens Gray */
+background: #F3F4F6;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Background */
+
+position: absolute;
+left: 0px;
+right: 0px;
+top: 0px;
+bottom: 0px;
+
+/* Mountain Meadow */
+background: #22C55E;
+border-radius: 9999px;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+padding: 0px;
+
+width: 118.77px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* 100% */
+
+width: 38px;
+height: 20px;
+
+/* Inter/Semi Bold */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+text-align: right;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 0px;
+gap: 16px;
+
+width: 792.66px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 186.16px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Tunnel Boring */
+
+width: 93px;
+height: 20px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Oxford Blue */
+color: #374151;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Background */
+
+width: 455.72px;
+height: 12px;
+
+/* Athens Gray */
+background: #F3F4F6;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Background+Shadow */
+
+position: absolute;
+left: 0%;
+right: 35%;
+top: 0px;
+bottom: 0px;
+
+/* Turquoise */
+background: #2DD4BF;
+box-shadow: 0px 0px 10px rgba(45, 212, 191, 0.5);
+border-radius: 9999px;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+padding: 0px;
+
+width: 118.77px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* 65% */
+
+width: 30px;
+height: 20px;
+
+/* Inter/Semi Bold */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+text-align: right;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 0px;
+gap: 16px;
+
+width: 792.66px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 186.16px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Station Structure */
+
+width: 115px;
+height: 20px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Oxford Blue */
+color: #374151;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Background */
+
+width: 455.72px;
+height: 12px;
+
+/* Athens Gray */
+background: #F3F4F6;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Background */
+
+position: absolute;
+left: 0%;
+right: 80%;
+top: 0px;
+bottom: 0px;
+
+/* Malibu */
+background: #60A5FA;
+border-radius: 9999px;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+padding: 0px;
+
+width: 118.77px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* 20% */
+
+width: 30px;
+height: 20px;
+
+/* Inter/Semi Bold */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+text-align: right;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 0px;
+gap: 16px;
+
+width: 792.66px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 3;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 186.16px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Electrical Systems */
+
+width: 123px;
+height: 20px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Oxford Blue */
+color: #374151;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Background */
+
+width: 455.72px;
+height: 12px;
+
+/* Athens Gray */
+background: #F3F4F6;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Background */
+
+position: absolute;
+left: 0%;
+right: 95%;
+top: 0px;
+bottom: 0px;
+
+/* Geyser */
+background: #D1D5DB;
+border-radius: 9999px;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+padding: 0px;
+
+width: 118.77px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* 5% */
+
+width: 21px;
+height: 20px;
+
+/* Inter/Semi Bold */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+text-align: right;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Background+Border+Shadow */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 842.66px;
+height: 621px;
+
+/* White */
+background: #FFFFFF;
+/* Athens Gray */
+border: 1px solid #E5E7EB;
+box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+border-radius: 16px;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* HorizontalBorder */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+padding: 16px 24px;
+gap: 549.36px;
+
+width: 840.66px;
+height: 69px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Heading 3 */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+margin: 0 auto;
+width: 109px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Current Tasks */
+
+width: 109px;
+height: 24px;
+
+/* Semantic/Heading 3 */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 24px;
+/* identical to box height, or 150% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 0px;
+
+margin: 0 auto;
+width: 135px;
+height: 36px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Options */
+
+width: 135px;
+height: 36px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* image fill */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: flex-end;
+padding: 7.5px 8px 7.5px 106px;
+
+position: absolute;
+width: 135px;
+height: 36px;
+left: 0px;
+top: 0px;
+
+
+
+/* Component 6 */
+
+width: 21px;
+height: 21px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 30%;
+right: 30%;
+top: 40%;
+bottom: 40%;
+
+/* Pale Sky */
+border: 1.575px solid #6B7280;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px 24.28px 0px 0px;
+
+position: absolute;
+width: 83.28px;
+height: 20px;
+left: 12px;
+top: calc(50% - 20px/2);
+
+
+
+/* All Tasks */
+
+width: 59px;
+height: 20px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* HorizontalBorder */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 24px;
+
+width: 840.66px;
+height: 210px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: flex-start;
+padding: 0px;
+gap: 32px;
+
+width: 792.66px;
+height: 161px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 0px;
+gap: 24px;
+
+width: 380.33px;
+height: 161px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 1;
+
+
+/* Container */
+
+width: 144px;
+height: 144px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 0px;
+
+position: absolute;
+left: 0px;
+right: 0px;
+top: 0px;
+bottom: 0px;
+
+
+
+/* Background+Shadow */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 0px;
+
+width: 96px;
+height: 96px;
+
+/* White */
+background: #FFFFFF;
+box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 32px;
 height: 32px;
 
 
@@ -1195,9 +2887,4044 @@ order: 0;
 flex-grow: 0;
 
 
-/* Projects Overview */
+/* 42 */
 
-width: 215px;
+width: 32px;
+height: 32px;
+
+/* Semantic/Heading 1 */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 32px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Ebony Clay */
+color: #1F2937;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 33px;
+height: 15px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Tasks */
+
+width: 33px;
+height: 15px;
+
+/* Inter/Regular upper */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 15px;
+/* identical to box height, or 150% */
+display: flex;
+align-items: center;
+letter-spacing: 0.25px;
+text-transform: uppercase;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: flex-start;
+padding: 0px;
+gap: 8px;
+
+width: 212.33px;
+height: 104px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 1;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+padding: 0px 2.84217e-14px 0px 0px;
+gap: 127.45px;
+
+width: 212.33px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 8px;
+
+margin: 0 auto;
+width: 53px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Background */
+
+width: 10px;
+height: 10px;
+
+/* Turquoise */
+background: #2DD4BF;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 35px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Done */
+
+width: 35px;
+height: 20px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* River Bed */
+color: #4B5563;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+margin: 0 auto;
+width: 31px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* 36% */
+
+width: 31px;
+height: 20px;
+
+/* Inter/Semi Bold */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+padding: 0px 2.84217e-14px 0px 0px;
+gap: 87.47px;
+
+width: 212.33px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 8px;
+
+margin: 0 auto;
+width: 93px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Background */
+
+width: 10px;
+height: 10px;
+
+/* Dodger Blue */
+background: #3B82F6;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 75px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* In Progress */
+
+width: 75px;
+height: 20px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* River Bed */
+color: #4B5563;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+margin: 0 auto;
+width: 31px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* 36% */
+
+width: 31px;
+height: 20px;
+
+/* Inter/Semi Bold */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+padding: 0px 5.68434e-14px 0px 0px;
+gap: 114.97px;
+
+width: 212.33px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 8px;
+
+margin: 0 auto;
+width: 66px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Background */
+
+width: 10px;
+height: 10px;
+
+/* Corn */
+background: #EAB308;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 48px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Review */
+
+width: 48px;
+height: 20px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* River Bed */
+color: #4B5563;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+margin: 0 auto;
+width: 30px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* 20% */
+
+width: 30px;
+height: 20px;
+
+/* Inter/Semi Bold */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+padding: 0px 5.68434e-14px 0px 0px;
+gap: 117.61px;
+
+width: 212.33px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 3;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 8px;
+
+margin: 0 auto;
+width: 72px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Background */
+
+width: 10px;
+height: 10px;
+
+/* Flamingo */
+background: #EF4444;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 54px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* On Hold */
+
+width: 54px;
+height: 20px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* River Bed */
+color: #4B5563;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+margin: 0 auto;
+width: 21px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* 8% */
+
+width: 21px;
+height: 20px;
+
+/* Inter/Semi Bold */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: flex-start;
+padding: 0px;
+
+width: 380.33px;
+height: 161px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 1;
+
+
+/* Background+Border */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 16px;
+gap: 12px;
+
+width: 380.33px;
+height: 161px;
+
+/* Athens Gray */
+background: #F9FAFB;
+/* Athens Gray */
+border: 1px solid #F3F4F6;
+border-radius: 16px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+padding: 0px 5.68434e-14px 0px 0px;
+gap: 153.12px;
+
+width: 346.33px;
+height: 19px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 8px;
+
+margin: 0 auto;
+width: 134px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 0px;
+isolation: isolate;
+
+width: 8px;
+height: 8px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Background */
+
+position: absolute;
+left: 0px;
+right: 0px;
+top: 0px;
+bottom: 0px;
+
+/* Turquoise */
+background: #2DD4BF;
+opacity: 0.75;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+z-index: 0;
+
+
+/* Background */
+
+width: 8px;
+height: 8px;
+
+/* Turquoise */
+background: #2DD4BF;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+z-index: 1;
+
+
+/* Heading 4 */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 118px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Latest Evidence */
+
+width: 118px;
+height: 16px;
+
+/* Inter/Semi Bold upper */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+letter-spacing: 0.6px;
+text-transform: uppercase;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Overlay */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 2px 8px;
+
+margin: 0 auto;
+width: 60px;
+height: 19px;
+
+/* Turquoise 10% */
+background: rgba(45, 212, 191, 0.1);
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Just now */
+
+width: 44px;
+height: 15px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 10px;
+line-height: 15px;
+/* identical to box height, or 150% */
+display: flex;
+align-items: center;
+
+/* Turquoise */
+color: #2DD4BF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 0px;
+gap: 16px;
+
+width: 346.33px;
+height: 96px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Component 7 */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: flex-start;
+padding: 0px;
+isolation: isolate;
+
+width: 96px;
+height: 96px;
+
+border-radius: 12px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Site Evidence */
+
+width: 96px;
+height: 96px;
+
+background: url(.png);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 1;
+z-index: 0;
+
+
+/* Overlay */
+
+position: absolute;
+left: 0px;
+right: 0px;
+top: 0px;
+bottom: 0px;
+
+/* Black 20% */
+background: rgba(0, 0, 0, 0.2);
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+z-index: 1;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 4px 0px;
+gap: 4px;
+
+width: 234.33px;
+height: 91.5px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 1;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 234.33px;
+height: 35px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Rebar installation verification for Zone 3, Pillar 4A */
+
+width: 234.33px;
+height: 35px;
+
+/* Inter/Semi Bold */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 18px;
+/* or 125% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+
+width: 234.33px;
+height: 21px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Background+Border */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 2px 6px;
+
+width: 68px;
+height: 21px;
+
+/* Pattens Blue */
+background: #DBEAFE;
+/* French Pass */
+border: 1px solid #BFDBFE;
+border-radius: 8px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* In Progress */
+
+width: 54px;
+height: 15px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 15px;
+/* identical to box height, or 150% */
+display: flex;
+align-items: center;
+
+/* Persian Blue */
+color: #1D4ED8;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 3.5px 0px 0px;
+gap: 4px;
+
+width: 234.33px;
+height: 19.5px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 14px;
+height: 14px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Component 1 */
+
+width: 14px;
+height: 14px;
+
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 8.4%;
+right: 8.4%;
+top: 8.4%;
+bottom: 16.6%;
+
+/* Pale Sky */
+background: #6B7280;
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+
+/* Uploaded by Agus */
+
+width: 105px;
+height: 16px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 840.66px;
+height: 291px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Component 8 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 16px;
+gap: 16px;
+
+width: 840.66px;
+height: 72px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 4px 0px 0px;
+
+width: 20px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Input */
+
+box-sizing: border-box;
+
+width: 20px;
+height: 20px;
+
+/* White */
+background: #FFFFFF;
+/* Geyser */
+border: 1px solid #D1D5DB;
+border-radius: 8px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 4px;
+
+width: 589.66px;
+height: 40px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 1;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 589.66px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Review structural integrity report for Monas Station */
+
+width: 589.66px;
+height: 20px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 589.66px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Section B, Level -2 */
+
+width: 589.66px;
+height: 16px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 16px;
+
+width: 167px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Background */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 2px 10px;
+
+width: 47px;
+height: 20px;
+
+/* Cinderella */
+background: #FEE2E2;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* High */
+
+width: 27px;
+height: 16px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Old Brick */
+color: #991B1B;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 0px;
+
+width: 24px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Agus */
+
+box-sizing: border-box;
+
+width: 24px;
+height: 24px;
+
+background: url(.png);
+/* White */
+border: 2px solid #FFFFFF;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+padding: 0px;
+
+width: 64px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Today */
+
+width: 35px;
+height: 16px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+text-align: right;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Component 8 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 16px 16px 16px 15px;
+gap: 15px;
+
+width: 840.66px;
+height: 73px;
+
+border-top: 1px solid #F3F4F6;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 3px 0px 0px;
+
+width: 22px;
+height: 25px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Input */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 0px;
+
+width: 22px;
+height: 22px;
+
+/* Turquoise */
+background: #2DD4BF;
+border-radius: 8px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* image fill */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 0px;
+
+width: 20px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Component 6 */
+
+width: 20px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 21.95%;
+right: 21.88%;
+top: 28.12%;
+bottom: 28.13%;
+
+/* White */
+background: #FFFFFF;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 4px;
+
+width: 586.66px;
+height: 40px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 1;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 586.66px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Coordinate concrete supply delivery for Zone 3 */
+
+width: 586.66px;
+height: 20px;
+
+/* Inter/Medium strikethrough */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+text-decoration-line: line-through;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 586.66px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Vendor: PT Semen Indonesia */
+
+width: 586.66px;
+height: 16px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Gray Chateau */
+color: #9CA3AF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 16px;
+
+width: 171px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Background */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 2px 10px;
+
+width: 51px;
+height: 20px;
+
+/* Athens Gray */
+background: #F3F4F6;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Done */
+
+width: 31px;
+height: 16px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Ebony Clay */
+color: #1F2937;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 0px;
+
+width: 24px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Dewi */
+
+box-sizing: border-box;
+
+width: 24px;
+height: 24px;
+
+background: url(.png);
+/* White */
+border: 2px solid #FFFFFF;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+padding: 0px;
+
+width: 64px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Yesterday */
+
+width: 57px;
+height: 16px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+text-align: right;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Component 8 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 16px;
+gap: 16px;
+
+width: 840.66px;
+height: 73px;
+
+border-top: 1px solid #F3F4F6;
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 4px 0px 0px;
+
+width: 20px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Input */
+
+box-sizing: border-box;
+
+width: 20px;
+height: 20px;
+
+/* White */
+background: #FFFFFF;
+/* Geyser */
+border: 1px solid #D1D5DB;
+border-radius: 8px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 4px;
+
+width: 574.66px;
+height: 40px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 1;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 574.66px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Safety inspection preparation for Tunnel Boring Machine 2 */
+
+width: 574.66px;
+height: 20px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 574.66px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Weekly Routine */
+
+width: 574.66px;
+height: 16px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 16px;
+
+width: 182px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Background */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 2px 10px;
+
+width: 46px;
+height: 20px;
+
+/* Beeswax */
+background: #FEF9C3;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Med */
+
+width: 26px;
+height: 16px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Korma */
+color: #854D0E;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 0px;
+
+width: 40px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Budi */
+
+box-sizing: border-box;
+
+width: 24px;
+height: 24px;
+
+background: url(.png);
+/* White */
+border: 2px solid #FFFFFF;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Img - Rian:margin */
+
+width: 16px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Rian */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 24px;
+height: 24px;
+left: -8px;
+top: 0px;
+
+background: url(.png);
+/* White */
+border: 2px solid #FFFFFF;
+border-radius: 9999px;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+padding: 0px;
+
+width: 64px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Tomorrow */
+
+width: 57px;
+height: 16px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+text-align: right;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Component 8 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 16px;
+gap: 16px;
+
+width: 840.66px;
+height: 73px;
+
+border-top: 1px solid #F3F4F6;
+
+/* Inside auto layout */
+flex: none;
+order: 3;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 4px 0px 0px;
+
+width: 20px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Input */
+
+box-sizing: border-box;
+
+width: 20px;
+height: 20px;
+
+/* White */
+background: #FFFFFF;
+/* Geyser */
+border: 1px solid #D1D5DB;
+border-radius: 8px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 4px;
+
+width: 592.66px;
+height: 40px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 1;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 592.66px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Approve blueprint revisions for electrical substation */
+
+width: 592.66px;
+height: 20px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 592.66px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Awaiting Engineer Sign-off */
+
+width: 592.66px;
+height: 16px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 16px;
+
+width: 164px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Background */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 2px 10px;
+
+width: 44px;
+height: 20px;
+
+/* Pattens Blue */
+background: #DBEAFE;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Low */
+
+width: 24px;
+height: 16px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Persian Blue */
+color: #1E40AF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 0px;
+
+width: 24px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Siti */
+
+box-sizing: border-box;
+
+width: 24px;
+height: 24px;
+
+background: url(.png);
+/* White */
+border: 2px solid #FFFFFF;
+border-radius: 9999px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+padding: 0px;
+
+width: 64px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Next Week */
+
+width: 62px;
+height: 16px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+text-align: right;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Background+HorizontalBorder */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 12px 24px;
+
+width: 840.66px;
+height: 49px;
+
+/* Athens Gray */
+background: #F9FAFB;
+/* Athens Gray */
+border-top: 1px solid #E5E7EB;
+border-radius: 0px 0px 16px 16px;
+
+/* Inside auto layout */
+flex: none;
+order: 3;
+flex-grow: 0;
+
+
+/* Component 3 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 4px;
+
+width: 117px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 4px 0px;
+
+width: 16px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Component 1 */
+
+width: 16px;
+height: 16px;
+
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 20.9%;
+right: 20.9%;
+top: 20.9%;
+bottom: 20.9%;
+
+/* Turquoise */
+background: #2DD4BF;
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+
+/* Text */
+
+width: 97px;
+height: 20px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+text-align: center;
+
+/* Turquoise */
+color: #2DD4BF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 32px;
+
+width: 405.34px;
+height: 912px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: flex-start;
+padding: 0px;
+gap: 16px;
+
+width: 405.34px;
+height: 86px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Background+Border */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 16px;
+gap: 4px;
+
+width: 194.67px;
+height: 86px;
+
+/* White */
+background: #FFFFFF;
+/* Athens Gray */
+border: 1px solid #E5E7EB;
+border-radius: 16px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 1;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 0px;
+
+width: 160.67px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Days Left */
+
+width: 66px;
+height: 16px;
+
+/* Inter/Regular upper */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+text-align: center;
+letter-spacing: 0.3px;
+text-transform: uppercase;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 0px;
+
+width: 160.67px;
+height: 32px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* 142 */
+
+width: 44px;
+height: 32px;
+
+/* Semantic/Heading 1 */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 32px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+text-align: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Background+Border */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 16px;
+gap: 4px;
+
+width: 194.67px;
+height: 86px;
+
+/* White */
+background: #FFFFFF;
+/* Athens Gray */
+border: 1px solid #E5E7EB;
+border-radius: 16px;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 1;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 0px;
+
+width: 160.67px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Team Size */
+
+width: 65px;
+height: 16px;
+
+/* Inter/Regular upper */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+text-align: center;
+letter-spacing: 0.3px;
+text-transform: uppercase;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 0px;
+
+width: 160.67px;
+height: 32px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* 48 */
+
+width: 33px;
+height: 32px;
+
+/* Semantic/Heading 1 */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 32px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+text-align: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Background+Border+Shadow */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 405.34px;
+height: 400px;
+
+/* White */
+background: #FFFFFF;
+/* Athens Gray */
+border: 1px solid #E5E7EB;
+box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+border-radius: 16px;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* HorizontalBorder */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+padding: 16px 24px;
+gap: 234.56px;
+
+width: 403.34px;
+height: 61px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Heading 3 */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+margin: 0 auto;
+width: 100px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Attachments */
+
+width: 100px;
+height: 24px;
+
+/* Semantic/Heading 3 */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 24px;
+/* identical to box height, or 150% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Component 9 */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 4px;
+
+margin: 0 auto;
+width: 22px;
+height: 28px;
+
+border-radius: 8px;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 3px 0px;
+
+width: 14px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Component 1 */
+
+width: 14px;
+height: 14px;
+
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 20.9%;
+right: 20.9%;
+top: 14.26%;
+bottom: 16.6%;
+
+/* Pale Sky */
+background: #6B7280;
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 16px;
+gap: 12px;
+
+width: 403px;
+height: 338px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Component 10 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 12px;
+gap: 12px;
+
+width: 371px;
+height: 66px;
+
+border: 1px solid #F3F4F6;
+border-radius: 12px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Background */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 11.5px 0px 12.5px;
+
+width: 40px;
+height: 40px;
+
+/* Cinderella */
+background: #FEE2E2;
+border-radius: 8px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* PDF */
+
+width: 24px;
+height: 16px;
+
+/* Inter/Bold */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+text-align: center;
+
+/* Alizarin Crimson */
+color: #DC2626;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 257px;
+height: 36px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 1;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 257px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Site_Plan_Revision_V4.pdf */
+
+width: 257px;
+height: 20px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 257px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* 2.4 MB • 2 hrs ago */
+
+width: 257px;
+height: 16px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 24px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Component 1 */
+
+width: 24px;
+height: 24px;
+
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 20.9%;
+right: 20.9%;
+top: 12.5%;
+bottom: 16.6%;
+
+/* Geyser */
+background: #D1D5DB;
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+
+/* Component 10 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 12px;
+gap: 12px;
+
+width: 371px;
+height: 66px;
+
+border: 1px solid #F3F4F6;
+border-radius: 12px;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Background */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 11.5px 0px 12.5px;
+
+width: 40px;
+height: 40px;
+
+/* Pattens Blue */
+background: #DBEAFE;
+border-radius: 8px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* DWG */
+
+width: 30px;
+height: 16px;
+
+/* Inter/Bold */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+text-align: center;
+
+/* Royal Blue */
+color: #2563EB;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 257px;
+height: 36px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 1;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 257px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Station_Electrical.dwg */
+
+width: 257px;
+height: 20px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 257px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* 15.8 MB • Yesterday */
+
+width: 257px;
+height: 16px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 24px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Component 1 */
+
+width: 24px;
+height: 24px;
+
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 20.9%;
+right: 20.9%;
+top: 12.5%;
+bottom: 16.6%;
+
+/* Geyser */
+background: #D1D5DB;
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+
+/* Component 10 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 12px;
+gap: 12px;
+
+width: 371px;
+height: 66px;
+
+border: 1px solid #F3F4F6;
+border-radius: 12px;
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Background */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 11.5px 0px 12.5px;
+
+width: 40px;
+height: 40px;
+
+/* Scandal */
+background: #DBEAFE;
+border-radius: 8px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* XLS */
+
+width: 24px;
+height: 16px;
+
+/* Inter/Bold */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+text-align: center;
+
+/* Salem */
+color: #16A34A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 257px;
+height: 36px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 1;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 257px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Q3_Budget_Estimation.xlsx */
+
+width: 257px;
+height: 20px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 257px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* 1.2 MB • Oct 24 */
+
+width: 257px;
+height: 16px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 24px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Component 1 */
+
+width: 24px;
+height: 24px;
+
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 20.9%;
+right: 20.9%;
+top: 12.5%;
+bottom: 16.6%;
+
+/* Geyser */
+background: #D1D5DB;
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+
+/* Component 11 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 12px;
+gap: 12px;
+
+width: 371px;
+height: 66px;
+
+border: 1px solid #F3F4F6;
+border-radius: 12px;
+
+/* Inside auto layout */
+flex: none;
+order: 3;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Background */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 11.5px 0px 12.5px;
+
+width: 40px;
+height: 40px;
+
+/* Surfie Green */
+background: #0F766E;
+border-radius: 8px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* XLS */
+
+width: 26px;
+height: 16px;
+
+/* Inter/Bold */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+text-align: center;
+
+/* Scooter */
+color: #2DD4BF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 257px;
+height: 36px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 1;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 257px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Q3_Budget_Estimation.xlsx */
+
+width: 257px;
+height: 20px;
+
+/* Inter/Medium */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+display: flex;
+align-items: center;
+
+/* Ebony */
+color: #111827;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 257px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* 1.2 MB • Oct 24 */
+
+width: 257px;
+height: 16px;
+
+/* Inter/Regular */
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+display: flex;
+align-items: center;
+
+/* Pale Sky */
+color: #6B7280;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* Container */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 24px;
+height: 24px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Component 1 */
+
+width: 24px;
+height: 24px;
+
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 20.9%;
+right: 20.9%;
+top: 12.5%;
+bottom: 16.6%;
+
+/* Geyser */
+background: #D1D5DB;
+transform: matrix(1, 0, 0, -1, 0, 0);
+
+
+/* Header */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 16px 32px;
+gap: 910px;
+
+position: absolute;
+width: 1440px;
+height: 73px;
+left: 0px;
+top: 0px;
+
+/* White */
+background: #FFFFFF;
+
+
+/* Heading 1 */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+
+width: 233px;
+height: 32px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Tugas Setiap Projek */
+
+width: 233px;
 height: 32px;
 
 /* Semantic/Heading 1 */
@@ -1375,7 +7102,7 @@ left: 0px;
 top: 0px;
 
 /* Bright Turquoise */
-background: #26C6DA;
+background: #2DD4BF;
 opacity: 0.75;
 border-radius: 9999px;
 
@@ -1392,7 +7119,7 @@ width: 10px;
 height: 10px;
 
 /* Bright Turquoise */
-background: #26C6DA;
+background: #2DD4BF;
 border-radius: 9999px;
 
 /* Inside auto layout */
@@ -1554,1357 +7281,13 @@ flex-grow: 0;
 display: flex;
 flex-direction: column;
 align-items: flex-start;
-padding: 40px 176px 40px 75px;
-
-width: 1440px;
-height: 1127px;
-overflow: scroll;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-align-self: stretch;
-flex-grow: 1;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-gap: 32px;
-
-width: 1280px;
-max-width: 1280px;
-height: 883.5px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 643.24px;
-
-width: 1280px;
-height: 64px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-gap: 4px;
-
-width: 434px;
-height: 64px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Heading 2 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 434px;
-height: 36px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Worker Directory */
-
-width: 248px;
-height: 36px;
-
-/* Semantic/Heading 2 */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 900;
-font-size: 30px;
-line-height: 36px;
-/* identical to box height, or 120% */
-display: flex;
-align-items: center;
-letter-spacing: -0.75px;
-
-/* Ebony */
-color: #111827;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 434px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Manage team members, assignments, and on-site status. */
-
-width: 434px;
-height: 24px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 24px;
-/* identical to box height, or 150% */
-display: flex;
-align-items: center;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 3 */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 10px 20px;
-gap: 7.99px;
-
-width: 204px;
-height: 47.99px;
-
-background: #0DE7F2;
-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 24.01px;
-height: 27.99px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 24.01px;
-height: 27.99px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 5.48%;
-right: 5.48%;
-top: 22.22%;
-bottom: 22.22%;
-
-/* Ebony */
-background: #111827;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: center;
-padding: 0px;
-
-width: 132px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Text */
-
-width: 132px;
-height: 24px;
-
-/* Inter/Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 16px;
-line-height: 24px;
-/* identical to box height, or 150% */
-display: flex;
-align-items: center;
-text-align: center;
-
-/* Ebony */
-color: #111827;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: flex-start;
-padding: 0px;
-gap: 16px;
-
-width: 1280px;
-height: 158px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Component 4 */
-
-box-sizing: border-box;
-
-width: 308px;
-height: 158px;
-
-background: #FFFFFF;
-border: 1px solid #CEE7E8;
-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
-border-radius: 12px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 1;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-align-items: flex-start;
-padding: 0px;
-gap: 182.34px;
-
-position: absolute;
-height: 40px;
-left: 21px;
-right: 21px;
-top: 21px;
-
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 6px 8px;
-
-margin: 0 auto;
-width: 40.02px;
-height: 40px;
-
-/* Zumthor */
-background: #F5F8F8;
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 24.02px;
-height: 28px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 24.02px;
-height: 28px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 1.43%;
-right: 1.43%;
-top: 29.17%;
-bottom: 29.17%;
-
-/* Royal Blue */
-background: #2563EB;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 4px 8px;
-
-margin: 0 auto;
-width: 42px;
-height: 24px;
-
-/* Catskill White */
-background: #DCFCE7;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* +2% */
-
-width: 26px;
-height: 16px;
-
-/* Inter/Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-
-/* Jewel */
-color: #15803D;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
 padding: 0px;
 
 position: absolute;
-height: 20px;
-left: 21px;
-right: 21px;
-top: 77px;
-
-
-
-/* Total Workers */
-
-width: 93px;
-height: 20px;
-
-/* Inter/Medium */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-position: absolute;
-height: 36px;
-left: 21px;
-right: 21px;
-top: 101px;
-
-
-
-/* 45 */
-
-width: 40px;
-height: 36px;
-
-/* Inter/Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 30px;
-line-height: 36px;
-/* identical to box height, or 120% */
-display: flex;
-align-items: center;
-
-/* Ebony */
-color: #111827;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 4 */
-
-box-sizing: border-box;
-
-width: 308px;
-height: 158px;
-
-background: #FFFFFF;
-border: 1px solid #CEE7E8;
-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
-border-radius: 12px;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-align-self: stretch;
-flex-grow: 1;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-align-items: flex-start;
-padding: 0px;
-gap: 177px;
-
-position: absolute;
-height: 40px;
-left: 21px;
-right: 21px;
-top: 21px;
-
-
-
-/* Overlay */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 6px 8px;
-
-margin: 0 auto;
-width: 40.02px;
-height: 40px;
-
-/* Bright Turquoise 20% */
-background: rgba(13, 231, 242, 0.2);
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 24.02px;
-height: 28px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 24.02px;
-height: 28px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 5.68%;
-right: 5.68%;
-top: 18.75%;
-bottom: 18.75%;
-
-/* Surfie Green */
-background: #0F766E;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 4px 8px;
-
-margin: 0 auto;
-width: 49px;
-height: 24px;
-
-/* Catskill White */
-background: #DCFCE7;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* +15% */
-
-width: 33px;
-height: 16px;
-
-/* Inter/Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-
-/* Jewel */
-color: #15803D;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-position: absolute;
-height: 20px;
-left: 21px;
-right: 21px;
-top: 77px;
-
-
-
-/* Currently On-Site */
-
-width: 118px;
-height: 20px;
-
-/* Inter/Medium */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-position: absolute;
-height: 36px;
-left: 21px;
-right: 21px;
-top: 101px;
-
-
-
-/* 32 */
-
-width: 39px;
-height: 36px;
-
-/* Inter/Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 30px;
-line-height: 36px;
-/* identical to box height, or 120% */
-display: flex;
-align-items: center;
-
-/* Ebony */
-color: #111827;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 4 */
-
-box-sizing: border-box;
-
-width: 308px;
-height: 158px;
-
-background: #FFFFFF;
-border: 1px solid #CEE7E8;
-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
-border-radius: 12px;
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-align-self: stretch;
-flex-grow: 1;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-align-items: flex-start;
-padding: 0px;
-gap: 178.9px;
-
-position: absolute;
-height: 40px;
-left: 21px;
-right: 21px;
-top: 21px;
-
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 6px 8px;
-
-margin: 0 auto;
-width: 40.02px;
-height: 40px;
-
-/* Serenade */
-background: #F3F4F6;
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 24.02px;
-height: 28px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 24.02px;
-height: 28px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 5.48%;
-right: 10.82%;
-top: 18.23%;
-bottom: 18.75%;
-
-/* Christine */
-background: #EA580C;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 4px 8px;
-
-margin: 0 auto;
-width: 47px;
-height: 24px;
-
-/* Cinderella */
-background: #FEE2E2;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* -10% */
-
-width: 31px;
-height: 16px;
-
-/* Inter/Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-
-/* Thunderbird */
-color: #B91C1C;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-position: absolute;
-height: 20px;
-left: 21px;
-right: 21px;
-top: 77px;
-
-
-
-/* On Leave */
-
-width: 63px;
-height: 20px;
-
-/* Inter/Medium */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-position: absolute;
-height: 36px;
-left: 21px;
-right: 21px;
-top: 101px;
-
-
-
-/* 3 */
-
-width: 20px;
-height: 36px;
-
-/* Inter/Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 30px;
-line-height: 36px;
-/* identical to box height, or 120% */
-display: flex;
-align-items: center;
-
-/* Ebony */
-color: #111827;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 4 */
-
-box-sizing: border-box;
-
-width: 308px;
-height: 158px;
-
-background: #FFFFFF;
-border: 1px solid #CEE7E8;
-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
-border-radius: 12px;
-
-/* Inside auto layout */
-flex: none;
-order: 3;
-align-self: stretch;
-flex-grow: 1;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-align-items: flex-start;
-padding: 0px;
-gap: 182.18px;
-
-position: absolute;
-height: 40px;
-left: 21px;
-right: 21px;
-top: 21px;
-
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 6px 8px;
-
-margin: 0 auto;
-width: 40.02px;
-height: 40px;
-
-/* Magnolia */
-background: #F9FAFB;
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 24.02px;
-height: 28px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 24.02px;
-height: 28px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 13.57%;
-right: 13.57%;
-top: 11.81%;
-bottom: 18.75%;
-
-/* Electric Violet */
-background: #9333EA;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 4px 8px;
-
-margin: 0 auto;
-width: 43px;
-height: 24px;
-
-/* Catskill White */
-background: #DCFCE7;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* +5% */
-
-width: 27px;
-height: 16px;
-
-/* Inter/Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-
-/* Jewel */
-color: #15803D;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-position: absolute;
-height: 20px;
-left: 21px;
-right: 21px;
-top: 77px;
-
-
-
-/* Tasks Pending */
-
-width: 98px;
-height: 20px;
-
-/* Inter/Medium */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-position: absolute;
-height: 36px;
-left: 21px;
-right: 21px;
-top: 101px;
-
-
-
-/* 12 */
-
-width: 34px;
-height: 36px;
-
-/* Inter/Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 30px;
-line-height: 36px;
-/* identical to box height, or 120% */
-display: flex;
-align-items: center;
-
-/* Ebony */
-color: #111827;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Background+Border */
-
-box-sizing: border-box;
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 16px;
-gap: 16px;
-
-width: 1280px;
-height: 84px;
-
-/* White */
-background: #FFFFFF;
-/* Botticelli */
-border: 1px solid #CEE7E8;
-border-radius: 12px;
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-isolation: isolate;
-
-width: 844px;
+width: 50px;
 height: 50px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 1;
-
-
-/* Input */
-
-box-sizing: border-box;
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: flex-start;
-padding: 14px 16px 14px 44px;
-
-width: 844px;
-height: 49px;
-
-/* Porcelain */
-background: #F5F8F8;
-/* Botticelli */
-border: 1px solid #CEE7E8;
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-z-index: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 782px;
-height: 19px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 1;
-
-
-/* Cari dari nama, ID, atau role */
-
-width: 782px;
-height: 19px;
-
-/* Semantic/Input */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 19px;
-display: flex;
-align-items: center;
-
-/* Gray Chateau */
-color: #9CA3AF;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-position: absolute;
-width: 24.02px;
-left: 16px;
-top: 22%;
-bottom: 22%;
+right: 24px;
+bottom: 24px;
 
 
 /* Inside auto layout */
@@ -2914,30 +7297,29 @@ flex-grow: 0;
 z-index: 1;
 
 
-/* Component 1 */
+/* Component 9 */
 
-width: 24.02px;
-height: 28px;
+box-sizing: border-box;
 
-transform: matrix(1, 0, 0, -1, 0, 0);
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 12px;
+
+width: 50px;
+height: 50px;
+
+background: #FFFFFF;
+border: 1px solid #E5E7EB;
+box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
+border-radius: 9999px;
 
 /* Inside auto layout */
 flex: none;
 order: 0;
 flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 13.57%;
-right: 13.57%;
-top: 18.75%;
-bottom: 18.75%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
 
 
 /* Container */
@@ -2947,78 +7329,6 @@ display: flex;
 flex-direction: row;
 align-items: flex-start;
 padding: 0px;
-gap: 16px;
-
-width: 386px;
-height: 50px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-isolation: isolate;
-
-width: 180px;
-min-width: 180px;
-height: 50px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Options */
-
-box-sizing: border-box;
-
-width: 180px;
-height: 50px;
-
-/* Porcelain */
-background: #F5F8F8;
-/* Botticelli */
-border: 1px solid #CEE7E8;
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-z-index: 0;
-
-
-/* image fill */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: flex-end;
-padding: 13px 9px 13px 147px;
-
-position: absolute;
-width: 180px;
-height: 50px;
-left: 0px;
-top: 0px;
-
-
-
-/* Component 5 */
 
 width: 24px;
 height: 24px;
@@ -3030,1316 +7340,11 @@ order: 0;
 flex-grow: 0;
 
 
-/* Vector */
-
-position: absolute;
-left: 30%;
-right: 30%;
-top: 40%;
-bottom: 40%;
-
-/* Pale Sky */
-border: 1.8px solid #6B7280;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px 41.41px 0px 0px;
-
-position: absolute;
-width: 106.41px;
-height: 24px;
-left: 41px;
-top: calc(50% - 24px/2);
-
-
-
-/* All Roles */
-
-width: 65px;
-height: 24px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 24px;
-/* identical to box height, or 150% */
-display: flex;
-align-items: center;
-
-/* Pickled Bluewood */
-color: #374151;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-position: absolute;
-width: 24.02px;
-left: 12px;
-top: 22%;
-bottom: 22%;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-z-index: 1;
-
-
 /* Component 1 */
-
-width: 24.02px;
-height: 28px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 13.57%;
-right: 13.57%;
-top: 29.17%;
-bottom: 29.17%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 2px 0px;
-
-position: absolute;
-width: 14.02px;
-right: 12px;
-top: 30%;
-bottom: 30%;
-
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-flex-grow: 0;
-z-index: 2;
-
-
-/* Component 1 */
-
-width: 14.02px;
-height: 16px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 26.23%;
-right: 26.22%;
-top: 36.02%;
-bottom: 38.28%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-isolation: isolate;
-
-width: 190px;
-min-width: 180px;
-height: 50px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Options */
-
-box-sizing: border-box;
-
-width: 190px;
-height: 50px;
-
-/* Porcelain */
-background: #F5F8F8;
-/* Botticelli */
-border: 1px solid #CEE7E8;
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-z-index: 0;
-
-
-/* image fill */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: flex-end;
-padding: 13px 9px 13px 157px;
-
-position: absolute;
-width: 190px;
-height: 50px;
-left: 0px;
-top: 0px;
-
-
-
-/* Component 5 */
 
 width: 24px;
 height: 24px;
 
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 30%;
-right: 30%;
-top: 40%;
-bottom: 40%;
-
-/* Pale Sky */
-border: 1.8px solid #6B7280;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px 31.27px 0px 0px;
-
-position: absolute;
-width: 116.27px;
-height: 24px;
-left: 41px;
-top: calc(50% - 24px/2);
-
-
-
-/* All Projects */
-
-width: 85px;
-height: 24px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 24px;
-/* identical to box height, or 150% */
-display: flex;
-align-items: center;
-
-/* Pickled Bluewood */
-color: #374151;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-position: absolute;
-width: 24.02px;
-left: 12px;
-top: 22%;
-bottom: 22%;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-z-index: 1;
-
-
-/* Component 1 */
-
-width: 24.02px;
-height: 28px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 9.52%;
-right: 9.52%;
-top: 18.75%;
-bottom: 18.75%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 2px 0px;
-
-position: absolute;
-width: 14.02px;
-right: 12px;
-top: 30%;
-bottom: 30%;
-
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-flex-grow: 0;
-z-index: 2;
-
-
-/* Component 1 */
-
-width: 14.02px;
-height: 16px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 26.23%;
-right: 26.22%;
-top: 36.02%;
-bottom: 38.28%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Background+Border+Shadow */
-
-box-sizing: border-box;
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 1280px;
-height: 481.5px;
-
-/* White */
-background: #FFFFFF;
-/* Botticelli */
-border: 1px solid #CEE7E8;
-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
-border-radius: 12px;
-
-/* Inside auto layout */
-flex: none;
-order: 3;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Table */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 1278px;
-height: 412.5px;
-overflow: scroll;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Header → Row */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: flex-start;
-padding: 0px;
-
-width: 1278px;
-height: 49px;
-
-/* Athens Gray */
-background: #F9FAFB;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-margin: -1px 0px;
-
-
-/* Cell */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 16px 24px;
-
-width: 214px;
-height: 48px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-margin: 0px -4px;
-
-
-/* Employee Name */
-
-width: 111px;
-height: 16px;
-
-/* Semantic/Cell upper */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-letter-spacing: 0.6px;
-text-transform: uppercase;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Cell */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 16px 24px 16px 66px;
-
-width: 153px;
-height: 48px;
-
-opacity: 0.6;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-margin: 0px -4px;
-
-
-/* ID */
-
-width: 13px;
-height: 16px;
-
-/* Semantic/Cell upper */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-letter-spacing: 0.6px;
-text-transform: uppercase;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Cell */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 16px 24px 16px 64px;
-
-width: 165.11px;
-height: 48px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-flex-grow: 0;
-margin: 0px -4px;
-
-
-/* Role */
-
-width: 34px;
-height: 16px;
-
-/* Semantic/Cell upper */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-letter-spacing: 0.6px;
-text-transform: uppercase;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Cell */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 16px 24px 16px 62px;
-
-width: 275px;
-height: 48px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 3;
-flex-grow: 0;
-margin: 0px -4px;
-
-
-/* Current Project */
-
-width: 126px;
-height: 16px;
-
-/* Semantic/Cell upper */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-letter-spacing: 0.6px;
-text-transform: uppercase;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Cell */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 16px 24px 16px 44px;
-
-width: 326px;
-height: 48px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 4;
-flex-grow: 0;
-margin: 0px -4px;
-
-
-/* Status */
-
-width: 51px;
-height: 16px;
-
-/* Semantic/Cell upper */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-letter-spacing: 0.6px;
-text-transform: uppercase;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Cell */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: flex-end;
-align-items: flex-start;
-padding: 16px 24px;
-
-width: 94px;
-height: 48px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 5;
-flex-grow: 0;
-
-
-/* Actions */
-
-width: 59px;
-height: 16px;
-
-/* Semantic/Cell upper */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-text-align: right;
-letter-spacing: 0.6px;
-text-transform: uppercase;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Body */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 1278px;
-height: 364.5px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Component 7 */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-padding: 0px;
-gap: 24px;
-
-width: 1278px;
-height: 73px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-margin: -1px 0px;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 12px;
-
-width: 218.98px;
-height: 40px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: flex-start;
-padding: 0px;
-
-width: 40px;
-height: 40px;
-
-/* Athens Gray */
-background: #E5E7EB;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Portrait of Budi Santoso */
-
-width: 40px;
-height: 40px;
-
-background: url(.png);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 1;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 90px;
-height: 36px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 90px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Budi Santoso */
-
-width: 90px;
-height: 20px;
-
-/* Inter/Semi Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Ebony */
-color: #111827;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 90px;
-height: 16px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Joined 2021 */
-
-width: 69px;
-height: 16px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 24.5px 24px;
-
-width: 161.64px;
-height: 73px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 2px 8px;
-
-width: 63px;
-height: 24px;
-
-/* Athens Gray */
-background: #F3F4F6;
-border-radius: 4px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* ID-092 */
-
-width: 47px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Fiord */
-color: #475569;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 26px 24px 27px 0.01px;
-
-width: 141.12px;
-height: 73px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-flex-grow: 0;
-
-
-/* Foreman */
-
-width: 58px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Pickled Bluewood */
-color: #374151;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 8px;
-
-width: 197.55px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 3;
-flex-grow: 0;
-
-
-/* Background */
-
-width: 8px;
-height: 8px;
-
-/* Dodger Blue */
-background: #3B82F6;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 89px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Project Alpha */
-
-width: 89px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Pickled Bluewood */
-color: #374151;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 24.5px 24px;
-
-width: 195.66px;
-height: 73px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 4;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 4px 12px;
-gap: 6px;
-
-width: 74px;
-height: 24px;
-
-/* Catskill White */
-background: #DCFCE7;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Background */
-
-width: 6px;
-height: 6px;
-
-/* Mountain Meadow */
-background: #22C55E;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Active */
-
-width: 38px;
-height: 16px;
-
-/* Inter/Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-
-/* Jewel */
-color: #15803D;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: flex-end;
-align-items: center;
-padding: 0px;
-gap: 8px;
-
-width: 195.06px;
-height: 36px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 5;
-flex-grow: 0;
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 4.17%;
-right: 4.17%;
-top: 22.22%;
-bottom: 25.69%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
 transform: matrix(1, 0, 0, -1, 0, 0);
 
 /* Inside auto layout */
@@ -4352,3103 +7357,10 @@ flex-grow: 0;
 
 position: absolute;
 left: 12.5%;
-right: 12.5%;
-top: 18.75%;
-bottom: 18.75%;
+right: 12.67%;
+top: 12.69%;
+bottom: 12.5%;
 
-/* Gray Chateau */
-background: #9CA3AF;
+/* Ebony Clay */
+background: #1F2937;
 transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 16.67%;
-right: 16.67%;
-top: 18.75%;
-bottom: 18.75%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Component 7 */
-
-box-sizing: border-box;
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-padding: 0px;
-gap: 24px;
-
-width: 1278px;
-height: 74px;
-
-border-top: 1px solid #CEE7E8;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-align-self: stretch;
-flex-grow: 0;
-margin: -1px 0px;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 12px;
-
-width: 218.98px;
-height: 40px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: flex-start;
-padding: 0px;
-
-width: 40px;
-height: 40px;
-
-/* Athens Gray */
-background: #E5E7EB;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Portrait of Siti Aminah */
-
-width: 40px;
-height: 40px;
-
-background: url(.png);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 1;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 77px;
-height: 36px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 77px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Siti Aminah */
-
-width: 77px;
-height: 20px;
-
-/* Inter/Semi Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Ebony */
-color: #111827;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 77px;
-height: 16px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Joined 2020 */
-
-width: 71px;
-height: 16px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 24.5px 24px;
-
-width: 161.64px;
-height: 73px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 2px 8px;
-
-width: 63px;
-height: 24px;
-
-/* Athens Gray */
-background: #F3F4F6;
-border-radius: 4px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* ID-093 */
-
-width: 47px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Fiord */
-color: #475569;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 26px 24px 27px 0.01px;
-
-width: 141.12px;
-height: 73px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-flex-grow: 0;
-
-
-/* Architect */
-
-width: 60px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Pickled Bluewood */
-color: #374151;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 8px;
-
-width: 197.55px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 3;
-flex-grow: 0;
-
-
-/* Background */
-
-width: 8px;
-height: 8px;
-
-/* Heliotrope */
-background: #A855F7;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 81px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Project Beta */
-
-width: 81px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Pickled Bluewood */
-color: #374151;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 24.5px 24px;
-
-width: 195.66px;
-height: 73px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 4;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 4px 12px;
-gap: 6px;
-
-width: 91px;
-height: 24px;
-
-/* Papaya Whip */
-background: #FFEDD5;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Background */
-
-width: 6px;
-height: 6px;
-
-/* Ecstasy */
-background: #F97316;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* On Leave */
-
-width: 55px;
-height: 16px;
-
-/* Inter/Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-
-/* Pirate Gold */
-color: #CA8A04;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: flex-end;
-align-items: center;
-padding: 0px;
-gap: 8px;
-
-width: 195.06px;
-height: 36px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 5;
-flex-grow: 0;
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 4.17%;
-right: 4.17%;
-top: 22.22%;
-bottom: 25.69%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 12.5%;
-right: 12.5%;
-top: 18.75%;
-bottom: 18.75%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 16.67%;
-right: 16.67%;
-top: 18.75%;
-bottom: 18.75%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Component 7 */
-
-box-sizing: border-box;
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-padding: 0px;
-gap: 24px;
-
-width: 1278px;
-height: 74px;
-
-border-top: 1px solid #CEE7E8;
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-align-self: stretch;
-flex-grow: 0;
-margin: -1px 0px;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 12px;
-
-width: 218.98px;
-height: 40px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: flex-start;
-padding: 0px;
-
-width: 40px;
-height: 40px;
-
-/* Athens Gray */
-background: #E5E7EB;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Portrait of Joko Anwar */
-
-width: 40px;
-height: 40px;
-
-background: url(.png);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 1;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 80px;
-height: 36px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 80px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Joko Anwar */
-
-width: 80px;
-height: 20px;
-
-/* Inter/Semi Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Ebony */
-color: #111827;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 80px;
-height: 16px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Joined 2022 */
-
-width: 71px;
-height: 16px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 24.5px 24px;
-
-width: 161.64px;
-height: 73px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 2px 8px;
-
-width: 63px;
-height: 24px;
-
-/* Athens Gray */
-background: #F3F4F6;
-border-radius: 4px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* ID-094 */
-
-width: 47px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Fiord */
-color: #475569;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 26px 24px 27px 0.01px;
-
-width: 141.12px;
-height: 73px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-flex-grow: 0;
-
-
-/* Mandor */
-
-width: 51px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Pickled Bluewood */
-color: #374151;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 8px;
-
-width: 197.55px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 3;
-flex-grow: 0;
-
-
-/* Background */
-
-width: 8px;
-height: 8px;
-
-/* Dodger Blue */
-background: #3B82F6;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 89px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Project Alpha */
-
-width: 89px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Pickled Bluewood */
-color: #374151;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 24.5px 24px;
-
-width: 195.66px;
-height: 73px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 4;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 4px 12px;
-gap: 6px;
-
-width: 74px;
-height: 24px;
-
-/* Catskill White */
-background: #DCFCE7;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Background */
-
-width: 6px;
-height: 6px;
-
-/* Mountain Meadow */
-background: #22C55E;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Active */
-
-width: 38px;
-height: 16px;
-
-/* Inter/Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-
-/* Jewel */
-color: #15803D;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: flex-end;
-align-items: center;
-padding: 0px;
-gap: 8px;
-
-width: 195.06px;
-height: 36px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 5;
-flex-grow: 0;
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 4.17%;
-right: 4.17%;
-top: 22.22%;
-bottom: 25.69%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 12.5%;
-right: 12.5%;
-top: 18.75%;
-bottom: 18.75%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 16.67%;
-right: 16.67%;
-top: 18.75%;
-bottom: 18.75%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Component 7 */
-
-box-sizing: border-box;
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-padding: 0px;
-gap: 24px;
-
-width: 1278px;
-height: 74px;
-
-border-top: 1px solid #CEE7E8;
-
-/* Inside auto layout */
-flex: none;
-order: 3;
-align-self: stretch;
-flex-grow: 0;
-margin: -1px 0px;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 12px;
-
-width: 218.98px;
-height: 40px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: flex-start;
-padding: 0px;
-
-width: 40px;
-height: 40px;
-
-/* Athens Gray */
-background: #E5E7EB;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Portrait of Rina Wati */
-
-width: 40px;
-height: 40px;
-
-background: url(.png);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 1;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 69px;
-height: 36px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 69px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Rina Wati */
-
-width: 64px;
-height: 20px;
-
-/* Inter/Semi Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Ebony */
-color: #111827;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 69px;
-height: 16px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Joined 2021 */
-
-width: 69px;
-height: 16px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 24.5px 24px;
-
-width: 161.64px;
-height: 73px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 2px 8px;
-
-width: 63px;
-height: 24px;
-
-/* Athens Gray */
-background: #F3F4F6;
-border-radius: 4px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* ID-095 */
-
-width: 47px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Fiord */
-color: #475569;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 26px 24px 27px 0.01px;
-
-width: 141.12px;
-height: 73px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-flex-grow: 0;
-
-
-/* Engineer */
-
-width: 59px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Pickled Bluewood */
-color: #374151;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 8px;
-
-width: 197.55px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 3;
-flex-grow: 0;
-
-
-/* Background */
-
-width: 8px;
-height: 8px;
-
-/* Mountain Meadow */
-background: #10B981;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 102px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Project Gamma */
-
-width: 102px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Pickled Bluewood */
-color: #374151;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 24.5px 24px;
-
-width: 195.66px;
-height: 73px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 4;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 4px 12px;
-gap: 6px;
-
-width: 74px;
-height: 24px;
-
-/* Catskill White */
-background: #DCFCE7;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Background */
-
-width: 6px;
-height: 6px;
-
-/* Mountain Meadow */
-background: #22C55E;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Active */
-
-width: 38px;
-height: 16px;
-
-/* Inter/Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-
-/* Jewel */
-color: #15803D;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: flex-end;
-align-items: center;
-padding: 0px;
-gap: 8px;
-
-width: 195.06px;
-height: 36px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 5;
-flex-grow: 0;
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 4.17%;
-right: 4.17%;
-top: 22.22%;
-bottom: 25.69%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 12.5%;
-right: 12.5%;
-top: 18.75%;
-bottom: 18.75%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 16.67%;
-right: 16.67%;
-top: 18.75%;
-bottom: 18.75%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Component 7 */
-
-box-sizing: border-box;
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-padding: 0px;
-gap: 24px;
-
-width: 1278px;
-height: 73.5px;
-
-border-top: 1px solid #CEE7E8;
-
-/* Inside auto layout */
-flex: none;
-order: 4;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 12px;
-
-width: 218.98px;
-height: 40px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: flex-start;
-padding: 0px;
-
-width: 40px;
-height: 40px;
-
-/* Athens Gray */
-background: #E5E7EB;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Portrait of Agus Salim */
-
-width: 40px;
-height: 40px;
-
-background: url(.png);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 1;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 76px;
-height: 36px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 76px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Agus Salim */
-
-width: 76px;
-height: 20px;
-
-/* Inter/Semi Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Ebony */
-color: #111827;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 76px;
-height: 16px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* Joined 2019 */
-
-width: 70px;
-height: 16px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 24.5px 24px 24px;
-
-width: 161.64px;
-height: 72.5px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 2px 8px;
-
-width: 63px;
-height: 24px;
-
-/* Athens Gray */
-background: #F3F4F6;
-border-radius: 4px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* ID-096 */
-
-width: 47px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Fiord */
-color: #475569;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 26px 24px 26.5px 0.01px;
-
-width: 141.12px;
-height: 72.5px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-flex-grow: 0;
-
-
-/* Electrician */
-
-width: 69px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Pickled Bluewood */
-color: #374151;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 8px;
-
-width: 197.55px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 3;
-flex-grow: 0;
-
-
-/* Background */
-
-width: 8px;
-height: 8px;
-
-/* Dodger Blue */
-background: #3B82F6;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 89px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Project Alpha */
-
-width: 89px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Pickled Bluewood */
-color: #374151;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 24.5px 24px 24px;
-
-width: 195.66px;
-height: 72.5px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 4;
-flex-grow: 0;
-
-
-/* Background */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 4px 12px;
-gap: 6px;
-
-width: 83px;
-height: 24px;
-
-/* Athens Gray */
-background: #F3F4F6;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Background */
-
-width: 6px;
-height: 6px;
-
-/* Gray Chateau */
-background: #9CA3AF;
-border-radius: 9999px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Inactive */
-
-width: 47px;
-height: 16px;
-
-/* Inter/Bold */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 12px;
-line-height: 16px;
-/* identical to box height, or 133% */
-display: flex;
-align-items: center;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Data */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-justify-content: flex-end;
-align-items: center;
-padding: 0px;
-gap: 8px;
-
-width: 195.06px;
-height: 36px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 5;
-flex-grow: 0;
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 4.17%;
-right: 4.17%;
-top: 22.22%;
-bottom: 25.69%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 12.5%;
-right: 12.5%;
-top: 18.75%;
-bottom: 18.75%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Component 6 */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 8px;
-
-width: 36px;
-height: 36px;
-
-border-radius: 8px;
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-
-width: 20px;
-height: 24px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 1 */
-
-width: 20px;
-height: 24px;
-
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Vector */
-
-position: absolute;
-left: 16.67%;
-right: 16.67%;
-top: 18.75%;
-bottom: 18.75%;
-
-/* Gray Chateau */
-background: #9CA3AF;
-transform: matrix(1, 0, 0, -1, 0, 0);
-
-
-/* Background+HorizontalBorder */
-
-box-sizing: border-box;
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 16px 24px;
-gap: 722px;
-
-width: 1280px;
-height: 67px;
-
-/* White */
-background: #FFFFFF;
-/* Botticelli */
-border-top: 1px solid #CEE7E8;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 0px;
-
-width: 186px;
-height: 20px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Showing 1 to 5 of 45 entries */
-
-width: 186px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Slate Gray */
-color: #64748B;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 0px;
-gap: 8px;
-
-width: 314px;
-height: 34px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Component 8 */
-
-box-sizing: border-box;
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 12px;
-
-width: 84px;
-height: 34px;
-
-background: #F5F8F8;
-opacity: 0.5;
-border: 1px solid #CEE7E8;
-border-radius: 4px;
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Text */
-
-width: 58px;
-height: 20px;
-
-/* Inter/Medium */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-text-align: center;
-
-/* Fiord */
-color: #475569;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 8 */
-
-box-sizing: border-box;
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 12px;
-
-width: 33px;
-height: 34px;
-
-background: #0DE7F2;
-border: 1px solid #0DE7F2;
-border-radius: 4px;
-
-/* Inside auto layout */
-flex: none;
-order: 1;
-flex-grow: 0;
-
-
-/* Text */
-
-width: 7px;
-height: 20px;
-
-/* Inter/Medium */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-text-align: center;
-
-/* Ebony */
-color: #111827;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 8 */
-
-box-sizing: border-box;
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 12px;
-
-width: 35px;
-height: 34px;
-
-background: #F5F8F8;
-border: 1px solid #CEE7E8;
-border-radius: 4px;
-
-/* Inside auto layout */
-flex: none;
-order: 2;
-flex-grow: 0;
-
-
-/* Text */
-
-width: 9px;
-height: 20px;
-
-/* Inter/Medium */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-text-align: center;
-
-/* Fiord */
-color: #475569;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 8 */
-
-box-sizing: border-box;
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 12px;
-
-width: 36px;
-height: 34px;
-
-background: #F5F8F8;
-border: 1px solid #CEE7E8;
-border-radius: 4px;
-
-/* Inside auto layout */
-flex: none;
-order: 3;
-flex-grow: 0;
-
-
-/* Text */
-
-width: 10px;
-height: 20px;
-
-/* Inter/Medium */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-text-align: center;
-
-/* Fiord */
-color: #475569;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Container */
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 6px 8px;
-
-width: 28px;
-height: 34px;
-
-
-/* Inside auto layout */
-flex: none;
-order: 4;
-align-self: stretch;
-flex-grow: 0;
-
-
-/* ... */
-
-width: 12px;
-height: 20px;
-
-/* Inter/Regular */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-
-/* Gray Chateau */
-color: #9CA3AF;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-
-
-/* Component 8 */
-
-box-sizing: border-box;
-
-/* Auto layout */
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 6px 12px;
-
-width: 58px;
-height: 34px;
-
-background: #F5F8F8;
-border: 1px solid #CEE7E8;
-border-radius: 4px;
-
-/* Inside auto layout */
-flex: none;
-order: 5;
-flex-grow: 0;
-
-
-/* Text */
-
-width: 32px;
-height: 20px;
-
-/* Inter/Medium */
-font-family: 'Inter';
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 20px;
-/* identical to box height, or 143% */
-display: flex;
-align-items: center;
-text-align: center;
-
-/* Fiord */
-color: #475569;
-
-
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;

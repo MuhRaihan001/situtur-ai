@@ -19,7 +19,6 @@ app.use(session({
     }
 }));
 app.use(helmet());
-app.use(bodyParser.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

@@ -36,7 +36,7 @@ const Register = () => {
 
     try {
       const response = await axios.post('/register', formData);
-      
+
       if (response.data.success) {
         navigate('/login');
       }
@@ -50,8 +50,8 @@ const Register = () => {
   return (
     <div className="relative min-h-screen bg-[#F1F5F9]">
       {/* Background */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center" 
+      <div
+        className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/images/bg2.png')" }}
       ></div>
 
@@ -85,14 +85,14 @@ const Register = () => {
                   <label className="text-sm font-medium text-[#334155]">Nama Depan</label>
                   <div className="relative mt-1">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
-                    <input 
-                      type="text" 
-                      name="namaDepan" 
+                    <input
+                      type="text"
+                      name="namaDepan"
                       value={formData.namaDepan}
                       onChange={handleChange}
-                      placeholder="Nama Depan" 
+                      placeholder="Nama Depan"
                       required
-                      className="w-full h-[42px] pl-10 pr-3 text-sm bg-[#F8FAFC] border border-[#CBD5E1] rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-400" 
+                      className="w-full h-[42px] pl-10 pr-3 text-sm bg-[#F8FAFC] border border-[#CBD5E1] rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-400"
                     />
                   </div>
                 </div>
@@ -101,14 +101,14 @@ const Register = () => {
                   <label className="text-sm font-medium text-[#334155]">Nama Belakang</label>
                   <div className="relative mt-1">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
-                    <input 
-                      type="text" 
-                      name="namaBelakang" 
+                    <input
+                      type="text"
+                      name="namaBelakang"
                       value={formData.namaBelakang}
                       onChange={handleChange}
-                      placeholder="Nama Belakang" 
+                      placeholder="Nama Belakang"
                       required
-                      className="w-full h-[42px] pl-10 pr-3 text-sm bg-[#F8FAFC] border border-[#CBD5E1] rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-400" 
+                      className="w-full h-[42px] pl-10 pr-3 text-sm bg-[#F8FAFC] border border-[#CBD5E1] rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-400"
                     />
                   </div>
                 </div>
@@ -118,14 +118,14 @@ const Register = () => {
                 <label className="text-sm font-medium text-[#334155]">Username</label>
                 <div className="relative mt-1">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
-                  <input 
-                    type="text" 
-                    name="username" 
+                  <input
+                    type="text"
+                    name="username"
                     value={formData.username}
                     onChange={handleChange}
-                    placeholder="Masukkan Nama Akun Anda" 
+                    placeholder="Masukkan Nama Akun Anda"
                     required
-                    className="w-full h-[42px] pl-10 pr-3 text-sm bg-[#F8FAFC] border border-[#CBD5E1] rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-400" 
+                    className="w-full h-[42px] pl-10 pr-3 text-sm bg-[#F8FAFC] border border-[#CBD5E1] rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-400"
                   />
                 </div>
               </div>
@@ -134,14 +134,14 @@ const Register = () => {
                 <label className="text-sm font-medium text-[#334155]">Email Address</label>
                 <div className="relative mt-1">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
-                  <input 
-                    type="email" 
-                    name="email" 
+                  <input
+                    type="email"
+                    name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="you@company.com" 
+                    placeholder="you@company.com"
                     required
-                    className="w-full h-[42px] pl-10 pr-3 text-sm bg-[#F8FAFC] border border-[#CBD5E1] rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-400" 
+                    className="w-full h-[42px] pl-10 pr-3 text-sm bg-[#F8FAFC] border border-[#CBD5E1] rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-400"
                   />
                 </div>
               </div>
@@ -150,14 +150,14 @@ const Register = () => {
                 <label className="text-sm font-medium text-[#334155]">Password</label>
                 <div className="relative mt-1">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
-                  <input 
-                    type="password" 
-                    name="password" 
+                  <input
+                    type="password"
+                    name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    placeholder="••••••••" 
+                    placeholder="••••••••"
                     required
-                    className="w-full h-[42px] pl-10 pr-3 text-sm bg-[#F8FAFC] border border-[#CBD5E1] rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-400" 
+                    className="w-full h-[42px] pl-10 pr-3 text-sm bg-[#F8FAFC] border border-[#CBD5E1] rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-400"
                   />
                 </div>
               </div>
@@ -166,19 +166,19 @@ const Register = () => {
                 <label className="text-sm font-medium text-[#334155]">Confirm Password</label>
                 <div className="relative mt-1">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
-                  <input 
-                    type="password" 
-                    name="confirmPassword" 
+                  <input
+                    type="password"
+                    name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    placeholder="••••••••" 
+                    placeholder="••••••••"
                     required
-                    className="w-full h-[42px] pl-10 pr-3 text-sm bg-[#F8FAFC] border border-[#CBD5E1] rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-400" 
+                    className="w-full h-[42px] pl-10 pr-3 text-sm bg-[#F8FAFC] border border-[#CBD5E1] rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-400"
                   />
                 </div>
               </div>
 
-              <button 
+              <button
                 type="submit"
                 disabled={loading}
                 className={`w-full h-[38px] bg-[#26C6DA] text-white text-sm font-medium rounded-md hover:bg-[#0DE7F2] transition-colors ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
@@ -195,7 +195,7 @@ const Register = () => {
               </div>
 
               {/* Login Button */}
-              <Link 
+              <Link
                 to="/login"
                 className="block w-full h-[38px] text-center leading-[38px] bg-white border border-[#D1D5DB] rounded-md text-sm font-medium text-[#334155] hover:bg-slate-50 transition-colors"
               >

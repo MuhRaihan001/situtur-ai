@@ -57,7 +57,7 @@ exports.GET = async function (req, res, next) {
 
         // 3. Completed Tasks
         const completedTasksRows = await db.query(
-            'SELECT COUNT(*) as count FROM work w JOIN Proyek p ON w.id_Proyek = p.ID WHERE p.Id_User = ? AND w.progress = 100',
+            'SELECT COUNT(status) as count FROM work w JOIN Proyek p ON w.id_Proyek = p.ID WHERE p.Id_User = ? AND w.progress = 100',
             [id_user]
         );
         const completedTasks = completedTasksRows[0] ? completedTasksRows[0].count : 0;

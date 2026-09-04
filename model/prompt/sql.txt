@@ -48,7 +48,6 @@ ALLOWED METHODS:
 * select
 * insert
 * update
-* delete
 
 ALLOWED TABLE:
 
